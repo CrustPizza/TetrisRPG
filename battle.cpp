@@ -190,6 +190,7 @@ void battle::release()
 
 void battle::update()
 {
+	// 화면 전환 중
 	if (_screenChange)
 	{
 		_screenOut->setY(_screenOut->getY() + 50);
@@ -202,22 +203,32 @@ void battle::update()
 			return;
 		}
 	}
+	// 화면 전환이 끝난 후
 	else if (_screenOut->getY() > WINSIZEY)
 	{
+		// 버프가 중복되지 않도록하는 카운트와 전투 종료시 프레임 조절을 위한 카운트
 		static int count = 0;
 		static int poisonCount = 1;
 		static int recoveryCount = 1;
 
+		// ESC버튼으로 전투 종료
 		if (KEYMANAGER->isOnceKeyDown(VK_ESCAPE))
 		{
 			_battleEnd = true;
 			count = 100;
 		}
 
+		// 전투 종료시
 		if (_battleEnd)
 		{
-			if (count >= 100)
+			// 프레임 조절을 위해 카운트 설정
+			if (count < 100)
 			{
+				count++;
+			}
+			else if (count >= 100)
+			{
+				// 팝업창 속도를 조절하여 등장이펙트 연출
 				if (speed >= 1)
 				{
 					_rewardBoard->setY(_rewardBoard->getY() - speed);
@@ -231,6 +242,7 @@ void battle::update()
 					speed -= 3;
 				}
 
+				// 결과창 인터페이스
 				_goldReward->setX(_rewardBoard->getX() + 50);
 				_goldReward->setY(_rewardBoard->getY() + 70);
 
@@ -246,11 +258,14 @@ void battle::update()
 				_home.img->setX(_rewardBoard->getX() + 120 - _home.img->getFrameWidth() / 2);
 				_home.img->setY(_rewardBoard->getY() + _rewardBoard->getHeight() - 100);
 
+				// 버튼 충돌 체크
 				_option->crushButton(&_replay, 1, 0);
 				_option->crushButton(&_home, 1, 0);
 
+				// 좌클릭 했을때
 				if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
 				{
+					// Home 버튼과 충돌중인 경우 
 					if (PtInRect(&_home.img->boudingBoxWithFrame(), _ptMouse))
 					{
 						_screenOut->setX(0);
@@ -273,8 +288,6 @@ void battle::update()
 					}
 				}
 			}
-			else
-				count++;
 		}
 
 		if (count % 4 == 0)
