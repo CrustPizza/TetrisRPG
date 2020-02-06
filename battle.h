@@ -7,8 +7,10 @@
 #include "option.h"
 #include "skill.h"
 
+// 공격 버프 및 디버프 증감 수치
 #define ATK_BUFF 50
 
+// 유닛 타입 구분
 enum tagUnit
 {
 	NONE,
@@ -16,6 +18,7 @@ enum tagUnit
 	STONE
 };
 
+// 데미지 정보
 struct tagDamage
 {
 	int damage;
@@ -24,6 +27,7 @@ struct tagDamage
 	BYTE alpha;
 };
 
+// 버프 정보
 struct tagBuff
 {
 	int x;
@@ -36,40 +40,40 @@ struct tagBuff
 class battle : public gameNode
 {
 private:
-	// �÷��̾�
+	// 플레이어
 	player* _player;
 	bool _evasion;
 	bool _attack;
 	int _playerCenterX;
 
-	// ��Ʈ����
+	// 테트리스
 	tetris* _tetris;
 
-	// �ɼ�
+	// 옵션
 	option* _option;
 
-	// �κ��丮
+	// 인벤토리
 	inventory* _inventory;
 
-	// ��ų
+	// 스킬
 	skill* _skill;
 
-	// ���ʹ�
+	// 에너미
 	enemy* _enemy;
 	tagStone* _enemyUnit;
 	int _enemyFrameX;
 	int _enemyFrameY;
 
-	// ������
+	// 데미지
 	vector<tagDamage> _damage;
 	int _atkBuff;
 	int _atkDebuff;
 	HBRUSH _red;
 
-	// ��� UI
+	// 배경 UI
 	image* _bg;
 
-	// ����
+	// 보드
 	image* _tetrisBoard;
 	image* _fieldGlass;
 	image* _room;
@@ -85,17 +89,17 @@ private:
 	tagButton _replay;
 	int speed;
 
-	// ���� �̹���
+	// 버프 이미지
 	tagBuff _buff[4];
 
-	// ȭ����ȯ
+	// 화면전환
 	image* _screenOut;
 	bool _screenChange;
 
-	// ����
+	// 사운드
 	float _effectVolume;
 
-	// ����
+	// 종료
 	bool _battleEnd;
 
 public:
@@ -104,10 +108,13 @@ public:
 	void update();
 	void render();
 
+	// 플레이어 클래스 메모리 받아오기
 	void setPlayer(player* playerptr) { _player = playerptr; }
 
+	// 숫자 이미지 출력
 	void printNumber(int num, int x, int y, BYTE alpha);
 
+	// 생성자에서 기본 정보 초기화
 	battle() : _player(nullptr), 
 			_enemy(nullptr), 
 			_tetris(nullptr), 
