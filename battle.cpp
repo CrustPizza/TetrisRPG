@@ -190,7 +190,7 @@ void battle::release()
 
 void battle::update()
 {
-	// 화면 전환 중
+	// 화면 전환 완료
 	if (_screenChange)
 	{
 		_screenOut->setY(_screenOut->getY() + 50);
@@ -485,24 +485,32 @@ void battle::update()
 					}
 				}
 
+				// 플레이어 체력이 0이하가 되었을 경우
 				if (_player->getHp() <= 0)
 				{
+					// 에너미에게 준 피해 비율만큼 골드 획득
 					_player->setGold(_player->getGold() + _enemyUnit->gold * (1.0f - (float)_enemyUnit->hp / _enemyUnit->maxHp));
 					_battleEnd = true;
 				}
+				// 에너미 체력이 0이하가 되었을 경우
 				else if (_enemyUnit->hp <= 0)
 				{
+					// 골드 및 드랍아이템 획득
 					_player->setGold(_player->getGold() + _enemyUnit->gold);
 					_inventory->setItem(_enemyUnit->itemName, _enemyUnit->itemType);
 					_battleEnd = true;
 				}
 			}
 
+			// 스킬 발동여부 확인 후 발동
 			_skill->skillActivate(_skill->getSkill1Ptr(), _enemyUnit);
 			_skill->skillActivate(_skill->getSkill2Ptr(), nullptr, _tetris->getSkillOnPtr());
 
+			// 플레이어가 공격 상태일때
 			if (_attack)
 			{
+				// 버그가 있어서 데미지 받는 중에는 공격을 받지 않도록 해두었던 부분인데
+				// 스파게티 코드가 되어서 생긴 문제로 생각된다.
 				if (!_enemyUnit->damaged)
 				{
 					_enemyUnit->hp -= _player->getAtk() + (_player->getAtk() * ((_tetris->getCombo().count - 1) * 10 + _tetris->getCombo().line * 50 + _atkBuff - _atkDebuff)) / 100;
@@ -511,14 +519,19 @@ void battle::update()
 					_enemyUnit->damaged = true;
 				}
 
+				// 공격 모션이 끝나면 false가 되도록 bool값 반환
 				_attack = _player->playerAttack();
 			}
+			// 플레이어가 회피 상태일때
 			else if (_evasion)
+				// 회피 모션이 끝나면 false가 되도록 bool값 반환
 				_evasion = _player->playerEvasion();
+			// 플레이어 기본상태 동작
 			else
 				_player->playerIdle();
 		}
 
+		// 저장된 데미지 정보 alpha값과 y값 변경
 		for (int i = 0; i < _damage.size(); i++)
 		{
 			_damage[i].y -= 1;
@@ -532,6 +545,7 @@ void battle::update()
 			}
 		}
 	}
+	// 화면 전환 중인 경우
 	else
 		_screenOut->setY(_screenOut->getY() + 50);
 }
@@ -549,21 +563,28 @@ void battle::render()
 	_player->hpBarRender();
 	_enemy->stoneRender(_enemyUnit);
 
+	// 스킬 및 아이템 슬롯
 	for (int i = 0; i < 4; i++)
 		_activeSlot->alphaRender(getMemDC(), _fieldGlass->getX() + 10 + 52 * i, _fieldGlass->getY() + _fieldGlass->getHeight() - 60, 150);
 
+	// 스킬 아이콘 출력
 	_skill->getSkill1Ptr()->img->render(getMemDC(), _fieldGlass->getX() + 10, _fieldGlass->getY() + _fieldGlass->getHeight() - 60);
 	_skill->getSkill2Ptr()->img->render(getMemDC(), _fieldGlass->getX() + 62, _fieldGlass->getY() + _fieldGlass->getHeight() - 60);
+	
+	// 아이템 아이콘 출력
 	IMAGEMANAGER->render("SmallPotion", getMemDC(), _fieldGlass->getX() + 114, _fieldGlass->getY() + _fieldGlass->getHeight() - 60);
 	IMAGEMANAGER->render("LargePotion", getMemDC(), _fieldGlass->getX() + 166, _fieldGlass->getY() + _fieldGlass->getHeight() - 60);
 
+	// 1번 스킬이 발동중일때
 	if (_skill->getSkill1Ptr()->activate)
 	{
+		// 스킬 아이콘이 점점 검정색으로 덮어지도록 y의 길이를 조절하여 아이콘의 위치에 씌워준다.
 		float y = 50 * (GetTickCount64() - _skill->getSkill1Ptr()->saveTimer) / _skill->getSkill1Ptr()->runTime;
 		IMAGEMANAGER->alphaRender("SkillCoolTime", getMemDC(), _fieldGlass->getX() + 10, _fieldGlass->getY() + _fieldGlass->getHeight() - 60, 0, 0, 50, y, 150);
 	}
 	else
 	{
+		// 쿨타임 중인 경우 검정 이미지와 쿨타임 시간(초)를 출력한다.
 		if (GetTickCount64() - _skill->getSkill1Ptr()->saveTimer < _skill->getSkill1Ptr()->cooltime)
 		{
 			IMAGEMANAGER->alphaRender("SkillCoolTime", getMemDC(), _fieldGlass->getX() + 10, _fieldGlass->getY() + _fieldGlass->getHeight() - 60, 150);
@@ -571,13 +592,16 @@ void battle::render()
 		}
 	}
 
+	// 2번 스킬이 발동중일때
 	if (_skill->getSkill2Ptr()->activate)
 	{
+		// 스킬 아이콘이 점점 검정색으로 덮어지도록 y의 길이를 조절하여 아이콘의 위치에 씌워준다.
 		float y = 50 * (GetTickCount64() - _skill->getSkill2Ptr()->saveTimer) / _skill->getSkill2Ptr()->runTime;
 		IMAGEMANAGER->alphaRender("SkillCoolTime", getMemDC(), _fieldGlass->getX() + 62, _fieldGlass->getY() + _fieldGlass->getHeight() - 60, 0, 0, 50, y, 150);
 	}
 	else
 	{
+		// 쿨타임 중인 경우 검정 이미지와 쿨타임 시간(초)를 출력한다.
 		if (GetTickCount64() - _skill->getSkill2Ptr()->saveTimer < _skill->getSkill2Ptr()->cooltime)
 		{
 			IMAGEMANAGER->alphaRender("SkillCoolTime", getMemDC(), _fieldGlass->getX() + 62, _fieldGlass->getY() + _fieldGlass->getHeight() - 60, 150);
@@ -585,33 +609,43 @@ void battle::render()
 		}
 	}
 
+	// 인벤토리에 소지중인 SmallPotion과 LargePotion의 갯수를 출력
 	_inventory->printNumber(_inventory->getSmallPotionAmount(), _fieldGlass->getX() + 144, _fieldGlass->getY() + _fieldGlass->getHeight() - 30);
 	_inventory->printNumber(_inventory->getLargePotionAmount(), _fieldGlass->getX() + 196, _fieldGlass->getY() + _fieldGlass->getHeight() - 30);
 
+	// 공격 버프가 적용된 상태일때
 	if (_tetris->getAtkBuff(10000))
 	{
+		// 체력바 밑에 스킬 아이콘이 표시되고 일정 시간마다 깜빡이도록 alpha값 설정
 		_tetris->getAtkBuffImg()->alphaRender(getMemDC(), _buff[0].x, _buff[0].y, _buff[0].alpha);
 		_inventory->printNumber(10 - _tetris->getAtkBuffTime() / 1000, _buff[0].x + 10, _buff[0].y + 10);
 	}
 
+	// 공격 디버프가 적용된 상태일때
 	if (_tetris->getAtkDebuff(10000))
 	{
+		// 체력바 밑에 스킬 아이콘이 표시되고 일정 시간마다 깜빡이도록 alpha값 설정
 		_tetris->getAtkDebuffImg()->alphaRender(getMemDC(), _buff[1].x, _buff[1].y, _buff[1].alpha);
 		_inventory->printNumber(10 - _tetris->getAtkDebuffTime() / 1000, _buff[1].x + 10, _buff[1].y + 10);
 	}
 
+	// 중독 상태일때
 	if (_tetris->getPoison(10000))
 	{
+		// 체력바 밑에 스킬 아이콘이 표시되고 일정 시간마다 깜빡이도록 alpha값 설정
 		_tetris->getPoisonImg()->alphaRender(getMemDC(), _buff[2].x, _buff[2].y, _buff[2].alpha);
 		_inventory->printNumber(10 - _tetris->getPoisonTime() / 1000, _buff[2].x + 10, _buff[2].y + 10);
 	}
 
+	// 회복 상태일때
 	if (_tetris->getRecovery(10000))
 	{
+		// 체력바 밑에 스킬 아이콘이 표시되고 일정 시간마다 깜빡이도록 alpha값 설정
 		_tetris->getRecoveryImg()->alphaRender(getMemDC(), _buff[3].x, _buff[3].y, _buff[3].alpha);
 		_inventory->printNumber(10 - _tetris->getRecoveryTime() / 1000, _buff[3].x + 10, _buff[3].y + 10);
 	}
 
+	// 데미지 벡터에 저장된 정보를 가지고 데미지의 수치를 출력하거나 Evasion 문구 출력
 	for (int i = 0; i < _damage.size(); i++)
 	{
 		if (_damage[i].damage == -1)
@@ -625,30 +659,35 @@ void battle::render()
 
 	// 다음 블럭
 	_nextBlock->alphaRender(getMemDC(), _nextBlock->getX(), _nextBlock->getY(), 150);
+	_tetris->nextBlockRender(_nextBlock->getX() + 16, _nextBlock->getY() + _nextBlock->getHeight() - 48);
 
 	// 홀드
 	_holdBlock->alphaRender(getMemDC(), _holdBlock->getX(), _holdBlock->getY(), 150);
-
-	_tetris->nextBlockRender(_nextBlock->getX() + 16, _nextBlock->getY() + _nextBlock->getHeight() - 48);
-
 	_tetris->holdBlockRender(_holdBlock->getX() + 16, _holdBlock->getY() + _holdBlock->getHeight() - 48);
 
+	// 테트리스 정보 그리기
 	_tetris->render();
 
+	// 콤보 띄웠을때 콤보 이미지 그리기
 	_tetris->comboRender(WINSIZEX / 2, WINSIZEY / 2);
 
+	// 전투 종료시
 	if (_battleEnd)
 	{
+		// 리워드 목록 출력
 		_rewardBoard->render(getMemDC(), _rewardBoard->getX(), _rewardBoard->getY());
 		_goldReward->render(getMemDC(), _goldReward->getX(), _goldReward->getY());
 		_goldCoin->render(getMemDC(), _goldCoin->getX(), _goldCoin->getY());
 		_itemReward->render(getMemDC(), _itemReward->getX(), _itemReward->getY());
 
+		// 에너미 체력이 0이하 일때
 		if (_enemyUnit->hp <= 0)
 		{
+			// 획득 골드와 아이템 아이콘 출력
 			printNumber(_enemyUnit->gold, _goldCoin->getX() + _goldCoin->getWidth() + 50, _goldCoin->getY(), 0);
 			IMAGEMANAGER->render(_enemyUnit->itemName, getMemDC(), _itemReward->getX(), _itemReward->getY() + 50);
 
+			// 승리 사운드 재생
 			if (!SOUNDMANAGER->isPauseSound("BattleBgm"))
 			{
 				if (SOUNDMANAGER->isPlaySound("BattleBgm"))
@@ -658,10 +697,13 @@ void battle::render()
 				}
 			}
 		}
+		// 플레이어 체력이 0이하 일때
 		else
 		{
+			// 데미지에 비례한 획득 골드량 출력
 			printNumber(_enemyUnit->gold * (1.0f - (float)_enemyUnit->hp / _enemyUnit->maxHp), _goldCoin->getX() + _goldCoin->getWidth() + 50, _goldCoin->getY(), 0);
 
+			// 패배 사운드 재생
 			if (!SOUNDMANAGER->isPauseSound("BattleBgm"))
 			{
 				if (SOUNDMANAGER->isPlaySound("BattleBgm"))
@@ -672,14 +714,17 @@ void battle::render()
 			}
 		}
 
+		// 홈 및 리플레이 아이콘 출력
 		_home.img->frameRender(getMemDC(), _home.img->getX(), _home.img->getY());
 		_replay.img->frameRender(getMemDC(), _replay.img->getX(), _replay.img->getY());
 	}
 
+	// 화면 전환중일때 전환 이미지 출력
 	if (_screenOut->getY() < WINSIZEY)
 		_screenOut->render(getMemDC(), _screenOut->getX(), _screenOut->getY());
 }
 
+// 숫자 이미지 출력하는 함수
 void battle::printNumber(int num, int x, int y, BYTE alpha)
 {
 	int digit = 1;
