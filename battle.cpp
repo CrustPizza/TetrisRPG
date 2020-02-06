@@ -3,7 +3,7 @@
 
 HRESULT battle::init()
 {
-	// UI �̹��� ���
+	// UI 이미지 등록
 	_bg = IMAGEMANAGER->findImage("BattleBg");
 	_tetrisBoard = IMAGEMANAGER->findImage("TetrisBoard");
 	_fieldGlass = IMAGEMANAGER->findImage("FieldGlass");
@@ -24,6 +24,7 @@ HRESULT battle::init()
 	_itemReward = IMAGEMANAGER->findImage("ItemReward");
 	_itemReward->setY(WINSIZEY);
 
+	// 플레이어 클래스
 	if (_player == nullptr)
 		_player = new player;
 
@@ -37,31 +38,37 @@ HRESULT battle::init()
 	_evasion = false;
 	_attack = false;
 
+	// 테트리스 클래스
 	if (_tetris == nullptr)
 		_tetris = new tetris;
 
 	_tetris->init();
 
+	// 인벤토리 클래스
 	if (_inventory == nullptr)
 		_inventory = new inventory;
 
 	_inventory->init(0, 0, WINSIZEX, WINSIZEY);
 
+	// 에너미 클래스
 	if (_enemy == nullptr)
 		_enemy = new enemy;
 
 	_enemy->init();
 
+	// 옵션 클래스
 	if (_option == nullptr)
 		_option = new option;
 
 	_option->init();
 
+	// 스킬 클래스
 	if (_skill == nullptr)
 		_skill = new skill;
 
 	_skill->init();
 
+	// 입장 스테이지 정보 세팅
 	int stage = -IMAGEMANAGER->findImage("ScreenOut")->getX();
 
 	switch (stage)
@@ -98,9 +105,11 @@ HRESULT battle::init()
 		break;
 	}
 
+	// 기존에 재생중인 사운드 종료
 	SOUNDMANAGER->stop("Victory");
 	SOUNDMANAGER->stop("Lose");
 
+	// 사운드 Play 및 pause 여부
 	if (!SOUNDMANAGER->isPauseSound("BattleBgm"))
 		SOUNDMANAGER->play("BattleBgm");
 
@@ -109,10 +118,13 @@ HRESULT battle::init()
 
 	SOUNDMANAGER->stop("MainBgm");
 
+	// 전투 종료시 변수값 초기화
 	_battleEnd = false;
 
+	// 피격 색상
 	_red = CreateSolidBrush(RGB(255, 0, 0));
 
+	// 전투 종료 후 팝업 관련 설정
 	speed = 400;
 	_replay.img = IMAGEMANAGER->findImage("Replay");
 	_replay.img->setY(WINSIZEY);
@@ -121,6 +133,7 @@ HRESULT battle::init()
 	_home.img->setY(WINSIZEY);
 	_home.sound = true;
 
+	// 버프 기본 정보 초기화
 	_atkBuff = 0;
 	_atkDebuff = 0;
 
@@ -132,11 +145,13 @@ HRESULT battle::init()
 		_buff[i].count = 0;
 	}
 
+	// 버프 이미지 등록
 	_buff[0].img = IMAGEMANAGER->findImage("AtkBuff");
 	_buff[1].img = IMAGEMANAGER->findImage("AtkDebuff");
 	_buff[2].img = IMAGEMANAGER->findImage("Recovery");
 	_buff[3].img = IMAGEMANAGER->findImage("Poison");
 
+	// 화면 전환 초기화
 	_screenChange = false;
 
 	return S_OK;
@@ -144,6 +159,7 @@ HRESULT battle::init()
 
 void battle::release()
 {
+	// 플레이어 정보 저장후 릴리즈
 	_player->save();
 	_player->release();
 	SAFE_DELETE(_player);
@@ -154,6 +170,7 @@ void battle::release()
 	_enemy->release();
 	SAFE_DELETE(_enemy);
 
+	// 인벤토리 정보 저장후 릴리즈
 	_inventory->save("inventory.inv");
 	_inventory->release();
 	SAFE_DELETE(_inventory);
@@ -166,6 +183,7 @@ void battle::release()
 
 	_damage.clear();
 
+	// 사운드 종료
 	SOUNDMANAGER->stop("Victory");
 	SOUNDMANAGER->stop("Lose");
 }
@@ -466,11 +484,11 @@ void battle::update()
 
 void battle::render()
 {
-	// UI ����
-	// ���
+	// UI 렌더
+	// 배경
 	_bg->render(getMemDC());
 
-	// ĳ����â
+	// 캐릭터창
 	_room->render(getMemDC(), _room->getX(), _room->getY());
 	_fieldGlass->alphaRender(getMemDC(), _fieldGlass->getX(), _fieldGlass->getY(), 150);
 	_player->render();
@@ -548,13 +566,13 @@ void battle::render()
 			printNumber(_damage[i].damage, _damage[i].x, _damage[i].y, _damage[i].alpha);
 	}
 
-	// ��Ʈ����â
+	// 테트리스창
 	_tetrisBoard->alphaRender(getMemDC(), _tetrisBoard->getX(), _tetrisBoard->getY(), 150);
 
-	// ���� ����
+	// 다음 블럭
 	_nextBlock->alphaRender(getMemDC(), _nextBlock->getX(), _nextBlock->getY(), 150);
 
-	// Ȧ��
+	// 홀드
 	_holdBlock->alphaRender(getMemDC(), _holdBlock->getX(), _holdBlock->getY(), 150);
 
 	_tetris->nextBlockRender(_nextBlock->getX() + 16, _nextBlock->getY() + _nextBlock->getHeight() - 48);
