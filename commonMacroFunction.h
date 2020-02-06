@@ -1,72 +1,57 @@
 #pragma once
-//=============================================================
-//	## commonMacroFunction ##
-//=============================================================
 
-//POINT
+// Point(x, y)
 inline POINT PointMake(int x, int y)
 {
 	POINT pt = { x, y };
 	return pt;
 }
 
-//¼± ±×¸®±â
-inline void LineMake(HDC hdc, int startX, int startY, int endX, int endY)
-{
-	MoveToEx(hdc, startX, startY, NULL);
-	LineTo(hdc, endX, endY);
-}
-
-//RECT ¸¸µé±â
+// Rect ë§Œë“¤ê¸° ë² ì´ì§
 inline RECT RectMake(int x, int y, int width, int height)
 {
 	RECT rc = { x, y, x + width, y + height };
 	return rc;
 }
 
-//RECT Áß½ÉÁÂÇ¥¿¡ ¸¸µé±â
+// Rect ë§Œë“¤ê¸° ì„¼í„°
 inline RECT RectMakeCenter(int x, int y, int width, int height)
 {
 	RECT rc = { x - width / 2, y - height / 2, x + width / 2, y + height / 2 };
 	return rc;
 }
 
-//Rectangle ÇÔ¼ö ÀÌ¿ëÇØ¼­ »ç°¢Çü ±×¸®±â
+// Rectangle í•¨ìˆ˜ ì´ìš©í•˜ì—¬ ì‚¬ê°í˜• ê·¸ë¦¬ê¸°
 inline void RectangleMake(HDC hdc, int x, int y, int width, int height)
 {
 	Rectangle(hdc, x, y, x + width, y + height);
 }
 
-//Ellipse ÇÔ¼ö ÀÌ¿ëÇØ¼­ Å¸¿ø ±×¸®±â
+// Ellipse í•¨ìˆ˜ ì´ìš©í•´ì„œ íƒ€ì› ê·¸ë¦¬ê¸°
 inline void EllipseMake(HDC hdc, int x, int y, int width, int height)
 {
 	Ellipse(hdc, x, y, x + width, y + height);
 }
 
-//Ellipse ÇÔ¼ö ÀÌ¿ëÇØ¼­ Å¸¿ø ±×¸®±â
+// Ellipse í•¨ìˆ˜ ì´ìš©í•´ì„œ íƒ€ì› ê·¸ë¦¬ê¸°
 inline void EllipseMakeCenter(HDC hdc, int x, int y, int width, int height)
 {
 	Ellipse(hdc, x - width / 2, y - height / 2, x + width / 2, y + height / 2);
 }
 
-//Rectangle ÇÔ¼ö ¿À¹ö·Îµù
+// Rectangle í•¨ìˆ˜ ì˜¤ë²„ë¡œë”©
 inline void Rectangle(HDC hdc, RECT rc)
 {
 	Rectangle(hdc, rc.left, rc.top, rc.right, rc.bottom);
 }
 
-//Ellipse ÇÔ¼ö ¿À¹ö·Îµù
+// Ellipse í•¨ìˆ˜ ì˜¤ë²„ë¡œë”©
 inline void Ellipse(HDC hdc, RECT rc)
 {
 	Ellipse(hdc, rc.left, rc.top, rc.right, rc.bottom);
 }
 
-//inline int range(int fromNum, int toNum)
-//{
-//	return rand() % (toNum - fromNum + 1) + fromNum;
-//}
-
-//ÇÁ·¹ÀÓ·ºÆ® ÇÔ¼ö ¿À¹ö·Îµù(ºñ¾îÀÖ´Â ·ºÆ® ¸¸µé±â)
+// FrameRect í•¨ìˆ˜ ì˜¤ë²„ë¡œë”©
 inline void FrameRect(HDC hdc, RECT rc, COLORREF color)
 {
 	HBRUSH brush = CreateSolidBrush(color);
