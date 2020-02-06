@@ -268,6 +268,7 @@ void battle::update()
 					// Home 버튼과 충돌중인 경우 
 					if (PtInRect(&_home.img->boudingBoxWithFrame(), _ptMouse))
 					{
+						// 화면 전환을 위한 정보 초기화
 						_screenOut->setX(0);
 						_screenOut->setY(-_screenOut->getHeight());
 						_screenChange = true;
@@ -278,8 +279,10 @@ void battle::update()
 						return;
 					}
 
+					// 다시시작 버튼과 충돌중인 경우
 					if (PtInRect(&_replay.img->boudingBoxWithFrame(), _ptMouse))
 					{
+						// 정보 초기화하고 다시 시작
 						this->release();
 						this->init();
 						count = 0;
@@ -290,10 +293,13 @@ void battle::update()
 			}
 		}
 
+		// 프레임 조절을 위한 조건문
 		if (count % 4 == 0)
 		{
+			// 공격 버프가 적용된 상태인지 확인
 			if (_tetris->getAtkBuff(10000))
 			{
+				// 버프가 적용되었을때 아이콘 alpha값 조절
 				_buff[0].count++;
 
 				if (_buff[0].count % 20 == 0)
@@ -301,13 +307,17 @@ void battle::update()
 					_buff[0].alpha += 127 + _buff[0].alpha / 255;
 				}
 
+				// 버프 수치 입력
 				_atkBuff = ATK_BUFF;
 			}
 			else
 				_atkBuff = 0;
 
+			// 공격 디버프가 적용된 상태인지 확인
 			if (_tetris->getAtkDebuff(10000))
 			{
+				
+				// 디버프가 적용되었을때 아이콘 alpha값 조절
 				_buff[1].count++;
 
 				if (_buff[1].count % 20 == 0)
@@ -315,13 +325,16 @@ void battle::update()
 					_buff[1].alpha += 127 + _buff[1].alpha / 255;
 				}
 
+				// 디버프 수치 입력
 				_atkDebuff = ATK_BUFF;
 			}
 			else
 				_atkDebuff = 0;
 
+			// 중독 상태인지 확인
 			if (_tetris->getPoison(10000))
 			{
+				// 중독 아이콘 alpha값 조절
 				_buff[2].count++;
 
 				if (_buff[2].count % 20 == 0)
@@ -329,6 +342,7 @@ void battle::update()
 					_buff[2].alpha += 127 + _buff[2].alpha / 255;
 				}
 
+				// 일정 시간마다 데미지를 주도록 count와 상수값을 곱하여 시간 체크
 				if (!_tetris->getPoison(1000 * (poisonCount - 1)) && _tetris->getPoison(1000 * poisonCount))
 				{
 					poisonCount++;
@@ -340,8 +354,10 @@ void battle::update()
 			else
 				poisonCount = 1;
 
+			// 회복 상태인지 확인
 			if (_tetris->getRecovery(10000))
 			{
+				// 회복 아이콘 alpha값 조절
 				_buff[3].count++;
 
 				if (_buff[3].count % 20 == 0)
@@ -349,6 +365,7 @@ void battle::update()
 					_buff[3].alpha += 127 + _buff[3].alpha / 255;
 				}
 
+				// 일정 시간마다 회복하도록 count와 상수값을 곱하여 시간 체크
 				if (!_tetris->getRecovery(1000 * (recoveryCount - 1)) && _tetris->getRecovery(1000 * recoveryCount))
 				{
 					_player->setHp(_player->getHp() + 10);
@@ -359,13 +376,17 @@ void battle::update()
 			else
 				recoveryCount = 1;
 
+			// 플레이어 클래스 및 에너미 피격  업데이트
 			_player->update();
 			_enemy->damagedUpdate(_enemyUnit);
 
+			// 전투중일때
 			if (!_battleEnd)
 			{
+				// 1번 스킬 슬롯 버튼 입력
 				if (KEYMANAGER->isOnceKeyDown(_option->getSkillSlot1()))
 				{
+					// 쿨타임 확인하고 조건에 맞을시 해당 슬롯 스킬 효과 적용
 					if (GetTickCount64() - _skill->getSkill1Ptr()->saveTimer >= _skill->getSkill1Ptr()->cooltime)
 					{
 						_skill->getSkill1Ptr()->saveTimer = _enemyUnit->atkTimer;
@@ -374,8 +395,10 @@ void battle::update()
 					}
 				}
 
+				// 2번 스킬 슬롯 버튼 입력
 				if (KEYMANAGER->isOnceKeyDown(_option->getSkillSlot2()))
 				{
+					// 쿨타임 확인하고 조건에 맞을시 해당 슬롯 스킬 효과 적용
 					if (GetTickCount64() - _skill->getSkill2Ptr()->saveTimer >= _skill->getSkill2Ptr()->cooltime)
 					{
 						_skill->getSkill2Ptr()->saveTimer = GetTickCount64();
@@ -384,48 +407,65 @@ void battle::update()
 					}
 				}
 
+				// 1번 아이템 슬롯 버튼 입력
 				if (KEYMANAGER->isOnceKeyDown(_option->getItemSlot1()))
 				{
+					// 인벤토리에서 SmallPotion 사용 가능 여부 확인
 					if (_inventory->usePotion("SmallPotion"))
 					{
+						// 사용시 체력 회복
 						_player->setHp(_player->getHp() + _inventory->getSelectPtr()->value.value);
 					}
 				}
 
+				// 2번 아이템 슬롯 버튼 입력
 				if (KEYMANAGER->isOnceKeyDown(_option->getItemSlot2()))
 				{
+					// 인벤토리에서 LargePotion 사용 가능 여부 확인
 					if (_inventory->usePotion("LargePotion"))
 					{
+						// 사용시 체력 회복
 						_player->setHp(_player->getHp() + _inventory->getSelectPtr()->value.value);
 					}
 				}
 
+				// 테트리스 클래스 업데이트
 				_tetris->update();
 
+				// 에너미 객체 업데이트
 				if (_enemy->stoneUpdate(_enemyUnit))
 				{
+					// 플레이어가 회피 중이거나 공격중일때
 					if (_evasion || _attack)
 					{
+						// Evasion 이미지를 출력하도록 준비된 정보를 저장
 						_damage.push_back({ -1, _playerCenterX, (int)_player->getImage()->getY() - 10, 0 });
 					}
+					// 회피중이 아닐 경우
 					else
 					{
+						// 에너미 공격력 - 플레이어 방어력
 						int damage = _enemyUnit->atk - _player->getDef();
 
+						// 데미지 최소 1로 고정
 						if (damage < 1)
 							damage = 1;
 
+						// 플레이어 체력을 깎고 출력을 위한 정보 저장
 						_player->setHp(_player->getHp() - damage);
 						_player->setDamaged(true);
 
 						_damage.push_back({ damage, _playerCenterX, (int)_player->getImage()->getY() - 10, 0 });
 					}
 
+					// 에너미의 공격 타이머 적용
 					_skill->getSkill1Ptr()->runTimer = _enemyUnit->atkTimer;
 				}
 
+				// 블럭 내려놓았는지 확인
 				if (GetTickCount64() - _tetris->getCombo().timer <= 100)
 				{
+					// 블럭이 지워졌다면 공격모션을 취한다.
 					if (_tetris->getCombo().count)
 					{
 						_player->getImage()->setFrameX(0);
@@ -434,6 +474,7 @@ void battle::update()
 						_player->setTimer(GetTickCount64());
 						_attack = true;
 					}
+					// 블럭이 지워지지 않았다면 회피모션 프레임 설정
 					else if (!_attack)
 					{
 						_player->getImage()->setFrameX(10);
