@@ -1,6 +1,7 @@
 #pragma once
 #include "gameNode.h"
 
+// ì•„ì´í…œ íƒ€ì…
 enum tagType
 {
 	WEAPON,
@@ -14,6 +15,7 @@ enum tagType
 	TYPE_END
 };
 
+// ì•„ì´í…œ ì •ë³´
 struct tagItemData
 {
 	tagType type;
@@ -25,7 +27,7 @@ struct tagItemData
 class Item : public gameNode
 {
 private:
-	// ¾ÆÀÌÅÛ Á¾·ùº° µ¥ÀÌÅÍ
+	// ì•„ì´í…œ ì¢…ë¥˜ë³„ ë°ì´í„°
 	map<string, tagItemData> _weapon;
 	map<string, tagItemData> _armor;
 	map<string, tagItemData> _helmet;
@@ -41,13 +43,12 @@ public:
 	void update();
 	void render();
 
-	// ¾ÆÀÌÅÛ µ¥ÀÌÅÍ ¹Ş±â
+	// ì•„ì´í…œ ë°ì´í„° ë°›ê¸°
 	tagItemData getData(tagType type, string name);
 	map<string, tagItemData>* getDataMap(tagType type);
 
-	// ¾ÆÀÌÅÛ µ¥ÀÌÅÍ ÀúÀå
+	// ì•„ì´í…œ ë°ì´í„° ì €ì¥
 	void setData(tagType type, string name, int value, int cost);
-
 	void randomItemSet(tagType* type, string* name);
 
 	Item() {}
