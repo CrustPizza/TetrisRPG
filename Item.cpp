@@ -40,7 +40,7 @@ HRESULT Item::init()
 
 void Item::release()
 {
-	// ÃÊ±âÈ­
+	// ì´ˆê¸°í™”
 	_weapon.clear();
 	_armor.clear();
 	_helmet.clear();
@@ -60,7 +60,7 @@ void Item::render()
 
 tagItemData Item::getData(tagType type, string name)
 {
-	// À¯Çüº° ¾ÆÀÌÅÛ ¹Ş¾Æ¿À±â
+	// ìœ í˜•ë³„ ì•„ì´í…œ ë°›ì•„ì˜¤ê¸°
 	switch (type)
 	{
 	case WEAPON:
@@ -119,7 +119,7 @@ tagItemData Item::getData(tagType type, string name)
 
 map<string, tagItemData>* Item::getDataMap(tagType type)
 {
-	// ¾ÆÀÌÅÛ ÀúÀåÇÏ±â
+	// ì•„ì´í…œ ë°›ì•„ì˜¤ê¸°
 	switch (type)
 	{
 	case WEAPON:
@@ -151,7 +151,7 @@ map<string, tagItemData>* Item::getDataMap(tagType type)
 
 void Item::setData(tagType type, string name, int value, int cost)
 {
-	// ¾ÆÀÌÅÛ ÀúÀåÇÏ±â
+	// ì•„ì´í…œ ì €ì¥í•˜ê¸°
 	switch (type)
 	{
 	case WEAPON:
@@ -183,16 +183,17 @@ void Item::setData(tagType type, string name, int value, int cost)
 
 void Item::randomItemSet(tagType* type, string* name)
 {
+	// íƒ€ì… ëœë¤ì„¤ì •
 	tagType _type = (tagType)((int)(((float)rand() / RAND_MAX) * TYPE_END) % TYPE_END);
 	string _name;
 	int rnd;
 
-	// ¾ÆÀÌÅÛ ÀúÀåÇÏ±â
+	// ëœë¤ íƒ€ì… ì•„ì´í…œ ì €ì¥í•˜ê¸°
 	switch (_type)
 	{
 	case WEAPON:
-		rnd = _weapon.size();
-		rnd = rand() % rnd;
+		rnd = rand() % _weapon.size();
+
 		for (map<string, tagItemData>::iterator iter = _weapon.begin(); iter != _weapon.end(); iter++)
 		{
 			if (rnd == 0)
@@ -205,8 +206,8 @@ void Item::randomItemSet(tagType* type, string* name)
 		}
 		break;
 	case ARMOR:
-		rnd = _armor.size();
-		rnd = rand() % rnd;
+		rnd = rand() % _armor.size();
+
 		for (map<string, tagItemData>::iterator iter = _armor.begin(); iter != _armor.end(); iter++)
 		{
 			if (rnd == 0)
@@ -219,8 +220,8 @@ void Item::randomItemSet(tagType* type, string* name)
 		}
 		break;
 	case HELMET:
-		rnd = _helmet.size();
-		rnd = rand() % rnd;
+		rnd = rand() % _helmet.size();
+
 		for (map<string, tagItemData>::iterator iter = _helmet.begin(); iter != _helmet.end(); iter++)
 		{
 			if (rnd == 0)
@@ -233,8 +234,8 @@ void Item::randomItemSet(tagType* type, string* name)
 		}
 		break;
 	case NECKLACE:
-		rnd = _necklace.size();
-		rnd = rand() % rnd;
+		rnd = rand() % _necklace.size();
+
 		for (map<string, tagItemData>::iterator iter = _necklace.begin(); iter != _necklace.end(); iter++)
 		{
 			if (rnd == 0)
@@ -247,8 +248,8 @@ void Item::randomItemSet(tagType* type, string* name)
 		}
 		break;
 	case SHIELD:
-		rnd = _shield.size();
-		rnd = rand() % rnd;
+		rnd = rand() % _shield.size();
+
 		for (map<string, tagItemData>::iterator iter = _shield.begin(); iter != _shield.end(); iter++)
 		{
 			if (rnd == 0)
@@ -261,8 +262,8 @@ void Item::randomItemSet(tagType* type, string* name)
 		}
 		break;
 	case BELT:
-		rnd = _belt.size();
-		rnd = rand() % rnd;
+		rnd = rand() % _belt.size();
+
 		for (map<string, tagItemData>::iterator iter = _belt.begin(); iter != _belt.end(); iter++)
 		{
 			if (rnd == 0)
@@ -275,8 +276,8 @@ void Item::randomItemSet(tagType* type, string* name)
 		}
 		break;
 	case SHOES:
-		rnd = _shoes.size();
-		rnd = rand() % rnd;
+		rnd = rand() % _shoes.size();
+
 		for (map<string, tagItemData>::iterator iter = _shoes.begin(); iter != _shoes.end(); iter++)
 		{
 			if (rnd == 0)
@@ -289,8 +290,8 @@ void Item::randomItemSet(tagType* type, string* name)
 		}
 		break;
 	case POTION:
-		rnd = _potion.size();
-		rnd = rand() % rnd;
+		rnd = rand() % _potion.size();
+
 		for (map<string, tagItemData>::iterator iter = _potion.begin(); iter != _potion.end(); iter++)
 		{
 			if (rnd == 0)
@@ -304,6 +305,7 @@ void Item::randomItemSet(tagType* type, string* name)
 		break;
 	}
 
+	// íƒ€ì…ê³¼ ì´ë¦„ë°˜í™˜
 	*type = _type;
 	*name = _name;
 }
