@@ -3,9 +3,11 @@
 
 HRESULT enemy::init()
 {
+	// 아이템 정보 초기화
 	_item = new Item;
 	_item->init();
 
+	// 에너미 생성상태 초기화
 	_blueStone.create = false;
 	_darkBrownStone.create = false;
 	_greenStone.create = false;
@@ -17,6 +19,7 @@ HRESULT enemy::init()
 
 void enemy::release()
 {
+	// 파란색 생성중일때 체력바 및 액션바 해제
 	if (_blueStone.create)
 	{
 		if (_blueStone.hpBar != nullptr)
@@ -32,6 +35,7 @@ void enemy::release()
 		}
 	}
 
+	// 흑갈색 생성중일때 체력바 및 액션바 해제
 	if (_darkBrownStone.create)
 	{
 		if (_darkBrownStone.hpBar != nullptr)
@@ -46,7 +50,8 @@ void enemy::release()
 			SAFE_DELETE(_darkBrownStone.actionBar);
 		}
 	}
-
+	
+	// 녹색 생성중일때 체력바 및 액션바 해제
 	if (_greenStone.create)
 	{
 		if (_greenStone.hpBar != nullptr)
@@ -61,7 +66,8 @@ void enemy::release()
 			SAFE_DELETE(_greenStone.actionBar);
 		}
 	}
-
+	
+	// 주황색 생성중일때 체력바 및 액션바 해제
 	if (_orangeStone.create)
 	{
 		if (_orangeStone.hpBar != nullptr)
@@ -77,6 +83,7 @@ void enemy::release()
 		}
 	}
 
+	// 혼합색 생성중일때 체력바 및 액션바 해제
 	if (_fullColorStone.create)
 	{
 		if (_fullColorStone.hpBar != nullptr)
@@ -92,6 +99,7 @@ void enemy::release()
 		}
 	}
 
+	// 아이템 해제
 	_item->release();
 	SAFE_DELETE(_item);
 }
@@ -104,6 +112,7 @@ void enemy::render()
 {
 }
 
+/* ↓↓↓↓↓ 각 에너미 정보 초기화 ↓↓↓↓↓ */
 void enemy::blueStoneInit(int x, int y, int frameX, int frameY)
 {
 	_blueStone.create = true;
@@ -228,7 +237,9 @@ void enemy::fullColorStoneInit(int x, int y, int frameX, int frameY)
 
 	_item->randomItemSet(&_fullColorStone.itemType, &_fullColorStone.itemName);
 }
+/* ↑↑↑↑↑ 각 에너미 정보 초기화 ↑↑↑↑↑ */
 
+// 체력바 초기화
 void enemy::hpBarInit(tagStone* target, string keyNameFront, string keyNameBack, int x, int y)
 {
 	target->hpBar = new progressBar;
@@ -236,6 +247,7 @@ void enemy::hpBarInit(tagStone* target, string keyNameFront, string keyNameBack,
 	target->hpBar->setGauge(target->hp, target->maxHp);
 }
 
+// 액션바 초기화
 void enemy::actionBarInit(tagStone* target, string keyNameFront, string keyNameBack, int x, int y)
 {
 	target->actionBar = new progressBar;
@@ -243,8 +255,10 @@ void enemy::actionBarInit(tagStone* target, string keyNameFront, string keyNameB
 	target->actionBar->setGauge(GetTickCount64() - target->atkTimer, target->atkDelay);
 }
 
+// 에너미 행동
 bool enemy::stoneUpdate(tagStone* target)
 {
+	// 에너미 좌우 이동 모션
 	if (GetTickCount64() - target->moveTimer >= 300)
 	{
 		if (target->move)
@@ -261,6 +275,7 @@ bool enemy::stoneUpdate(tagStone* target)
 		}
 	}
 
+	// 에너미 액션바 가득 찼을때 공격하도록 true 리턴
 	if (GetTickCount64() - target->atkTimer >= target->atkDelay)
 	{
 		target->atkTimer = GetTickCount64();
@@ -273,8 +288,10 @@ bool enemy::stoneUpdate(tagStone* target)
 	return false;
 }
 
+// 에너미 피격
 void enemy::damagedUpdate(tagStone* target)
 {
+	// 데미지를 받고 있는 중일때 빨간 이미지 알파값 조절
 	if (target->damaged)
 	{
 		static int count = 0;
@@ -291,18 +308,23 @@ void enemy::damagedUpdate(tagStone* target)
 	}
 }
 
+// 에너미 랜더
 void enemy::stoneRender(tagStone* target)
 {
+	// 에너미 프레임 이미지
 	target->img->frameRender(getMemDC(), target->img->getX(), target->img->getY());
 
+	// 에너미 피격 이미지
 	if (target->damaged)
 	{
 		target->damagedImg->alphaRender(getMemDC(), target->img->getX(), target->img->getY(), target->alpha);
 	}
 
+	// 체력바
 	target->hpBar->setGauge(target->hp, target->maxHp);
 	target->hpBar->render();
 
+	// 액션바
 	target->actionBar->setGauge(GetTickCount64() - target->atkTimer, target->atkDelay);
 	target->actionBar->render();
 }
