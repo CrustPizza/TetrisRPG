@@ -3,11 +3,11 @@
 
 HRESULT gameLoading::init()
 {
-	// ·Îµù
+	// ë¡œë”©
 	_loading = new loading;
 	_loading->init();
 
-	// ¸®½ºÆ® µî·Ï
+	// ë¦¬ìŠ¤íŠ¸ ë“±ë¡
 	this->soundList();
 	this->imageList();
 
@@ -22,13 +22,14 @@ void gameLoading::release()
 
 void gameLoading::update()
 {
-	// ·Îµù
+	// ë¡œë”©
 	_loading->update();
 
+	// ë¡œë”©ì— ìžˆëŠ” BGM ì‹¤í–‰
 	if (!SOUNDMANAGER->isPlaySound("MainBgm"))
 		SOUNDMANAGER->play("MainBgm");
 
-	// ·ÎµùÀÌ ¿Ï·áµÇ°í È­¸éÀ» ´©¸¦½Ã °ÔÀÓ ½ÃÀÛ
+	// ë¡œë”©ì´ ì™„ë£Œë˜ê³  í™”ë©´ì„ ëˆ„ë¥¼ì‹œ ê²Œìž„ ì‹œìž‘
 	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
 	{
 		if (_loading->getDone())
@@ -40,13 +41,13 @@ void gameLoading::update()
 
 void gameLoading::render()
 {
-	// ·Îµù
+	// ë¡œë”©
 	_loading->render();
 }
 
 void gameLoading::imageList()
 {
-	// ºí·° ÀÌ¹ÌÁö
+	// ë¸”ëŸ­ ì´ë¯¸ì§€
 	_loading->loadImage("BlueBlock", "Img/Block/blueBlock.bmp", 32, 32);
 	_loading->loadImage("GreyBlock", "Img/Block/greyBlock.bmp", 32, 32);
 	_loading->loadImage("GreenBlock", "Img/Block/greenBlock.bmp", 32, 32);
@@ -61,12 +62,12 @@ void gameLoading::imageList()
 	_loading->loadImage("Recovery", "Img/Block/recovery.bmp", 32, 32, true, RGB(255, 0, 255));
 	_loading->loadImage("Poison", "Img/Block/poison.bmp", 32, 32, true, RGB(255, 0, 255));
 
-	// ½ºÅ³
+	// ìŠ¤í‚¬
 	_loading->loadImage("SkillCoolTime", "Img/Skill/skillCoolTime.bmp", 50, 50);
 	_loading->loadImage("SlowSkill", "Img/Skill/Slow.bmp", 50, 50, true, RGB(255, 0, 255));
 	_loading->loadImage("LongBlockSkill", "Img/Skill/Long_block.bmp", 50, 50, true, RGB(255, 0, 255));
 
-	// ¸ÞÀÎ UI
+	// ë©”ì¸ UI
 	_loading->loadImage("MenuBackGround", "Img/Bg/menuBg.bmp", 540, 1800);
 	_loading->loadImage("TetrisBoard", "Img/UI/tetrisBoard.bmp", (WINSIZEX - BOARD_WIDTH) / 2, WINSIZEY - 650, 328, 648, true, RGB(255, 0, 255));
 	_loading->loadImage("FieldGlass", "Img/UI/fieldGlass.bmp", (WINSIZEX - BOARD_WIDTH + 4) / 2, 12, BOARD_WIDTH - 4, 296, true, RGB(255, 0, 255));
@@ -77,33 +78,33 @@ void gameLoading::imageList()
 	_loading->loadFrameImage("Exit", "Img/UI/exit.bmp", WINSIZEX / 2 + 180, WINSIZEY - 100, 316, 81, 4, 1, true, RGB(255, 0, 255));
 	_loading->loadImage("ScreenOut", "Img/UI/screenOut.bmp", 0, WINSIZEY, 560, 2058, true, RGB(255, 0, 255));
 
-	// ¿É¼Ç UI
+	// ì˜µì…˜ UI
 	_loading->loadImage("PopUp", "Img/UI/popupBoard.bmp", 372, 312, true, RGB(255, 0, 255));
 	_loading->loadFrameImage("BgSound", "Img/UI/bgSound.bmp", 158, 81, 2, 1, true, RGB(255, 0, 255));
 	_loading->loadFrameImage("EffectSound", "Img/UI/effectSound.bmp", 158, 81, 2, 1, true, RGB(255, 0, 255));
 	_loading->loadFrameImage("Keypad", "Img/UI/keypad.bmp", 158, 81, 2, 1, true, RGB(255, 0, 255));
 
-	// Á¾·á UI
+	// ì¢…ë£Œ UI
 	_loading->loadImage("AskBoard", "Img/UI/askBoard.bmp", 436, 255, true, RGB(255, 0, 255));
 	_loading->loadFrameImage("Ok", "Img/UI/ok.bmp", 316, 81, 4, 1, true, RGB(255, 0, 255));
 	_loading->loadFrameImage("Close", "Img/UI/close.bmp", 316, 81, 4, 1, true, RGB(255, 0, 255));
 
-	// Å° UI
+	// í‚¤ UI
 	_loading->loadImage("KeyBoard", "Img/UI/keyBoard.bmp", 372, 720, true, RGB(255, 0, 255));
 	_loading->loadImage("DirKeyFront", "Img/UI/dirKeyFront.bmp", 150, 40, true, RGB(255, 0, 255));
 	_loading->loadImage("DirKeyBack", "Img/UI/dirKeyBack.bmp", 100, 40, true, RGB(255, 0, 255));
 
-	// ¼ýÀÚ
+	// ìˆ«ìž
 	_loading->loadFrameImage("Number", "Img/UI/number.bmp", 120, 18, 10, 1, true, RGB(255, 0, 255));
 	_loading->loadFrameImage("MidNumber", "Img/UI/midNumber.bmp", 250, 38, 10, 1, true, RGB(255, 0, 255));
 	_loading->loadFrameImage("BigNumber", "Img/UI/Bignumber.bmp", 480, 73, 10, 1, true, RGB(255, 0, 255));
 
-	// ÇÃ·¹ÀÌ¾î
+	// í”Œë ˆì´ì–´
 	_loading->loadImage("Room1", "Img/Player/room1.bmp", (WINSIZEX - BOARD_WIDTH) / 2, 10, 500, 300, false);
 	_loading->loadFrameImage("Player", "Img/Player/Fumiko.bmp", (WINSIZEX - 72) / 2, 180, 1224, 768, 17, 8, true, RGB(255, 0, 255));
 	_loading->loadFrameImage("PlayerDamaged", "Img/Player/FumikoDamaged.bmp", (WINSIZEX - 72) / 2, 180, 1224, 768, 17, 8, true, RGB(255, 0, 255));
 
-	// ÀÎº¥Åä¸®
+	// ì¸ë²¤í† ë¦¬
 	_loading->loadImage("EquipHelmet", "Img/Inventory/helmet.bmp", INVENTORY_IMAGE_SIZE, INVENTORY_IMAGE_SIZE);
 	_loading->loadImage("EquipWeapon", "Img/Inventory/weapon.bmp", INVENTORY_IMAGE_SIZE, INVENTORY_IMAGE_SIZE);
 	_loading->loadImage("EquipArmor", "Img/Inventory/armor.bmp", INVENTORY_IMAGE_SIZE, INVENTORY_IMAGE_SIZE);
@@ -118,12 +119,12 @@ void gameLoading::imageList()
 	_loading->loadImage("Atk", "Img/Inventory/atk.bmp", 130, 32, true, RGB(255, 0, 255));
 	_loading->loadImage("Def", "Img/Inventory/def.bmp", 130, 32, true, RGB(255, 0, 255));
 
-	// °ñµå
+	// ê³¨ë“œ
 	_loading->loadImage("Gold", "Img/UI/gold.bmp", 34, 34, true, RGB(255, 0, 255));
 	_loading->loadImage("Buy", "Img/UI/buyCost.bmp", 57, 20, true, RGB(255, 0, 255));
 	_loading->loadImage("Sell", "Img/UI/sellCost.bmp", 61, 20, true, RGB(255, 0, 255));
 
-	// ¾ÆÀÌÅÛ
+	// ì•„ì´í…œ
 	_loading->loadImage("Cloth", "Img/Item/cloth.bmp", 50, 50, true, RGB(255, 0, 255));
 	_loading->loadImage("Plate", "Img/Item/plate.bmp", 50, 50, true, RGB(255, 0, 255));
 	_loading->loadImage("BasicBook", "Img/Item/basicBook.bmp", 50, 50, true, RGB(255, 0, 255));
@@ -141,7 +142,7 @@ void gameLoading::imageList()
 	_loading->loadImage("SmallPotion", "Img/Item/smallPotion.bmp", 50, 50, true, RGB(255, 0, 255));
 	_loading->loadImage("LargePotion", "Img/Item/largePotion.bmp", 50, 50, true, RGB(255, 0, 255));
 
-	// ÀüÅõ
+	// ì „íˆ¬
 	_loading->loadImage("BattleBg", "Img/Battle/bg.bmp", 540, 960);
 	_loading->loadImage("Stage", "Img/Battle/stage.bmp", 113, 26, true, RGB(255, 0, 255));
 	_loading->loadImage("StageBoard", "Img/Battle/stageBoard.bmp", 200, 57, true, RGB(255, 0, 255));
@@ -157,7 +158,7 @@ void gameLoading::imageList()
 	_loading->loadFrameImage("Replay", "Img/Battle/replay.bmp", 316, 81, 4, 1, true, RGB(255, 0, 255));
 	_loading->loadImage("BattleRoom", "Img/Battle/battleRoom.bmp", (WINSIZEX - BOARD_WIDTH) / 2, 10, 500, 300, false);
 
-	// ¿¡³Ê¹Ì
+	// ì—ë„ˆë¯¸
 	_loading->loadFrameImage("BlueStone", "Img/Enemy/BlueStone.bmp", 261, 131, 2, 1, false);
 	_loading->loadFrameImage("DarkBrownStone", "Img/Enemy/DarkBrownStone.bmp", 261, 131, 2, 1, false);
 	_loading->loadFrameImage("GreenStone", "Img/Enemy/GreenStone.bmp", 261, 131, 2, 1, false);
@@ -168,12 +169,19 @@ void gameLoading::imageList()
 
 void gameLoading::soundList()
 {
+	// ë°°ê²½
 	_loading->loadSound("MainBgm", "GameSound/Bgm/11_Fill Me Up.mp3", true, true);
 	_loading->loadSound("BattleBgm", "GameSound/Bgm/Charangos.mp3", true, true);
+	
+	// ìŠ¹íŒ¨
 	_loading->loadSound("Victory", "GameSound/Bgm/victory.wav", true, false);
 	_loading->loadSound("Lose", "GameSound/Bgm/lose.wav", true, false);
+	
+	// ë§ˆìš°ìŠ¤
 	_loading->loadSound("MouseOver", "GameSound/Effect/MouseOver.wav", false, false);
 	_loading->loadSound("Click", "GameSound/Effect/Click.wav", false, false);
+	
+	// í…ŒíŠ¸ë¦¬ìŠ¤
 	_loading->loadSound("BlockDrop", "GameSound/Effect/BlockDrop.wav", false, false);
 	_loading->loadSound("BlockErase", "GameSound/Effect/BlockErase.mp3", false, false);
 	_loading->loadSound("BlockMove", "GameSound/Effect/BlockMove.wav", false, false);
