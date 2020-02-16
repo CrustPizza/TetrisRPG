@@ -1,85 +1,70 @@
 #include "stdafx.h"
 #include "gameNode.h"
 
-//=============================================================
-//	## ÃÊ±âÈ­ ## init()
-//=============================================================
 HRESULT gameNode::init()
 {
-	//HDC ¾ò±â
+	//HDC ì–»ê¸°
 	_hdc = GetDC(_hWnd);
 
-	SetTimer(_hWnd, 1, 10, NULL);		//Å¸ÀÌ¸Ó ÃÊ±âÈ­
-	KEYMANAGER->init();					//Å°¸Å´ÏÁ® ÃÊ±âÈ­
-	RND->init();						//·£´ýÆã¼Ç ÃÊ±âÈ­
-	IMAGEMANAGER->init();				//ÀÌ¹ÌÁö¸Å´ÏÁ® ÃÊ±âÈ­
-	PLAYERDATA->init();					//ÇÃ·¹ÀÌ¾îµ¥ÀÌÅÍ ÃÊ±âÈ­
-	TXTDATA->init();					//TXTµ¥ÀÌÅÍ ÃÊ±âÈ­
-	INIDATA->init();					//INIµ¥ÀÌÅÍ ÃÊ±âÈ­
-	SCENEMANAGER->init();				//¾À¸Å´ÏÁ® ÃÊ±âÈ­
-	SOUNDMANAGER->init();				//»ç¿îµå¸Å´ÏÁ® ÃÊ±âÈ­
+	SetTimer(_hWnd, 1, 10, NULL);		//íƒ€ì´ë¨¸ ì´ˆê¸°í™”
+	KEYMANAGER->init();			//í‚¤ë§¤ë‹ˆì ¸ ì´ˆê¸°í™”
+	IMAGEMANAGER->init();			//ì´ë¯¸ì§€ë§¤ë‹ˆì ¸ ì´ˆê¸°í™”
+	PLAYERDATA->init();			//í”Œë ˆì´ì–´ë°ì´í„° ì´ˆê¸°í™”
+	TXTDATA->init();			//TXTë°ì´í„° ì´ˆê¸°í™”
+	INIDATA->init();			//INIë°ì´í„° ì´ˆê¸°í™”
+	SCENEMANAGER->init();			//ì”¬ë§¤ë‹ˆì ¸ ì´ˆê¸°í™”
+	SOUNDMANAGER->init();			//ì‚¬ìš´ë“œë§¤ë‹ˆì ¸ ì´ˆê¸°í™”
 
 	return S_OK;
 }
 
-
-//=============================================================
-//	## ÇØÁ¦ ## release()
-//=============================================================
 void gameNode::release()
 {
-	//Å¸ÀÌ¸Ó ÇØÁ¦
+	//íƒ€ì´ë¨¸ í•´ì œ
 	KillTimer(_hWnd, 1);
-	//Å°¸Å´ÏÁ® ½Ì±ÛÅæ ÇØÁ¦
+	
+	//í‚¤ë§¤ë‹ˆì ¸ ì‹±ê¸€í†¤ í•´ì œ
 	KEYMANAGER->release();
 	KEYMANAGER->releaseSingleton();
-	//·£´ýÆã¼Ç ½Ì±ÛÅæ ÇØÁ¦
-	RND->release();
-	RND->releaseSingleton();
-	//ÀÌ¹ÌÁö¸Å´ÏÁ® ½Ì±ÛÅæ ÇØÁ¦
+	
+	//ì´ë¯¸ì§€ë§¤ë‹ˆì ¸ ì‹±ê¸€í†¤ í•´ì œ
 	IMAGEMANAGER->release();
 	IMAGEMANAGER->releaseSingleton();
-	//ÇÃ·¹ÀÌ¾îµ¥ÀÌÅÍ ½Ì±ÛÅæ ÇØÁ¦
+	
+	//í”Œë ˆì´ì–´ë°ì´í„° ì‹±ê¸€í†¤ í•´ì œ
 	PLAYERDATA->release();
 	PLAYERDATA->releaseSingleton();
-	//TXTµ¥ÀÌÅÍ ½Ì±ÛÅæ ÇØÁ¦
+	
+	//TXTë°ì´í„° ì‹±ê¸€í†¤ í•´ì œ
 	TXTDATA->release();
 	TXTDATA->releaseSingleton();
-	//INIµ¥ÀÌÅÍ ½Ì±ÛÅæ ÇØÁ¦
+	
+	//INIë°ì´í„° ì‹±ê¸€í†¤ í•´ì œ
 	INIDATA->release();
 	INIDATA->releaseSingleton();
-	//¾À¸Å´ÏÁ® ½Ì±ÛÅæ ÇØÁ¦
+	
+	//ì”¬ë§¤ë‹ˆì ¸ ì‹±ê¸€í†¤ í•´ì œ
 	SCENEMANAGER->release();
 	SCENEMANAGER->releaseSingleton();
-	//»ç¿îµå¸Å´ÏÁ® ½Ì±ÛÅæ ÇØÁ¦
+	
+	//ì‚¬ìš´ë“œë§¤ë‹ˆì ¸ ì‹±ê¸€í†¤ í•´ì œ
 	SOUNDMANAGER->release();
 	SOUNDMANAGER->releaseSingleton();
 
-
-	//HDC ÇØÁ¦
+	//HDC í•´ì œ
 	ReleaseDC(_hWnd, _hdc);
 }
 
-//=============================================================
-//	## ¾÷µ¥ÀÌÆ® ## update()
-//=============================================================
 void gameNode::update()
 {
-	//»õ·Î°íÄ§ (³ªÁß¿¡ °í¼º´É Å¸ÀÌ¸Ó¸¦ ¸¸µç ÈÄ¿¡´Â »ç¿ëÇÏÁö ¾Ê´Â´Ù)
-	//´õºí¹öÆÛ¸µ ÀÌÈÄ »ç¿ëÇÏÁö ¾Ê´Â´Ù (true => false)
 	InvalidateRect(_hWnd, NULL, false);
 }
 
-//=============================================================
-//	## ·»´õ ## render(HDC hdc)
-//=============================================================
 void gameNode::render()
 {
+	
 }
 
-//=============================================================
-//	## ¸ÞÀÎÇÁ·Î½ÃÁ® ## MainProc()
-//=============================================================
 LRESULT gameNode::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 {
 	HDC hdc;		 
@@ -90,12 +75,13 @@ LRESULT gameNode::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPara
 	case WM_TIMER:
 		this->update();
 		break;
-	case WM_PAINT:			
+	case WM_PAINT:	
 		hdc = BeginPaint(hWnd, &ps);
 		this->render();
 		EndPaint(hWnd, &ps);
 		break;
-	case WM_MOUSEMOVE:		
+	case WM_MOUSEMOVE:
+		// ë§ˆìš°ìŠ¤ ì¢Œí‘œ
 		_ptMouse.x = LOWORD(lParam);
 		_ptMouse.y = HIWORD(lParam);
 		break;
