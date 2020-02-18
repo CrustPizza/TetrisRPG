@@ -13,13 +13,13 @@ void imageManager::release()
 
 image * imageManager::addImage(string strKey, int width, int height)
 {
-	//Ãß°¡ÇÏ·Á´Â ÀÌ¹ÌÁö°¡ Á¸ÀçÇÑ´Ù¸é Å°°ªÀ¸·Î È®ÀÎ
+	//ì¶”ê°€í•˜ë ¤ëŠ” ì´ë¯¸ì§€ê°€ ì¡´ì¬í•œë‹¤ë©´ í‚¤ê°’ìœ¼ë¡œ í™•ì¸
 	image* img = findImage(strKey);
 
-	//Ãß°¡ÇÏ·Á´Â ÀÌ¹ÌÁö°¡ ÀÌ¹Ì Á¸ÀçÇÑ´Ù¸é »õ·Î ¸¸µéÁö ¾Ê°í ÇØ´çÀÌ¹ÌÁö¸¦ ¸®ÅÏ
+	//ì¶”ê°€í•˜ë ¤ëŠ” ì´ë¯¸ì§€ê°€ ì´ë¯¸ ì¡´ì¬í•œë‹¤ë©´ ìƒˆë¡œ ë§Œë“¤ì§€ ì•Šê³  í•´ë‹¹ì´ë¯¸ì§€ë¥¼ ë¦¬í„´
 	if (img) return img;
 
-	//Å°°ªÀ¸·Î Ã£¾Ò´Âµ¥ ¾øÀ¸´Ï±î »õ·Î »ı¼º
+	//í‚¤ê°’ìœ¼ë¡œ ì°¾ì•˜ëŠ”ë° ì—†ìœ¼ë‹ˆê¹Œ ìƒˆë¡œ ìƒì„±
 	img = new image;
 	if (FAILED(img->init(width, height)))
 	{
@@ -28,13 +28,6 @@ image * imageManager::addImage(string strKey, int width, int height)
 		return NULL;
 	}
 
-	/*STL ¸ÊÀÇ ÇÙ½É*/
-	//Å°, °ª À» ÀØÁö ¸»µµ·Ï!!!
-	//Ã¹¹øÂ° = Å° -> first
-	//µÎ¹øÂ° = °ª -> second
-	//µ¥ÀÌÅÍ¸¦ Ãß°¡ÇÒ¶§ ¹İµå½Ã Å°,¹ë·ù¸¦ ½ÖÀ¸·Î ³Ö¾î¾ß ÇÑ´Ù
-	//pair, make_pair¸¦ »ç¿ëÇØ¼­ Ãß°¡ÇÑ´Ù
-	//_mImageList.insert(pair<string, image*>(strKey, img));
 	_mImageList.insert(make_pair(strKey, img));
 
 	return img;
@@ -42,13 +35,13 @@ image * imageManager::addImage(string strKey, int width, int height)
 
 image * imageManager::addImage(string strKey, const char * fileName, int width, int height, bool isTrans, COLORREF transColor)
 {
-	//Ãß°¡ÇÏ·Á´Â ÀÌ¹ÌÁö°¡ Á¸ÀçÇÑ´Ù¸é Å°°ªÀ¸·Î È®ÀÎ
+	//ì¶”ê°€í•˜ë ¤ëŠ” ì´ë¯¸ì§€ê°€ ì¡´ì¬í•œë‹¤ë©´ í‚¤ê°’ìœ¼ë¡œ í™•ì¸
 	image* img = findImage(strKey);
 
-	//Ãß°¡ÇÏ·Á´Â ÀÌ¹ÌÁö°¡ ÀÌ¹Ì Á¸ÀçÇÑ´Ù¸é »õ·Î ¸¸µéÁö ¾Ê°í ÇØ´çÀÌ¹ÌÁö¸¦ ¸®ÅÏ
+	//ì¶”ê°€í•˜ë ¤ëŠ” ì´ë¯¸ì§€ê°€ ì´ë¯¸ ì¡´ì¬í•œë‹¤ë©´ ìƒˆë¡œ ë§Œë“¤ì§€ ì•Šê³  í•´ë‹¹ì´ë¯¸ì§€ë¥¼ ë¦¬í„´
 	if (img) return img;
 
-	//Å°°ªÀ¸·Î Ã£¾Ò´Âµ¥ ¾øÀ¸´Ï±î »õ·Î »ı¼º
+	//í‚¤ê°’ìœ¼ë¡œ ì°¾ì•˜ëŠ”ë° ì—†ìœ¼ë‹ˆê¹Œ ìƒˆë¡œ ìƒì„±
 	img = new image;
 	if (FAILED(img->init(fileName, width, height, isTrans, transColor)))
 	{
@@ -57,13 +50,6 @@ image * imageManager::addImage(string strKey, const char * fileName, int width, 
 		return NULL;
 	}
 
-	/*STL ¸ÊÀÇ ÇÙ½É*/
-	//Å°, °ª À» ÀØÁö ¸»µµ·Ï!!!
-	//Ã¹¹øÂ° = Å° -> first
-	//µÎ¹øÂ° = °ª -> second
-	//µ¥ÀÌÅÍ¸¦ Ãß°¡ÇÒ¶§ ¹İµå½Ã Å°,¹ë·ù¸¦ ½ÖÀ¸·Î ³Ö¾î¾ß ÇÑ´Ù
-	//pair, make_pair¸¦ »ç¿ëÇØ¼­ Ãß°¡ÇÑ´Ù
-	//_mImageList.insert(pair<string, image*>(strKey, img));
 	_mImageList.insert(make_pair(strKey, img));
 
 	return img;
@@ -71,13 +57,13 @@ image * imageManager::addImage(string strKey, const char * fileName, int width, 
 
 image * imageManager::addImage(string strKey, const char * fileName, float x, float y, int width, int height, bool isTrans, COLORREF transColor)
 {
-	//Ãß°¡ÇÏ·Á´Â ÀÌ¹ÌÁö°¡ Á¸ÀçÇÑ´Ù¸é Å°°ªÀ¸·Î È®ÀÎ
+	//ì¶”ê°€í•˜ë ¤ëŠ” ì´ë¯¸ì§€ê°€ ì¡´ì¬í•œë‹¤ë©´ í‚¤ê°’ìœ¼ë¡œ í™•ì¸
 	image* img = findImage(strKey);
 
-	//Ãß°¡ÇÏ·Á´Â ÀÌ¹ÌÁö°¡ ÀÌ¹Ì Á¸ÀçÇÑ´Ù¸é »õ·Î ¸¸µéÁö ¾Ê°í ÇØ´çÀÌ¹ÌÁö¸¦ ¸®ÅÏ
+	//ì¶”ê°€í•˜ë ¤ëŠ” ì´ë¯¸ì§€ê°€ ì´ë¯¸ ì¡´ì¬í•œë‹¤ë©´ ìƒˆë¡œ ë§Œë“¤ì§€ ì•Šê³  í•´ë‹¹ì´ë¯¸ì§€ë¥¼ ë¦¬í„´
 	if (img) return img;
 
-	//Å°°ªÀ¸·Î Ã£¾Ò´Âµ¥ ¾øÀ¸´Ï±î »õ·Î »ı¼º
+	//í‚¤ê°’ìœ¼ë¡œ ì°¾ì•˜ëŠ”ë° ì—†ìœ¼ë‹ˆê¹Œ ìƒˆë¡œ ìƒì„±
 	img = new image;
 	if (FAILED(img->init(fileName, x, y, width, height, isTrans, transColor)))
 	{
@@ -86,13 +72,6 @@ image * imageManager::addImage(string strKey, const char * fileName, float x, fl
 		return NULL;
 	}
 
-	/*STL ¸ÊÀÇ ÇÙ½É*/
-	//Å°, °ª À» ÀØÁö ¸»µµ·Ï!!!
-	//Ã¹¹øÂ° = Å° -> first
-	//µÎ¹øÂ° = °ª -> second
-	//µ¥ÀÌÅÍ¸¦ Ãß°¡ÇÒ¶§ ¹İµå½Ã Å°,¹ë·ù¸¦ ½ÖÀ¸·Î ³Ö¾î¾ß ÇÑ´Ù
-	//pair, make_pair¸¦ »ç¿ëÇØ¼­ Ãß°¡ÇÑ´Ù
-	//_mImageList.insert(pair<string, image*>(strKey, img));
 	_mImageList.insert(make_pair(strKey, img));
 
 	return img;
@@ -100,13 +79,13 @@ image * imageManager::addImage(string strKey, const char * fileName, float x, fl
 
 image * imageManager::addFrameImage(string strKey, const char * fileName, int width, int height, int frameX, int frameY, bool isTrans, COLORREF transColor)
 {
-	//Ãß°¡ÇÏ·Á´Â ÀÌ¹ÌÁö°¡ Á¸ÀçÇÑ´Ù¸é Å°°ªÀ¸·Î È®ÀÎ
+	//ì¶”ê°€í•˜ë ¤ëŠ” ì´ë¯¸ì§€ê°€ ì¡´ì¬í•œë‹¤ë©´ í‚¤ê°’ìœ¼ë¡œ í™•ì¸
 	image* img = findImage(strKey);
 
-	//Ãß°¡ÇÏ·Á´Â ÀÌ¹ÌÁö°¡ ÀÌ¹Ì Á¸ÀçÇÑ´Ù¸é »õ·Î ¸¸µéÁö ¾Ê°í ÇØ´çÀÌ¹ÌÁö¸¦ ¸®ÅÏ
+	//ì¶”ê°€í•˜ë ¤ëŠ” ì´ë¯¸ì§€ê°€ ì´ë¯¸ ì¡´ì¬í•œë‹¤ë©´ ìƒˆë¡œ ë§Œë“¤ì§€ ì•Šê³  í•´ë‹¹ì´ë¯¸ì§€ë¥¼ ë¦¬í„´
 	if (img) return img;
 
-	//Å°°ªÀ¸·Î Ã£¾Ò´Âµ¥ ¾øÀ¸´Ï±î »õ·Î »ı¼º
+	//í‚¤ê°’ìœ¼ë¡œ ì°¾ì•˜ëŠ”ë° ì—†ìœ¼ë‹ˆê¹Œ ìƒˆë¡œ ìƒì„±
 	img = new image;
 	if (FAILED(img->init(fileName, width, height, frameX, frameY, isTrans, transColor)))
 	{
@@ -115,13 +94,6 @@ image * imageManager::addFrameImage(string strKey, const char * fileName, int wi
 		return NULL;
 	}
 
-	/*STL ¸ÊÀÇ ÇÙ½É*/
-	//Å°, °ª À» ÀØÁö ¸»µµ·Ï!!!
-	//Ã¹¹øÂ° = Å° -> first
-	//µÎ¹øÂ° = °ª -> second
-	//µ¥ÀÌÅÍ¸¦ Ãß°¡ÇÒ¶§ ¹İµå½Ã Å°,¹ë·ù¸¦ ½ÖÀ¸·Î ³Ö¾î¾ß ÇÑ´Ù
-	//pair, make_pair¸¦ »ç¿ëÇØ¼­ Ãß°¡ÇÑ´Ù
-	//_mImageList.insert(pair<string, image*>(strKey, img));
 	_mImageList.insert(make_pair(strKey, img));
 
 	return img;
@@ -129,13 +101,13 @@ image * imageManager::addFrameImage(string strKey, const char * fileName, int wi
 
 image * imageManager::addFrameImage(string strKey, const char * fileName, float x, float y, int width, int height, int frameX, int frameY, bool isTrans, COLORREF transColor)
 {
-	//Ãß°¡ÇÏ·Á´Â ÀÌ¹ÌÁö°¡ Á¸ÀçÇÑ´Ù¸é Å°°ªÀ¸·Î È®ÀÎ
+	//ì¶”ê°€í•˜ë ¤ëŠ” ì´ë¯¸ì§€ê°€ ì¡´ì¬í•œë‹¤ë©´ í‚¤ê°’ìœ¼ë¡œ í™•ì¸
 	image* img = findImage(strKey);
 
-	//Ãß°¡ÇÏ·Á´Â ÀÌ¹ÌÁö°¡ ÀÌ¹Ì Á¸ÀçÇÑ´Ù¸é »õ·Î ¸¸µéÁö ¾Ê°í ÇØ´çÀÌ¹ÌÁö¸¦ ¸®ÅÏ
+	//ì¶”ê°€í•˜ë ¤ëŠ” ì´ë¯¸ì§€ê°€ ì´ë¯¸ ì¡´ì¬í•œë‹¤ë©´ ìƒˆë¡œ ë§Œë“¤ì§€ ì•Šê³  í•´ë‹¹ì´ë¯¸ì§€ë¥¼ ë¦¬í„´
 	if (img) return img;
 
-	//Å°°ªÀ¸·Î Ã£¾Ò´Âµ¥ ¾øÀ¸´Ï±î »õ·Î »ı¼º
+	//í‚¤ê°’ìœ¼ë¡œ ì°¾ì•˜ëŠ”ë° ì—†ìœ¼ë‹ˆê¹Œ ìƒˆë¡œ ìƒì„±
 	img = new image;
 	if (FAILED(img->init(fileName, x, y, width, height, frameX, frameY, isTrans, transColor)))
 	{
@@ -143,14 +115,7 @@ image * imageManager::addFrameImage(string strKey, const char * fileName, float 
 		SAFE_DELETE(img);
 		return NULL;
 	}
-
-	/*STL ¸ÊÀÇ ÇÙ½É*/
-	//Å°, °ª À» ÀØÁö ¸»µµ·Ï!!!
-	//Ã¹¹øÂ° = Å° -> first
-	//µÎ¹øÂ° = °ª -> second
-	//µ¥ÀÌÅÍ¸¦ Ãß°¡ÇÒ¶§ ¹İµå½Ã Å°,¹ë·ù¸¦ ½ÖÀ¸·Î ³Ö¾î¾ß ÇÑ´Ù
-	//pair, make_pair¸¦ »ç¿ëÇØ¼­ Ãß°¡ÇÑ´Ù
-	//_mImageList.insert(pair<string, image*>(strKey, img));
+	
 	_mImageList.insert(make_pair(strKey, img));
 
 	return img;
@@ -158,63 +123,62 @@ image * imageManager::addFrameImage(string strKey, const char * fileName, float 
 
 image * imageManager::findImage(string strKey)
 {
-	//ÇØ´çÅ° °Ë»ö
+	//í•´ë‹¹ í‚¤ ê²€ìƒ‰
 	mapImageIter key = _mImageList.find(strKey);
 
-	//°Ë»öÇÑ Å°¸¦ Ã£¾Ò´Ù¸é ÀÌ¹ÌÁöÅ¬·¡½º ¸®ÅÏ
+	//ê²€ìƒ‰í•œ í‚¤ë¥¼ ì°¾ì•˜ë‹¤ë©´ ê°’ ë¦¬í„´
 	if (key != _mImageList.end())
 	{
-		//return key->first(Å°)
-		return key->second;//°ª(°ğ ÀÌ¹ÌÁöÅ¬·¡½º)
+		return key->second;
 	}
 
-	//°Ë»öÇÑ Å°·Î ÀÌ¹ÌÁö¸¦ Ã£Áö ¸øÇß´Ù¸é NULL¸®ÅÏ
+	//ê²€ìƒ‰í•œ í‚¤ë¡œ ì´ë¯¸ì§€ë¥¼ ì°¾ì§€ ëª»í–ˆë‹¤ë©´ NULLë¦¬í„´
 	return nullptr;
 }
 
 BOOL imageManager::deleteImage(string strKey)
 {
-	//ÇØ´çÅ° °Ë»ö
+	//í•´ë‹¹ í‚¤ ê²€ìƒ‰
 	mapImageIter key = _mImageList.find(strKey);
 
-	//°Ë»öÇÑ Å°¸¦ Ã£¾Ò´Ù¸é ÇØ´çÀÌ¹ÌÁö »èÁ¦
+	//ê²€ìƒ‰í•œ í‚¤ë¥¼ ì°¾ì•˜ë‹¤ë©´ í•´ë‹¹ ì´ë¯¸ì§€ ì‚­ì œ
 	if (key != _mImageList.end())
 	{
-		//ÀÌ¹ÌÁö ÇØÁ¦
+		//ì´ë¯¸ì§€ í•´ì œ
 		key->second->release();
-		//¸Ş¸ğ¸® ÇØÁ¦
+		//ë©”ëª¨ë¦¬ í•´ì œ
 		SAFE_DELETE(key->second);
-		//¸ÊÀÇ ¹İº¹ÀÚ ÇØÁ¦
+		//ë§µì˜ ë°˜ë³µì í•´ì œ
 		_mImageList.erase(key);
 
 		return TRUE;
 	}
 
-	//°Ë»öÇÑ Å°·Î ÀÌ¹ÌÁö¸¦ Ã£Áö ¸øÇß´Ù¸é NULL¸®ÅÏ
+	//ê²€ìƒ‰í•œ í‚¤ë¡œ ì´ë¯¸ì§€ë¥¼ ì°¾ì§€ ëª»í–ˆë‹¤ë©´ NULLë¦¬í„´
 	return FALSE;
 }
 
 BOOL imageManager::deleteAll()
 {
-	//¸ÊÀüÃ¼¸¦ µ¹¸é¼­ ÇÏ³ª¾¿ ÀüºÎ Áö¿î´Ù
+	//ë§µì „ì²´ë¥¼ ëŒë©´ì„œ í•˜ë‚˜ì”© ì „ë¶€ ì§€ìš´ë‹¤
 	mapImageIter iter = _mImageList.begin();
 	//for(;;) => while(true)
 	for (; iter != _mImageList.end();)
 	{
-		//ÀÌ¹ÌÁö°¡ ÀÖÀ¸´Ï ÀÌ¹ÌÁö Å¬·¡½º »èÁ¦
+		//ì´ë¯¸ì§€ê°€ ìˆìœ¼ë‹ˆ ì´ë¯¸ì§€ í´ë˜ìŠ¤ ì‚­ì œ
 		if (iter->second != NULL)
 		{
 			iter->second->release();
 			SAFE_DELETE(iter->second);
 			iter = _mImageList.erase(iter);
 		}
-		else//ÀÌ¹ÌÁö ¾øÀ¸¸é
+		else//ì´ë¯¸ì§€ ì—†ìœ¼ë©´
 		{
 			++iter;
 		}
 	}
 
-	//¸Ê ÀüÃ¼¸¦ »èÁ¦
+	//ë§µ ì „ì²´ë¥¼ ì‚­ì œ
 	_mImageList.clear();
 
 	return TRUE;
@@ -222,35 +186,35 @@ BOOL imageManager::deleteAll()
 
 void imageManager::render(string strKey, HDC hdc, int destX, int destY)
 {
-	//ÀÌ¹ÌÁö¸¦ Ã£¾Æ¼­ ±×³É ÀÌ¹ÌÁöÅ¬·¡½ºÀÇ ÇÔ¼ö¸¦ ½ÇÇà½ÃÅ°¸é µÊ
+	//ì´ë¯¸ì§€ë¥¼ ì°¾ì•„ì„œ ê·¸ëƒ¥ ì´ë¯¸ì§€í´ë˜ìŠ¤ì˜ í•¨ìˆ˜ë¥¼ ì‹¤í–‰
 	image* img = findImage(strKey);
 	if (img) img->render(hdc, destX, destY);
 }
 
 void imageManager::render(string strKey, HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight)
 {
-	//ÀÌ¹ÌÁö¸¦ Ã£¾Æ¼­ ±×³É ÀÌ¹ÌÁöÅ¬·¡½ºÀÇ ÇÔ¼ö¸¦ ½ÇÇà½ÃÅ°¸é µÊ
+	//ì´ë¯¸ì§€ë¥¼ ì°¾ì•„ì„œ ê·¸ëƒ¥ ì´ë¯¸ì§€í´ë˜ìŠ¤ì˜ í•¨ìˆ˜ë¥¼ ì‹¤í–‰
 	image* img = findImage(strKey);
 	if (img) img->render(hdc, destX, destY, sourX, sourY, sourWidth, sourHeight);
 }
 
 void imageManager::alphaRender(string strKey, HDC hdc, BYTE alpha)
 {
-	//ÀÌ¹ÌÁö¸¦ Ã£¾Æ¼­ ±×³É ÀÌ¹ÌÁöÅ¬·¡½ºÀÇ ÇÔ¼ö¸¦ ½ÇÇà½ÃÅ°¸é µÊ
+	//ì´ë¯¸ì§€ë¥¼ ì°¾ì•„ì„œ ê·¸ëƒ¥ ì´ë¯¸ì§€í´ë˜ìŠ¤ì˜ í•¨ìˆ˜ë¥¼ ì‹¤í–‰
 	image* img = findImage(strKey);
 	if (img) img->alphaRender(hdc, alpha);
 }
 
 void imageManager::alphaRender(string strKey, HDC hdc, int destX, int destY, BYTE alpha)
 {
-	//ÀÌ¹ÌÁö¸¦ Ã£¾Æ¼­ ±×³É ÀÌ¹ÌÁöÅ¬·¡½ºÀÇ ÇÔ¼ö¸¦ ½ÇÇà½ÃÅ°¸é µÊ
+	//ì´ë¯¸ì§€ë¥¼ ì°¾ì•„ì„œ ê·¸ëƒ¥ ì´ë¯¸ì§€í´ë˜ìŠ¤ì˜ í•¨ìˆ˜ë¥¼ ì‹¤í–‰
 	image* img = findImage(strKey);
 	if (img) img->alphaRender(hdc, destX, destY, alpha);
 }
 
 void imageManager::alphaRender(string strKey, HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight, BYTE alpha)
 {
-	//ÀÌ¹ÌÁö¸¦ Ã£¾Æ¼­ ±×³É ÀÌ¹ÌÁöÅ¬·¡½ºÀÇ ÇÔ¼ö¸¦ ½ÇÇà½ÃÅ°¸é µÊ
+	//ì´ë¯¸ì§€ë¥¼ ì°¾ì•„ì„œ ê·¸ëƒ¥ ì´ë¯¸ì§€í´ë˜ìŠ¤ì˜ í•¨ìˆ˜ë¥¼ ì‹¤í–‰
 	image* img = findImage(strKey);
 	if (img) img->alphaRender(hdc, destX, destY, sourX, sourY, sourWidth, sourHeight, alpha);
 }
@@ -263,56 +227,56 @@ void imageManager::alphaFrameRender(string strKey, HDC hdc, int destX, int destY
 
 void imageManager::frameRender(string strKey, HDC hdc, int destX, int destY)
 {
-	//ÀÌ¹ÌÁö¸¦ Ã£¾Æ¼­ ±×³É ÀÌ¹ÌÁöÅ¬·¡½ºÀÇ ÇÔ¼ö¸¦ ½ÇÇà½ÃÅ°¸é µÊ
+	//ì´ë¯¸ì§€ë¥¼ ì°¾ì•„ì„œ ê·¸ëƒ¥ ì´ë¯¸ì§€í´ë˜ìŠ¤ì˜ í•¨ìˆ˜ë¥¼ ì‹¤í–‰
 	image* img = findImage(strKey);
 	if (img) img->frameRender(hdc, destX, destY);
 }
 
 void imageManager::frameRender(string strKey, HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY)
 {
-	//ÀÌ¹ÌÁö¸¦ Ã£¾Æ¼­ ±×³É ÀÌ¹ÌÁöÅ¬·¡½ºÀÇ ÇÔ¼ö¸¦ ½ÇÇà½ÃÅ°¸é µÊ
+	//ì´ë¯¸ì§€ë¥¼ ì°¾ì•„ì„œ ê·¸ëƒ¥ ì´ë¯¸ì§€í´ë˜ìŠ¤ì˜ í•¨ìˆ˜ë¥¼ ì‹¤í–‰
 	image* img = findImage(strKey);
 	if (img) img->frameRender(hdc, destX, destY, currentFrameX, currentFrameY);
 }
 
 void imageManager::loopRender(string strKey, HDC hdc, const LPRECT drawArea, int offsetX, int offsetY)
 {
-	//ÀÌ¹ÌÁö¸¦ Ã£¾Æ¼­ ±×³É ÀÌ¹ÌÁöÅ¬·¡½ºÀÇ ÇÔ¼ö¸¦ ½ÇÇà½ÃÅ°¸é µÊ
+	//ì´ë¯¸ì§€ë¥¼ ì°¾ì•„ì„œ ê·¸ëƒ¥ ì´ë¯¸ì§€í´ë˜ìŠ¤ì˜ í•¨ìˆ˜ë¥¼ ì‹¤í–‰
 	image* img = findImage(strKey);
 	if (img) img->loopRender(hdc, drawArea, offsetX, offsetY);
 }
 
 void imageManager::loopAlphaRender(string strKey, HDC hdc, const LPRECT drawArea, int offsetX, int offsetY, BYTE alpha)
 {
-	//ÀÌ¹ÌÁö¸¦ Ã£¾Æ¼­ ±×³É ÀÌ¹ÌÁöÅ¬·¡½ºÀÇ ÇÔ¼ö¸¦ ½ÇÇà½ÃÅ°¸é µÊ
+	//ì´ë¯¸ì§€ë¥¼ ì°¾ì•„ì„œ ê·¸ëƒ¥ ì´ë¯¸ì§€í´ë˜ìŠ¤ì˜ í•¨ìˆ˜ë¥¼ ì‹¤í–‰
 	image* img = findImage(strKey);
 	if (img) img->loopAlphaRender(hdc, drawArea, offsetX, offsetY, alpha);
 }
 
 void imageManager::scaleRender(string strKey, HDC hdc, int destX, int destY, float scale)
 {
-	//ÀÌ¹ÌÁö¸¦ Ã£¾Æ¼­ ±×³É ÀÌ¹ÌÁöÅ¬·¡½ºÀÇ ÇÔ¼ö¸¦ ½ÇÇà½ÃÅ°¸é µÊ
+	//ì´ë¯¸ì§€ë¥¼ ì°¾ì•„ì„œ ê·¸ëƒ¥ ì´ë¯¸ì§€í´ë˜ìŠ¤ì˜ í•¨ìˆ˜ë¥¼ ì‹¤í–‰
 	image* img = findImage(strKey);
 	if (img) img->scaleRender(hdc, destX, destY, scale);
 }
 
 void imageManager::scaleFrameRender(string strKey, HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, float scale)
 {
-	//ÀÌ¹ÌÁö¸¦ Ã£¾Æ¼­ ±×³É ÀÌ¹ÌÁöÅ¬·¡½ºÀÇ ÇÔ¼ö¸¦ ½ÇÇà½ÃÅ°¸é µÊ
+	//ì´ë¯¸ì§€ë¥¼ ì°¾ì•„ì„œ ê·¸ëƒ¥ ì´ë¯¸ì§€í´ë˜ìŠ¤ì˜ í•¨ìˆ˜ë¥¼ ì‹¤í–‰
 	image* img = findImage(strKey);
 	if (img) img->scaleFrameRender(hdc, destX, destY, currentFrameX, currentFrameY, scale);
 }
 
 void imageManager::rotateRender(string strKey, HDC hdc, float destX, float destY, float angle)
 {
-	//ÀÌ¹ÌÁö¸¦ Ã£¾Æ¼­ ±×³É ÀÌ¹ÌÁöÅ¬·¡½ºÀÇ ÇÔ¼ö¸¦ ½ÇÇà½ÃÅ°¸é µÊ
+	//ì´ë¯¸ì§€ë¥¼ ì°¾ì•„ì„œ ê·¸ëƒ¥ ì´ë¯¸ì§€í´ë˜ìŠ¤ì˜ í•¨ìˆ˜ë¥¼ ì‹¤í–‰
 	image* img = findImage(strKey);
 	if (img) img->rotateRender(hdc, destX, destY, angle);
 }
 
 void imageManager::rotateFrameRender(string strKey, HDC hdc, float destX, float destY, int currentFrameX, int currentFrameY, float angle)
 {
-	//ÀÌ¹ÌÁö¸¦ Ã£¾Æ¼­ ±×³É ÀÌ¹ÌÁöÅ¬·¡½ºÀÇ ÇÔ¼ö¸¦ ½ÇÇà½ÃÅ°¸é µÊ
+	//ì´ë¯¸ì§€ë¥¼ ì°¾ì•„ì„œ ê·¸ëƒ¥ ì´ë¯¸ì§€í´ë˜ìŠ¤ì˜ í•¨ìˆ˜ë¥¼ ì‹¤í–‰
 	image* img = findImage(strKey);
 	if (img) img->rotateFrameRender(hdc, destX, destY, currentFrameX, currentFrameY, angle);
 }
