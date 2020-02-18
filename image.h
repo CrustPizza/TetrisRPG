@@ -1,38 +1,35 @@
 #pragma once
-//=============================================================
-//	## image ## (¾ÕÀ¸·Î °è¼Ó ¾÷µ¥ÀÌÆ® µÈ´Ù)
-//=============================================================
 
 class image
 {
 public:
 	enum IMAGE_LOAD_KIND
 	{
-		LOAD_RESOURCE = 0,	//¸®¼Ò½º·Î ·Îµù
-		LOAD_FILE,			//ÆÄÀÏ·Î ·Îµù
-		LOAD_EMPTY,			//ºóºñÆ®¸ÊÀ¸·Î ·Îµù
+		LOAD_RESOURCE = 0,	//ë¦¬ì†ŒìŠ¤ë¡œ ë¡œë”©
+		LOAD_FILE,		//íŒŒì¼ë¡œ ë¡œë”©
+		LOAD_EMPTY,		//ë¹ˆë¹„íŠ¸ë§µìœ¼ë¡œ ë¡œë”©
 		LOAD_END
 	};
 
 	typedef struct tagImage
 	{
-		DWORD		resID;			//¸®¼Ò½º ID
-		HDC			hMemDC;			//¸Þ¸ð¸® DC
-		HBITMAP		hBit;			//ºñÆ®¸Ê
-		HBITMAP		hOBit;			//¿ÃµåºñÆ®¸Ê
-		float		x;				//ÀÌ¹ÌÁö xÁÂÇ¥
-		float		y;				//ÀÌ¹ÌÁö yÁÂÇ¥
-		int			width;			//ÀÌ¹ÌÁö °¡·ÎÅ©±â
-		int			height;			//ÀÌ¹ÌÁö ¼¼·ÎÅ©±â
-		int			currentFrameX;	//ÇöÀç ÇÁ·¹ÀÓX
-		int			currentFrameY;	//ÇöÀç ÇÁ·¹ÀÓY
-		int			maxFrameX;		//ÃÖ´ë XÇÁ·¹ÀÓ °¹¼ö
-		int			maxFrameY;		//ÃÖ´ë YÇÁ·¹ÀÓ °¹¼ö
-		int			frameWidth;		//1ÇÁ·¹ÀÓ °¡·Î±æÀÌ
-		int			frameHeight;	//1ÇÁ·¹ÀÓ ¼¼·Î±æÀÌ
-		BYTE		loadType;		//ÀÌ¹ÌÁö ·ÎµåÅ¸ÀÔ
+		DWORD		resID;		// ë¦¬ì†ŒìŠ¤ ID
+		HDC		hMemDC;		// ë©”ëª¨ë¦¬ DC
+		HBITMAP		hBit;		// ë¹„íŠ¸ë§µ
+		HBITMAP		hOBit;		// ì˜¬ë“œë¹„íŠ¸ë§µ
+		float		x;		// ì´ë¯¸ì§€ xì¢Œí‘œ
+		float		y;		// ì´ë¯¸ì§€ yì¢Œí‘œ
+		int		width;		// ì´ë¯¸ì§€ ê°€ë¡œí¬ê¸°
+		int		height;		// ì´ë¯¸ì§€ ì„¸ë¡œí¬ê¸°
+		int		currentFrameX;	// í˜„ìž¬ í”„ë ˆìž„X
+		int		currentFrameY;	// í˜„ìž¬ í”„ë ˆìž„Y
+		int		maxFrameX;	// ìµœëŒ€ Xí”„ë ˆìž„ ê°¯ìˆ˜
+		int		maxFrameY;	// ìµœëŒ€ Yí”„ë ˆìž„ ê°¯ìˆ˜
+		int		frameWidth;	// 1í”„ë ˆìž„ ê°€ë¡œê¸¸ì´
+		int		frameHeight;	// 1í”„ë ˆìž„ ì„¸ë¡œê¸¸ì´
+		BYTE		loadType;	// ì´ë¯¸ì§€ ë¡œë“œíƒ€ìž…
 
-		tagImage()	//»ý¼ºÀÚ = ÃÊ±âÈ­
+		tagImage()
 		{
 			resID = 0;
 			hMemDC = NULL;
@@ -53,102 +50,87 @@ public:
 	}IMAGE_INFO, *LPIMAGE_INFO;
 
 private:
-	LPIMAGE_INFO	_imageInfo;		//ÀÌ¹ÌÁö Á¤º¸
-	CHAR*			_fileName;		//ÀÌ¹ÌÁö ÀÌ¸§
-	BOOL			_isTrans;		//¹è°æ»ö ¾ø¾Ù°Å³Ä?
-	COLORREF		_transColor;	//¹è°æ»ö ¾ø¾Ù RGB»ö»ó (¸¶Á¨Å¸ = RGB(255, 0, 255))
+	LPIMAGE_INFO	_imageInfo;	//ì´ë¯¸ì§€ ì •ë³´
+	CHAR*		_fileName;	//ì´ë¯¸ì§€ ì´ë¦„
+	BOOL		_isTrans;	//ë°°ê²½ìƒ‰ ì—†ì•¨ê±°ëƒ?
+	COLORREF	_transColor;	//ë°°ê²½ìƒ‰ ì—†ì•¨ RGBìƒ‰ìƒ (ë§ˆì  íƒ€ = RGB(255, 0, 255))
 
-	LPIMAGE_INFO	_blendImage;	//¾ËÆÄºí·»µå ÀÌ¹ÌÁö
-	BLENDFUNCTION	_blendFunc;		//¾ËÆÄºí·»µå ±â´É
+	LPIMAGE_INFO	_blendImage;	//ì•ŒíŒŒë¸”ë Œë“œ ì´ë¯¸ì§€
+	BLENDFUNCTION	_blendFunc;	//ì•ŒíŒŒë¸”ë Œë“œ ê¸°ëŠ¥
 
-	LPIMAGE_INFO	_scaleImage;	//½ºÄÉÀÏÀÌ¹ÌÁö
-	LPIMAGE_INFO	_rotateImage;	//·ÎÅ×ÀÌÆ®ÀÌ¹ÌÁö
+	LPIMAGE_INFO	_scaleImage;	//ìŠ¤ì¼€ì¼ì´ë¯¸ì§€
+	LPIMAGE_INFO	_rotateImage;	//ë¡œí…Œì´íŠ¸ì´ë¯¸ì§€
 
 public:
 	image();
 	~image();
 
-	//ºó ºñÆ®¸Ê ÃÊ±âÈ­
+	//ë¹ˆ ë¹„íŠ¸ë§µ ì´ˆê¸°í™”
 	HRESULT init(int width, int height);
-	//ÀÌ¹ÌÁö ¸®¼Ò½º ÃÊ±âÈ­
+	//ì´ë¯¸ì§€ ë¦¬ì†ŒìŠ¤ ì´ˆê¸°í™”
 	HRESULT init(DWORD resID, int width, int height, bool isTrans = false, COLORREF transColor = RGB(0, 0, 0));
-	//ÀÌ¹ÌÁö ÆÄÀÏ ÃÊ±âÈ­(ÁÖ»ç¿ë)
+	//ì´ë¯¸ì§€ íŒŒì¼ ì´ˆê¸°í™”(ì£¼ì‚¬ìš©)
 	HRESULT init(const char* fileName, int width, int height, bool isTrans = false, COLORREF transColor = RGB(0, 0, 0));
 	HRESULT init(const char* fileName, float x, float y, int width, int height, bool isTrans = false, COLORREF transColor = RGB(0, 0, 0));
-	//ÇÁ·¹ÀÓ ÀÌ¹ÌÁö ÆÄÀÏ ÃÊ±âÈ­(ÁÖ»ç¿ë)
+	//í”„ë ˆìž„ ì´ë¯¸ì§€ íŒŒì¼ ì´ˆê¸°í™”(ì£¼ì‚¬ìš©)
 	HRESULT init(const char* fileName, int width, int height, int frameX, int frameY, bool isTrans = TRUE, COLORREF transColor = RGB(255, 0, 255));
 	HRESULT init(const char* fileName, float x, float y, int width, int height, int frameX, int frameY, bool isTrans = TRUE, COLORREF transColor = RGB(255, 0, 255));
 
-	//¾ËÆÄºí·»µå ÃÊ±âÈ­
+	//ì•ŒíŒŒë¸”ë Œë“œ ì´ˆê¸°í™”
 	HRESULT initForAlphaBlend();
-	//½ºÆ®·¹Ä¡·»´õ ÃÊ±âÈ­
+	//ìŠ¤íŠ¸ë ˆì¹˜ë Œë” ì´ˆê¸°í™”
 	HRESULT initForStretchBlt();
-	//·ÎÅ×ÀÌÆ®·»´õ ÃÊ±âÈ­
+	//ë¡œí…Œì´íŠ¸ë Œë” ì´ˆê¸°í™”
 	HRESULT initForRotateImage(bool isFrameImage);
 
-	//ÇØÁ¦
+	//í•´ì œ
 	void release();
 
-	//=============================================================
-	//	## ÀÏ¹Ý·»´õ ##
-	//=============================================================
+	// ì¼ë°˜
 	void render(HDC hdc, int destX = 0, int destY = 0);
 	void render(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight);
 
-	//=============================================================
-	//	## ¾ËÆÄ·»´õ ##
-	//=============================================================
+	// ì•ŒíŒŒ
 	void alphaRender(HDC hdc, BYTE alpha);
 	void alphaRender(HDC hdc, int destX, int destY, BYTE alpha);
 	void alphaFrameRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, BYTE alpha);
 	void alphaRender(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight, BYTE alpha);
 
-	//=============================================================
-	//	## ÇÁ·¹ÀÓ·»´õ ##
-	//=============================================================
+	// í”„ë ˆìž„
 	void frameRender(HDC hdc, int destX, int destY);
 	void frameRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY);
 
-	//=============================================================
-	//	## ·çÇÁ·»´õ ##
-	//=============================================================
+	// ë£¨í”„
 	void loopRender(HDC hdc, const LPRECT drawArea, int offsetX, int offsetY);
 	void loopAlphaRender(HDC hdc, const LPRECT drawArea, int offsetX, int offsetY, BYTE alpha);
 
-	//=============================================================
-	//	## ½ºÄÉÀÏ·»´õ ## (ÀÌ¹ÌÁö Å©±â)
-	//=============================================================
+	// ìŠ¤ì¼€ì¼
 	void scaleRender(HDC hdc, int destX, int destY, float scale = 1.0f);
 	void scaleFrameRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, float scale = 1.0f);
 
-	//=============================================================
-	//	## ·ÎÅ×ÀÌÆ®·»´õ ## (ÀÌ¹ÌÁö È¸Àü)
-	//=============================================================
+	// ë¡œí…Œì´íŠ¸
 	void rotateRender(HDC hdc, float destX, float destY, float angle);
 	void rotateFrameRender(HDC hdc, float destX, float destY, int currentFrameX, int currentFrameY, float angle);
 
-	//=============================================================
-	//	## ÀÎ¶óÀÎÇÔ¼ö ## (Ä¸½¶È­ - °ÙÅÍ, ¼ÂÅÍ)
-	//=============================================================
-		//DC ¾ò±â
+	//DC ì–»ê¸°
 	inline HDC getMemDC() { return _imageInfo->hMemDC; }
 
-	//ÀÌ¹ÌÁö xÁÂÇ¥
+	//ì´ë¯¸ì§€ xì¢Œí‘œ
 	inline float getX() { return _imageInfo->x; }
 	inline void setX(float x) { _imageInfo->x = x; }
-	//ÀÌ¹ÌÁö yÁÂÇ¥
+	//ì´ë¯¸ì§€ yì¢Œí‘œ
 	inline float getY() { return _imageInfo->y; }
 	inline void setY(float y) { _imageInfo->y = y; }
-	//ÀÌ¹ÌÁö ¼¾ÅÍÁÂÇ¥
+	//ì´ë¯¸ì§€ ì„¼í„°ì¢Œí‘œ
 	inline void setCenter(float x, float y)
 	{
 		_imageInfo->x = x - (_imageInfo->width / 2);
 		_imageInfo->y = y - (_imageInfo->height / 2);
 	}
-	//ÀÌ¹ÌÁö °¡·Î, ¼¼·ÎÅ©±â
+	//ì´ë¯¸ì§€ ê°€ë¡œ, ì„¸ë¡œí¬ê¸°
 	inline int getWidth(void) { return _imageInfo->width; }
 	inline int getHeight(void) { return _imageInfo->height; }
-	//¹Ù¿îµù ¹Ú½º(Ãæµ¹¿ë ·ºÆ®)
+	//ë°”ìš´ë”© ë°•ìŠ¤(ì¶©ëŒìš© ë ‰íŠ¸)
 	inline RECT boudingBox()
 	{
 		RECT rc = { (int)_imageInfo->x, (int)_imageInfo->y,
@@ -166,7 +148,7 @@ public:
 		return rc;
 	}
 
-	//ÇÁ·¹ÀÓ X
+	//í”„ë ˆìž„ X
 	inline int getFrameX() { return _imageInfo->currentFrameX; }
 	inline void setFrameX(int frameX)
 	{
@@ -177,7 +159,7 @@ public:
 		}
 	}
 
-	//ÇÁ·¹ÀÓ Y
+	//í”„ë ˆìž„ Y
 	inline int getFrameY() { return _imageInfo->currentFrameY; }
 	inline void setFrameY(int frameY)
 	{
@@ -188,11 +170,11 @@ public:
 		}
 	}
 
-	//ÀÌ¹ÌÁö 1ÇÁ·¹ÀÓÀÇ °¡·Î, ¼¼·ÎÅ©±â
+	//ì´ë¯¸ì§€ 1í”„ë ˆìž„ì˜ ê°€ë¡œ, ì„¸ë¡œí¬ê¸°
 	inline int getFrameWidth() { return _imageInfo->frameWidth; }
 	inline int getFrameHeight() { return _imageInfo->frameHeight; }
 
-	//¸Æ½ºÇÁ·¹ÀÓ X, Y
+	//ë§¥ìŠ¤í”„ë ˆìž„ X, Y
 	inline int getMaxFrameX() { return _imageInfo->maxFrameX; }
 	inline int getMaxFrameY() { return _imageInfo->maxFrameY; }
 
