@@ -1,12 +1,12 @@
 #pragma once
 #include "singletonBase.h"
 
-//iniµ¥ÀÌÅÍ ±¸Á¶Ã¼
+//inië°ì´í„° êµ¬ì¡°ì²´
 struct tagIniData
 {
-	char* section; //[Player] => ¼½¼Ç
-	char* key;		//HP=100 => HP°¡ Å°°ª
-	char* data;	//HP=100 => 100ÀÌ ÇØ´ç °ª	
+	char* section; //[Player] => ì„¹ì…˜
+	char* key;	//HP=100 => HPê°€ í‚¤ê°’
+	char* data;	//HP=100 => 100ì´ í•´ë‹¹ ê°’	
 };
 
 class iniData : public singletonBase <iniData>
@@ -18,16 +18,16 @@ public:
 	HRESULT init();
 	void release();
 
-	//µ¥ÀÌÅÍ Ãß°¡ÇÏ±â
+	//ë°ì´í„° ì¶”ê°€í•˜ê¸°
 	void addData(const char* section, const char* key, const char* data);
-	//¼¼ÀÌºê ÆÄÀÏÀÌ¸§
+	//ì„¸ì´ë¸Œ íŒŒì¼ì´ë¦„
 	void saveINI(const char* fileName);
 
-	//¹®ÀÚ·Î °ªÀ» ·ÎµåÇÏ±â(ÆÄÀÏÀÌ¸§, ¼½¼Ç, Å°)
+	//ë¬¸ìë¡œ ê°’ì„ ë¡œë“œí•˜ê¸°(íŒŒì¼ì´ë¦„, ì„¹ì…˜, í‚¤)
 	const char* loadDataString(const char* fileName, const char* section, const char* key);
-	//Á¤¼ö·Î °ªÀ» ·ÎµåÇÏ±â(ÆÄÀÏÀÌ¸§, ¼½¼Ç, Å°)
+	//ì •ìˆ˜ë¡œ ê°’ì„ ë¡œë“œí•˜ê¸°(íŒŒì¼ì´ë¦„, ì„¹ì…˜, í‚¤)
 	int loadDataInteger(const char* fileName, const char* section, const char* key);
-	//½Ç¼ö·Î °ªÀ» ·ÎµåÇÏ±â(ÆÄÀÏÀÌ¸§, ¼½¼Ç, Å°)
+	//ì‹¤ìˆ˜ë¡œ ê°’ì„ ë¡œë“œí•˜ê¸°(íŒŒì¼ì´ë¦„, ì„¹ì…˜, í‚¤)
 	float loadDataFloat(const char* fileName, const char* section, const char* key);
 
 
