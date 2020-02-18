@@ -5,70 +5,57 @@
 class imageManager : public singletonBase <imageManager>
 {
 private:
-	typedef map<string, image*> mapImageList;			//¸ÊÀ¸·Î ¸¸µç ÀÌ¹ÌÁö¸ñ·Ï
-	typedef map<string, image*>::iterator mapImageIter;	//¸ÊÀ¸·Î ¸¸µç ÀÌ¹ÌÁö¸ñ·ÏÀÇ ¹İº¹ÀÚ
+	typedef map<string, image*> mapImageList;		//ë§µìœ¼ë¡œ ë§Œë“  ì´ë¯¸ì§€ëª©ë¡
+	typedef map<string, image*>::iterator mapImageIter;	//ë§µìœ¼ë¡œ ë§Œë“  ì´ë¯¸ì§€ëª©ë¡ì˜ ë°˜ë³µì
 
 private:
-	//map<string, image*> _mImageList;
-	mapImageList _mImageList;	//½ÇÁ¦ ÀÌ¹ÌÁöÅ¬·¡½º¸¦ ´ãÀ» STL ¸Ê
+	mapImageList _mImageList;	//ì‹¤ì œ ì´ë¯¸ì§€í´ë˜ìŠ¤ë¥¼ ë‹´ì„ STL ë§µ
 
 public:
-	//ÀÌ¹ÌÁö ¸Å´ÏÁ® ÃÊ±âÈ­
+	//ì´ë¯¸ì§€ ë§¤ë‹ˆì ¸ ì´ˆê¸°í™”
 	HRESULT init();
-	//ÀÌ¹ÌÁö ¸Å´ÏÁ® ÇØÁ¦
+	//ì´ë¯¸ì§€ ë§¤ë‹ˆì ¸ í•´ì œ
 	void release();
 
-	//ºó ºñÆ®¸Ê ÃÊ±âÈ­
+	//ë¹ˆ ë¹„íŠ¸ë§µ ì´ˆê¸°í™”
 	image* addImage(string strKey, int width, int height);
-	//ÀÌ¹ÌÁö ÆÄÀÏ ÃÊ±âÈ­(ÁÖ»ç¿ë)
+	//ì´ë¯¸ì§€ íŒŒì¼ ì´ˆê¸°í™”
 	image* addImage(string strKey, const char* fileName, int width, int height, bool isTrans = false, COLORREF transColor = RGB(0, 0, 0));
 	image* addImage(string strKey, const char* fileName, float x, float y, int width, int height, bool isTrans = false, COLORREF transColor = RGB(0, 0, 0));
-	//ÇÁ·¹ÀÓ ÀÌ¹ÌÁö ÆÄÀÏ ÃÊ±âÈ­(ÁÖ»ç¿ë)
+	//í”„ë ˆì„ ì´ë¯¸ì§€ íŒŒì¼ ì´ˆê¸°í™”
 	image* addFrameImage(string strKey, const char* fileName, int width, int height, int frameX, int frameY, bool isTrans = TRUE, COLORREF transColor = RGB(255, 0, 255));
 	image* addFrameImage(string strKey, const char* fileName, float x, float y, int width, int height, int frameX, int frameY, bool isTrans = TRUE, COLORREF transColor = RGB(255, 0, 255));
 
-	//ÀÌ¹ÌÁö Å°°ªÀ¸·Î Ã£±â
+	//ì´ë¯¸ì§€ í‚¤ê°’ìœ¼ë¡œ ì°¾ê¸°
 	image* findImage(string strKey);
-	//ÀÌ¹ÌÁö Å°°ªÀ¸·Î »èÁ¦
+	//ì´ë¯¸ì§€ í‚¤ê°’ìœ¼ë¡œ ì‚­ì œ
 	BOOL deleteImage(string strKey);
-	//ÀÌ¹ÌÁö ÀüÃ¼ »èÁ¦
+	//ì´ë¯¸ì§€ ì „ì²´ ì‚­ì œ
 	BOOL deleteAll();
 
-	//=============================================================
-	//	## ÀÏ¹İ·»´õ ##
-	//=============================================================
+	// ì¼ë°˜
 	void render(string strKey, HDC hdc, int destX = 0, int destY = 0);
 	void render(string strKey, HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight);
 
-	//=============================================================
-	//	## ¾ËÆÄ·»´õ ##
-	//=============================================================
+	// ì•ŒíŒŒ
 	void alphaRender(string strKey, HDC hdc, BYTE alpha);
 	void alphaRender(string strKey, HDC hdc, int destX, int destY, BYTE alpha);
 	void alphaRender(string strKey, HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight, BYTE alpha);
 	void alphaFrameRender(string strKey, HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, BYTE alpha);
 
-	//=============================================================
-	//	## ÇÁ·¹ÀÓ·»´õ ##
-	//=============================================================
+	// í”„ë ˆì„
 	void frameRender(string strKey, HDC hdc, int destX, int destY);
 	void frameRender(string strKey, HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY);
 
-	//=============================================================
-	//	## ·çÇÁ·»´õ ##
-	//=============================================================
+	// ë£¨í”„
 	void loopRender(string strKey, HDC hdc, const LPRECT drawArea, int offsetX, int offsetY);
 	void loopAlphaRender(string strKey, HDC hdc, const LPRECT drawArea, int offsetX, int offsetY, BYTE alpha);
 
-	//=============================================================
-	//	## ½ºÄÉÀÏ·»´õ ## (ÀÌ¹ÌÁö Å©±â)
-	//=============================================================
+	// ìŠ¤ì¼€ì¼
 	void scaleRender(string strKey, HDC hdc, int destX, int destY, float scale = 1.0f);
 	void scaleFrameRender(string strKey, HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, float scale = 1.0f);
 
-	//=============================================================
-	//	## ·ÎÅ×ÀÌÆ®·»´õ ## (ÀÌ¹ÌÁö È¸Àü)
-	//=============================================================
+	// ë¡œí…Œì´íŠ¸
 	void rotateRender(string strKey, HDC hdc, float destX, float destY, float angle);
 	void rotateFrameRender(string strKey, HDC hdc, float destX, float destY, int currentFrameX, int currentFrameY, float angle);
 
