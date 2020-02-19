@@ -10,17 +10,17 @@ void iniData::release()
 {
 }
 
-//µ¥ÀÌÅÍ Ãß°¡ÇÏ±â(¼½¼Ç, Å°, ¹ë·ù)
+//ë°ì´í„° ì¶”ê°€í•˜ê¸°(ì„¹ì…˜, í‚¤, ë°¸ë¥˜)
 void iniData::addData(const char * section, const char * key, const char * value)
 {
-	//iniµ¥ÀÌÅÍ ±¸Á¶Ã¼ ¼±¾ğÈÄ ÃÊ±âÈ­
+	//inië°ì´í„° êµ¬ì¡°ì²´ ì„ ì–¸í›„ ì´ˆê¸°í™”
 	tagIniData data;
 
 	data.section = (char*)section;
 	data.key = (char*)key;
 	data.data = (char*)value;
 
-	//º¤ÅÍ¿¡ iniµ¥ÀÌÅÍ ±¸Á¶Ã¼ ´ã±â
+	//ë²¡í„°ì— inië°ì´í„° êµ¬ì¡°ì²´ ë‹´ê¸°
 	_vIniData.push_back(data);
 }
 
