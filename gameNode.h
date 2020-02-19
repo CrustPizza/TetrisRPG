@@ -1,13 +1,13 @@
 #pragma once
 #include "image.h"
 
-//¹é¹öÆÛ ÀÌ¹ÌÁö¸¦ ÀÌ¹ÌÁö¸Å´ÏÁ®¿¡ ´ã¾ÆµÎ±â
+//ë°±ë²„í¼ ì´ë¯¸ì§€ë¥¼ ì´ë¯¸ì§€ë§¤ë‹ˆì ¸ì— ë‹´ì•„ë‘ê¸°
 static image* _backBuffer = IMAGEMANAGER->addImage("backBuffer", WINSIZEX, WINSIZEY);
 
 class gameNode
 {
 private:
-	HDC _hdc;		//È­¸é HDC
+	HDC _hdc;		//í™”ë©´ HDC
 
 public:
 	virtual HRESULT init();
@@ -15,16 +15,16 @@ public:
 	virtual void update();
 	virtual void render();
 	
-	//¹é¹öÆÛ ÀÌ¹ÌÁö ¾ò±â
+	//ë°±ë²„í¼ ì´ë¯¸ì§€ ì–»ê¸°
 	image* getBackBuffer() { return _backBuffer; }
 
-	//È­¸é HDC ¾ò±â
+	//í™”ë©´ HDC ì–»ê¸°
 	HDC getHDC() { return _hdc; }
 	
-	//¸Þ¸ð¸® DC ¾ò±â
+	//ë©”ëª¨ë¦¬ DC ì–»ê¸°
 	HDC getMemDC() { return _backBuffer->getMemDC(); }
 
-
+	//í”„ë¡œì‹œì €
 	LRESULT CALLBACK MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam);
 
 	gameNode() {}
