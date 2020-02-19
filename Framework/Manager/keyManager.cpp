@@ -1,10 +1,10 @@
 #include "stdafx.h"
 #include "keyManager.h"
 
-//Å°¸Å´ÏÁ® ÃÊ±âÈ­
+//í‚¤ë§¤ë‹ˆì ¸ ì´ˆê¸°í™”
 HRESULT keyManager::init()
 {
-	//Å°°ªÀ» ÀüºÎ ´­·ÁÀÖÁö ¾ÊÀº »óÅÂ·Î ÃÊ±âÈ­
+	//í‚¤ê°’ì„ ì „ë¶€ ëˆŒë ¤ìˆì§€ ì•Šì€ ìƒíƒœë¡œ ì´ˆê¸°í™”
 	for (int i = 0; i < KEYMAX; i++)
 	{
 		_keyUp[i] = false;
@@ -14,12 +14,12 @@ HRESULT keyManager::init()
 	return S_OK;
 }
 
-//Å°¸Å´ÏÁ® ÇØÁ¦
+//í‚¤ë§¤ë‹ˆì ¸ í•´ì œ
 void keyManager::release()
 {
 }
 
-//Å°°¡ ÇÑ¹ø¸¸ ´­·È³Ä?
+//í‚¤ê°€ í•œë²ˆë§Œ ëˆŒë ¸ëƒ?
 bool keyManager::isOnceKeyDown(int key)
 {
 	//GetAsyncKeyState()
@@ -40,7 +40,7 @@ bool keyManager::isOnceKeyDown(int key)
 
 	return false;
 }
-//Å°°¡ ÇÑ¹ø ´­·È´Ù ¶ç¾ú³Ä?
+//í‚¤ê°€ í•œë²ˆ ëˆŒë ¸ë‹¤ ë„ì—ˆëƒ?
 bool keyManager::isOnceKeyUp(int key)
 {
 	if (GetAsyncKeyState(key) & 0x8000)
@@ -58,7 +58,7 @@ bool keyManager::isOnceKeyUp(int key)
 
 	return false;
 }
-//Å°°¡ °è¼Ó ´­·Á ÀÖ³Ä?
+//í‚¤ê°€ ê³„ì† ëˆŒë ¤ ìˆëƒ?
 bool keyManager::isStayKeyDown(int key)
 {
 	if (GetAsyncKeyState(key) & 0x8000)
@@ -68,7 +68,7 @@ bool keyManager::isStayKeyDown(int key)
 
 	return false;
 }
-//Åä±ÛÅ°³Ä?
+//í† ê¸€í‚¤ëƒ?
 bool keyManager::isToggleKey(int key)
 {
 	if (GetKeyState(key) & 0x0001)
