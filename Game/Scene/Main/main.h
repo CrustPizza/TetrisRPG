@@ -28,7 +28,7 @@ private:
 
 	// 배경 UI
 	image*			_bg;
-	int				_loopY;
+	int			_loopY;
 
 	// 보드
 	image*			_tetrisBoard;
