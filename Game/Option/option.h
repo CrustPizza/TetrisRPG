@@ -7,7 +7,7 @@ struct tagButton
 	bool sound;
 };
 
-// Å° ¸ñ·Ï
+// í‚¤ ëª©ë¡
 struct tagKey
 {
 	int left;
@@ -33,13 +33,13 @@ public:
 	void update();
 	void render();
 
-	// Å°°ª ¹Ù²Ü¶§ ¾²´Â ÇÔ¼ö
+	// í‚¤ê°’ ë°”ê¿€ë•Œ ì“°ëŠ” í•¨ìˆ˜
 	bool keyChange(int type);
 	bool setKey(int type, int key);
 	bool keyCheck(bool change, int key);
 	void keyRender(int x, int y, int key);
 
-	// °¢ Å°°ª ¹Ş±â
+	// ê° í‚¤ê°’ ë°›ê¸°
 	int getLeft() { return _keySet.left; }
 	int getRight() { return _keySet.right; }
 	int getUp() { return _keySet.up; }
@@ -51,7 +51,7 @@ public:
 	int getItemSlot1() { return _keySet.itemSlot1; }
 	int getItemSlot2() { return _keySet.itemSlot2; }
 
-	// Å°°ª ¼³Á¤ÇÏ±â
+	// í‚¤ê°’ ì„¤ì •í•˜ê¸°
 	void setLeft(int key) { _keySet.left = key; }
 	void setRight(int key) { _keySet.right = key; }
 	void setUp(int key) { _keySet.up = key; }
