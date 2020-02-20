@@ -3,19 +3,19 @@
 
 HRESULT progressBar::init(string frontKey, const char* frontImageKey, int frontX, int frontY, int frontWidth, int frontHeight, string backKey, const char* backImageKey, int backX, int backY, int backWidth, int backHeight)
 {
-	//Å°°ªÀ¸·Î ÀÌ¹ÌÁöÀÌ¸§(~.bmp)·Î ¹Ù·Î ÃÊ±âÈ­
+	// ë²„í¼ ì´ˆê¸°í™”
 	char frontImage[128];
 	char backImage[128] = { 0 };
-	//¸Þ¸ð¸® ±ò²ûÇÏ°Ô ¹Ð¾îÁÖ±â
 	ZeroMemory(frontImage, sizeof(frontImage));
-	//~.bmp·Î ¸¸µé±â
+	// ì´ë¯¸ì§€ì´ë¦„.bmpë¡œ ë§Œë“¤ê¸°
 	sprintf(frontImage, "%s.bmp", frontImageKey);
 	sprintf(backImage, "%s.bmp", backImageKey);
 
-	//Ã¼·Â¹Ù ÀÌ¹ÌÁö ÃÊ±âÈ­
+	//ì²´ë ¥ë°” ì´ë¯¸ì§€ ì´ˆê¸°í™”
 	_progressBarFront = IMAGEMANAGER->addImage(frontKey, frontImage, frontX, frontY, frontWidth, frontHeight, true, RGB(255, 0, 255));
 	_progressBarBack = IMAGEMANAGER->addImage(backKey, backImage, backX, backY, backWidth, backHeight, true, RGB(255, 0, 255));
 
+	// ì§„í–‰ìƒíƒœ ì´ˆê¸°í™”
 	_currentProgress = 0;
 
 	return S_OK;
@@ -31,14 +31,14 @@ void progressBar::update()
 
 void progressBar::render()
 {
-	//·»´õ¸µ µÇ´Â ¼ø¼­¿¡ ÀÇÇØ¼­ ·»´õ°¡ µÇ´Ï±î ÇÇÅëºÎÅÍ ·»´õ ½ÃÅ²´Ù
+	// Hpë°” Back ì´ë¯¸ì§€
 	_progressBarBack->render(getMemDC(), _progressBarBack->getX(), _progressBarBack->getY());
-	//¾Õ¿¡ º¸¿©Áö´Â Ã¼·Â¹Ù ÀÌ¹ÌÁö
-	_progressBarFront->render(getMemDC(), _progressBarFront->getX(), _progressBarFront->getY(),
-		0, 0, _currentProgress, _progressBarFront->getHeight());
+	// Hpë°” front ì´ë¯¸ì§€
+	_progressBarFront->render(getMemDC(), _progressBarFront->getX(), _progressBarFront->getY(), 0, 0, _currentProgress, _progressBarFront->getHeight());
 }
 
 void progressBar::setGauge(float currentHp, float maxHp)
 {
+	// ì§„í–‰ìƒíƒœ ì„¤ì •
 	_currentProgress = (currentHp / maxHp) * _progressBarFront->getWidth();
 }
