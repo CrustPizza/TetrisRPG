@@ -6,6 +6,7 @@
 #define INVENTORY_SIZE 36
 #define EQUIP_BLANK 10
 
+// ìŠ¬ë¡¯ ì •ë³´
 struct tagSlot
 {
 	RECT rc;
@@ -14,6 +15,7 @@ struct tagSlot
 	tagItemData value;
 };
 
+// ì„ íƒ ì •ë³´
 struct tagSelect
 {
 	RECT rc;
@@ -25,7 +27,7 @@ struct tagSelect
 class inventory : public gameNode
 {
 private:
-	// ÀåÂø ÆÄÃ÷ ÀÌ¹ÌÁö
+	// ì¥ì°© íŒŒì¸  ì´ë¯¸ì§€
 	image*			_helmet;
 	image*			_weapon;
 	image*			_armor;
@@ -34,34 +36,34 @@ private:
 	image*			_shoes;
 	image*			_necklace;
 
-	// Ã¢ Å©±â
+	// ì°½ í¬ê¸°
 	RECT			_boardSize;
 
-	// ½ºÅ×ÀÌÅÍ½º
+	// ìŠ¤í…Œì´í„°ìŠ¤
 	image*			_status;
 	image*			_hp;
 	image*			_atk;
 	image*			_def;
 
-	// ¼ÒÁö±İ
+	// ì†Œì§€ê¸ˆ
 	image*			_gold;
 
-	// ÀÎº¥Åä¸® ½½·Ô
+	// ì¸ë²¤í† ë¦¬ ìŠ¬ë¡¯
 	tagSlot			_slot[INVENTORY_SIZE];
 	bool			_full;
 	ULONGLONG		_timer;
 
-	// ¾ÆÀÌÅÛ
+	// ì•„ì´í…œ
 	Item*			_item;
 
-	// ¼±ÅÃÇÑ ¾ÆÀÌÅÛ
+	// ì„ íƒí•œ ì•„ì´í…œ
 	tagSelect		_select;
 
-	// Æ÷¼Ç °¹¼ö
-	int				_smallPotionAmount;
-	int				_largePotionAmount;
+	// í¬ì…˜ ê°¯ìˆ˜
+	int			_smallPotionAmount;
+	int			_largePotionAmount;
 
-	// ÆùÆ®
+	// í°íŠ¸
 	HFONT			_font;
 	HFONT			_oldFont;
 
@@ -71,32 +73,32 @@ public:
 	void update();
 	void render(player* _player);
 
-	// ¾ÆÀÌÅÛ ÀúÀå
+	// ì•„ì´í…œ ì €ì¥
 	bool setItem(string name, tagType type);
 
-	// ¾ÆÀÌÅÛ ¼±ÅÃ ¹× »ç¿ë
+	// ì•„ì´í…œ ì„ íƒ ë° ì‚¬ìš©
 	bool selectItem(POINT pt);
 	bool useItem(POINT pt);
 	bool usePotion(string name);
 	tagSelect* getSelectPtr() { return &_select; }
 
-	// Æ÷¼Ç°¹¼ö ¹Ş±â
+	// í¬ì…˜ê°¯ìˆ˜ ë°›ê¸°
 	int getSmallPotionAmount() { return _smallPotionAmount; }
 	int getLargePotionAmount() { return _largePotionAmount; }
 
-	// ¼±ÅÃµÈ ¾ÆÀÌÅÛ ¹Ş±â
+	// ì„ íƒëœ ì•„ì´í…œ ë°›ê¸°
 	tagSelect getSelect() { return _select; }
 
-	// ÀåºñÃ¢ Ãâ·Â
+	// ì¥ë¹„ì°½ ì¶œë ¥
 	void printEquipment(player* _player);
 
-	// ¼ıÀÚ Ãâ·Â
+	// ìˆ«ì ì¶œë ¥
 	void printNumber(int num, int x, int y, float scale = 1.0f);
 
-	// Àåºñ ÇØÁ¦
+	// ì¥ë¹„ í•´ì œ
 	bool equipOff(POINT pt, player* _player);
 
-	// ÀúÀå & ºÒ·¯¿À±â
+	// ì €ì¥ & ë¶ˆëŸ¬ì˜¤ê¸°
 	void save(string fileName);
 	void load(string fileName);
 
