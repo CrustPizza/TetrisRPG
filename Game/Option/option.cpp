@@ -3,6 +3,7 @@
 
 HRESULT option::init()
 {
+	// ì €ì¥ëœ ë³€ê²½ í‚¤ê°’ ë¶ˆëŸ¬ì˜¤ê¸°
 	this->load("Key");
 
 	return S_OK;
@@ -10,6 +11,7 @@ HRESULT option::init()
 
 void option::release()
 {
+	// ë³€ê²½ëœ í‚¤ê°’ ì €ì¥
 	this->save("Key");
 }
 
@@ -23,7 +25,7 @@ void option::render()
 
 bool option::keyChange(int type)
 {
-	// Å°°¡ ´­·¯Á³´ÂÁö È®ÀÎÇÏ°í ´­·ÁÁø Å° °ªÀ» ³Ö´Â´Ù
+	// í‚¤ê°€ ëˆŒëŸ¬ì¡ŒëŠ”ì§€ í™•ì¸í•˜ê³  ëˆŒë ¤ì§„ í‚¤ ê°’ì„ ë„£ëŠ”ë‹¤
 	if (GetAsyncKeyState(VK_TAB) & 0x8000)
 		return setKey(type, VK_TAB);
 
@@ -65,10 +67,10 @@ bool option::keyChange(int type)
 
 bool option::setKey(int type, int key)
 {
-	// Áßº¹µÈ Å°°ªÀ» °Ë»çÇÏ°í Áßº¹µÈ °ªÀ» ºó°ªÀ¸·Î ¸¸µç´Ù
+	// ì¤‘ë³µëœ í‚¤ê°’ì„ ê²€ì‚¬í•˜ê³  ì¤‘ë³µëœ ê°’ì„ ë¹ˆê°’ìœ¼ë¡œ ë§Œë“ ë‹¤
 	keyCheck(true, key);
 
-	// ÇØ´ç Å¸ÀÔ¿¡ Å°°ª ÀÔ·Â
+	// í•´ë‹¹ íƒ€ì…ì— í‚¤ê°’ ì…ë ¥
 	switch (type)
 	{
 	case 1:
@@ -118,7 +120,7 @@ bool option::setKey(int type, int key)
 
 bool option::keyCheck(bool change, int key)
 {
-	// Å°°ª °Ë»çÇÏ°í change°ªÀÌ true¶ó¸é ºó°ª(7)À» ³Ö´Â´Ù.
+	// í‚¤ê°’ ê²€ì‚¬í•˜ê³  changeê°’ì´ trueë¼ë©´ ë¹ˆê°’(7)ì„ ë„£ëŠ”ë‹¤.
 	if (_keySet.up == key)
 	{
 		if (change)
@@ -195,7 +197,9 @@ bool option::keyCheck(bool change, int key)
 
 void option::keyRender(int x, int y, int key)
 {
+	// í‚¤ ì„¤ì •ì°½ì—ì„œ ë¬´ìŠ¨ í‚¤ì¸ì§€ ì¶œë ¥í•˜ê¸° ìœ„í•œ í•¨ìˆ˜
 	char cBuf[10] = {};
+	
 	switch (key)
 	{
 	case VK_TAB:
@@ -211,16 +215,16 @@ void option::keyRender(int x, int y, int key)
 		TextOut(getMemDC(), x - 36, y, "SPACE", strlen("SPACE"));
 		break;
 	case VK_LEFT:
-		TextOut(getMemDC(), x - 15, y, "¡ç", strlen("¡ç"));
+		TextOut(getMemDC(), x - 15, y, "â†", strlen("â†"));
 		break;
 	case VK_UP:
-		TextOut(getMemDC(), x - 15, y, "¡è", strlen("¡è"));
+		TextOut(getMemDC(), x - 15, y, "â†‘", strlen("â†‘"));
 		break;
 	case VK_RIGHT:
-		TextOut(getMemDC(), x - 15, y, "¡æ", strlen("¡æ"));
+		TextOut(getMemDC(), x - 15, y, "â†’", strlen("â†’"));
 		break;
 	case VK_DOWN:
-		TextOut(getMemDC(), x - 15, y, "¡é", strlen("¡é"));
+		TextOut(getMemDC(), x - 15, y, "â†“", strlen("â†“"));
 		break;
 	default:
 		if (key >= 48 && key <= 57)
@@ -239,9 +243,10 @@ void option::keyRender(int x, int y, int key)
 
 bool option::crushButton(tagButton* button, int activate, int deactivate)
 {
-	// ¸¶¿ì½º¿Í Ãæµ¹ÁßÀÎÁö È®ÀÎÇÏ°í Ãæµ¹ÁßÀÏ °æ¿ì È¿°úÀ½ ¹× ÇÁ·¹ÀÓÀ» ÀüÈ¯ÇÑ´Ù
+	// ë§ˆìš°ìŠ¤ì™€ ì¶©ëŒì¤‘ì¸ì§€ í™•ì¸í•˜ê³  ì¶©ëŒì¤‘ì¼ ê²½ìš° íš¨ê³¼ìŒ ë° í”„ë ˆì„ì„ ì „í™˜í•œë‹¤
 	if (PtInRect(&button->img->boudingBoxWithFrame(), _ptMouse))
 	{
+		// ë²„íŠ¼ ì‚¬ìš´ë“œ boolê°’ì´ Trueì¼ë•Œë§Œ ì‚¬ìš´ë“œê°€ ë‚˜ê²Œí•´ì„œ ì‚¬ìš´ë“œê°€ ì¤‘ë³µë˜ì§€ ì•Šë„ë¡ ì„¤ì •
 		if (button->sound)
 		{
 			button->sound = false;
@@ -255,6 +260,7 @@ bool option::crushButton(tagButton* button, int activate, int deactivate)
 	}
 	else
 	{
+		// ë§ˆìš°ìŠ¤ì™€ ì¶©ëŒë˜ì§€ ì•Šì„ë•Œ ë‹¤ì‹œ ë§ˆìš°ìŠ¤ ì˜¤ë²„ ì‚¬ìš´ë“œê°€ ì‘ë™í•˜ë„ë¡ Trueë¡œ ë³€ê²½
 		button->sound = true;
 		button->img->setFrameX(deactivate);
 
@@ -267,10 +273,13 @@ void option::save(string fileName)
 	HANDLE file;
 	DWORD write;
 
+	// íŒŒì¼ ìƒì„±
 	file = CreateFile(fileName.c_str(), GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
+	// í‚¤ ê°’ ì €ì¥
 	WriteFile(file, &_keySet, sizeof(_keySet), &write, NULL);
 
+	// íŒŒì¼ ë‹«ê¸°
 	CloseHandle(file);
 }
 
@@ -278,11 +287,16 @@ void option::load(string fileName)
 {
 	HANDLE file;
 	DWORD read;
+	
+	// í‚¤ ê°’ ì´ˆê¸°í™”
 	ZeroMemory(&_keySet, sizeof(_keySet));
 
+	// ì½ê¸° ì „ìš© íŒŒì¼ ìƒì„±
 	file = CreateFile(fileName.c_str(), GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
+	// í‚¤ ê°’ì— íŒŒì¼ì— ì €ì¥ëœ ê°’ ë„£ê¸°
 	ReadFile(file, &_keySet, sizeof(_keySet), &read, NULL);
 
+	// íŒŒì¼ ë‹«ê¸°
 	CloseHandle(file);
 }
