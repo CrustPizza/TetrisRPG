@@ -1,34 +1,32 @@
 #pragma once
 #include "gameNode.h"
 #include "progressBar.h"
-//=============================================================
-//	## loadItem ## (·Îµå¾ÆÀÌÅÛ)
-//=============================================================
 
-//·Îµå¾ÆÀÌÅÛ Á¾·ù
+// ë¡œë“œ íƒ€ì…
 enum LOAD_KIND
 {
-	LOAD_KIND_IMAGE_0,			//ºóºñÆ®¸Ê ÀÌ¹ÌÁö
-	LOAD_KIND_IMAGE_1,			//ÀÏ¹İ ÀÌ¹ÌÁö
-	LOAD_KIND_IMAGE_2,			//ÀÏ¹İ ÀÌ¹ÌÁö(ÁÂÇ¥)
-	LOAD_KIND_FRAMEIMAGE_0,		//ÇÁ·¹ÀÓ ÀÌ¹ÌÁö
-	LOAD_KIND_FRAMEIMAGE_1,		//ÇÁ·¹ÀÓ ÀÌ¹ÌÁö(ÁÂÇ¥)
-	LOAD_KIND_SOUND,			//»ç¿îµå
+	LOAD_KIND_IMAGE_0,			//ë¹ˆë¹„íŠ¸ë§µ ì´ë¯¸ì§€
+	LOAD_KIND_IMAGE_1,			//ì¼ë°˜ ì´ë¯¸ì§€
+	LOAD_KIND_IMAGE_2,			//ì¼ë°˜ ì´ë¯¸ì§€(ì¢Œí‘œ)
+	LOAD_KIND_FRAMEIMAGE_0,		//í”„ë ˆì„ ì´ë¯¸ì§€
+	LOAD_KIND_FRAMEIMAGE_1,		//í”„ë ˆì„ ì´ë¯¸ì§€(ì¢Œí‘œ)
+	LOAD_KIND_SOUND,			//ì‚¬ìš´ë“œ
 	LOAD_KIND_END
 };
 
-//ÀÌ¹ÌÁö ¸®¼Ò½º ±¸Á¶Ã¼
+// ì´ë¯¸ì§€ ì •ë³´
 struct tagImageResource
 {
-	string keyName;			//ÀÌ¹ÌÁö Å°°ª
-	const char* fileName;	//ÆÄÀÏ ÀÌ¸§
-	int x, y;				//À§Ä¡ÁÂÇ¥
-	int widht, height;		//°¡·Î, ¼¼·Î±æÀÌ
-	int frameX, frameY;		//ÇÁ·¹ÀÓ x, y
-	bool trans;				//¹è°æÁö¿ï°ÅÀÓ?
-	COLORREF transColor;	//¾î¶²»öÀ¸·Î
+	string keyName;			//ì´ë¯¸ì§€ í‚¤ê°’
+	const char* fileName;	//íŒŒì¼ ì´ë¦„
+	int x, y;				//ìœ„ì¹˜ì¢Œí‘œ
+	int widht, height;		//ê°€ë¡œ, ì„¸ë¡œê¸¸ì´
+	int frameX, frameY;		//í”„ë ˆì„ x, y
+	bool trans;				//ë°°ê²½ì§€ìš¸ê±°ì„?
+	COLORREF transColor;	//ì–´ë–¤ìƒ‰ìœ¼ë¡œ
 };
 
+// ì‚¬ìš´ë“œ ì •ë³´
 struct tagSoundResource
 {
 	string keyName;
@@ -45,21 +43,22 @@ private:
 	tagSoundResource _soundResource;
 
 public:
-	//ºó ºñÆ®¸Ê ÃÊ±âÈ­
+	//ë¹ˆ ë¹„íŠ¸ë§µ ì´ˆê¸°í™”
 	HRESULT init(string keyName, int width, int height);
-	//ÀÌ¹ÌÁö ÆÄÀÏ ÃÊ±âÈ­(ÁÖ»ç¿ë)
+	//ì´ë¯¸ì§€ íŒŒì¼ ì´ˆê¸°í™”
 	HRESULT init(string keyName, const char* fileName, int width, int height, bool isTrans = false, COLORREF transColor = RGB(0, 0, 0));
 	HRESULT init(string keyName, const char* fileName, float x, float y, int width, int height, bool isTrans = false, COLORREF transColor = RGB(0, 0, 0));
-	//ÇÁ·¹ÀÓ ÀÌ¹ÌÁö ÆÄÀÏ ÃÊ±âÈ­(ÁÖ»ç¿ë)
+	//í”„ë ˆì„ ì´ë¯¸ì§€ íŒŒì¼ ì´ˆê¸°í™”
 	HRESULT init(string keyName, const char* fileName, int width, int height, int frameX, int frameY, bool isTrans = TRUE, COLORREF transColor = RGB(255, 0, 255));
 	HRESULT init(string keyName, const char* fileName, float x, float y, int width, int height, int frameX, int frameY, bool isTrans = TRUE, COLORREF transColor = RGB(255, 0, 255));
 
-	//»ç¿îµå
+	//ì‚¬ìš´ë“œ
 	HRESULT init(string keyName, const char* fileName, bool bgm, bool loop);
 
-	//·Îµù¾ÆÀÌÅÛ Á¾·ù °¡Á®¿À±â
+	//ë¡œë”©ì•„ì´í…œ ì¢…ë¥˜ ê°€ì ¸ì˜¤ê¸°
 	LOAD_KIND getLoadingKind() { return _kind; }
-	//ÀÌ¹ÌÁö ¸®¼Ò½º °¡Á®¿À±â
+	
+	//ì´ë¯¸ì§€ ë¦¬ì†ŒìŠ¤ ê°€ì ¸ì˜¤ê¸°
 	tagImageResource getImageResource() { return _imageResource; }
 	tagSoundResource getSoundResource() { return _soundResource; }
 
@@ -68,31 +67,28 @@ public:
 };
 
 
-//=============================================================
-//	## loading ## (·ÎµùÅ¬·¡½º)
-//=============================================================
 class loading : public gameNode
 {
 private:
-	//·Îµå¾ÆÀÌÅÛ Å¬·¡½º¸¦ ´ãÀ» º¤ÅÍ ¹× ¹İº¹ÀÚ
+	// ë¡œë“œì•„ì´í…œ í´ë˜ìŠ¤ë¥¼ ë‹´ì„ ë²¡í„° ë° ì´í„°ë ˆì´í„°
 	typedef vector<loadItem*> arrLoadItem;
 	typedef vector<loadItem*>::iterator arrLoadItemIter;
 
 private:
 	arrLoadItem _vLoadItem;
 
-	//ÀÌºÎºĞÀº ·ÎµùÈ­¸é¿¡¼­ »ç¿ëÇÒ ÀÌ¹ÌÁö¿Í ·Îµù¹Ù
+	// ë¡œë”©í™”ë©´ì—ì„œ ì‚¬ìš©í•  ì´ë¯¸ì§€ì™€ ë¡œë”©ë°”
 	image*			_background;
-	int				_loopX;
-	int				_loopY;
-
 	image*			_logo;
+	int			_loopX;
+	int			_loopY;
 
 	image*			_start;
 	ULONGLONG		_startTimer;
 
-	progressBar*	_loadingBar;
-	int				_currentGauge;
+	// ë¡œë”©ë°”
+	progressBar*		_loadingBar;
+	int			_currentGauge;
 	bool			_done;
 
 public:
@@ -101,26 +97,25 @@ public:
 	void update();
 	void render();
 
-	//ºó ºñÆ®¸Ê ÃÊ±âÈ­
+	//ë¹ˆ ë¹„íŠ¸ë§µ ì´ˆê¸°í™”
 	void loadImage(string keyName, int width, int height);
-	//ÀÌ¹ÌÁö ÆÄÀÏ ÃÊ±âÈ­(ÁÖ»ç¿ë)
+	//ì´ë¯¸ì§€ íŒŒì¼ ì´ˆê¸°í™”
 	void loadImage(string keyName, const char* fileName, int width, int height, bool isTrans = false, COLORREF transColor = RGB(0, 0, 0));
 	void loadImage(string keyName, const char* fileName, float x, float y, int width, int height, bool isTrans = false, COLORREF transColor = RGB(0, 0, 0));
-	//ÇÁ·¹ÀÓ ÀÌ¹ÌÁö ÆÄÀÏ ÃÊ±âÈ­(ÁÖ»ç¿ë)
+	//í”„ë ˆì„ ì´ë¯¸ì§€ íŒŒì¼ ì´ˆê¸°í™”
 	void loadFrameImage(string keyName, const char* fileName, int width, int height, int frameX, int frameY, bool isTrans = TRUE, COLORREF transColor = RGB(255, 0, 255));
 	void loadFrameImage(string keyName, const char* fileName, float x, float y, int width, int height, int frameX, int frameY, bool isTrans = TRUE, COLORREF transColor = RGB(255, 0, 255));
 
-	//»ç¿îµå
+	//ì‚¬ìš´ë“œ
 	void loadSound(string keyName, const char* fileName, bool bgm, bool loop);
 
-	/*Áß¿äÇÔ*/
-	//·Îµù¿Ï·á µÆ³Ä? (·Îµù¿Ï·áÈÄ È­¸éÀüÈ¯)
+	//ë¡œë”©ì™„ë£Œ ì²´í¬
 	bool loadingDone();
 	bool getDone() { return _done; }
 
-	//·Îµå¾ÆÀÌÅÛ Å¬·¡½º¸¦ ´ãÀº º¤ÅÍ °¡Á®¿À±â
+	//ë¡œë“œì•„ì´í…œ í´ë˜ìŠ¤ë¥¼ ë‹´ì€ ë²¡í„° ê°€ì ¸ì˜¤ê¸°
 	arrLoadItem getLoadItem() { return _vLoadItem; }
-	//ÇöÀç °ÔÀÌÁö °¡Á®¿À±â
+	//í˜„ì¬ ê²Œì´ì§€ ê°€ì ¸ì˜¤ê¸°
 	int getCurrentGauge() { return _currentGauge; }
 
 	loading() {}
