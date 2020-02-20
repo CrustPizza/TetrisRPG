@@ -1,7 +1,7 @@
 #pragma once
 #include "singletonBase.h"
 //=============================================================
-//	## keyManager ## Å°¸Å´ÏÁ®
+//	## keyManager ## í‚¤ë§¤ë‹ˆì ¸
 //=============================================================
 
 #define KEYMAX 256
@@ -13,20 +13,20 @@ private:
 	bool _keyDown[KEYMAX];
 
 public:
-	//Å°¸Å´ÏÁ® ÃÊ±âÈ­
+	//í‚¤ë§¤ë‹ˆì ¸ ì´ˆê¸°í™”
 	HRESULT init();
-	//Å°¸Å´ÏÁ® ÇØÁ¦
+	//í‚¤ë§¤ë‹ˆì ¸ í•´ì œ
 	void release();
 
 	//GetKey(keycode.)
 	//GetKeyDown()
-	//Å°°¡ ÇÑ¹ø¸¸ ´­·È³Ä?
+	//í‚¤ê°€ í•œë²ˆë§Œ ëˆŒë ¸ëƒ?
 	bool isOnceKeyDown(int key);
-	//Å°°¡ ÇÑ¹ø ´­·È´Ù ¶ç¾ú³Ä?
+	//í‚¤ê°€ í•œë²ˆ ëˆŒë ¸ë‹¤ ë„ì—ˆëƒ?
 	bool isOnceKeyUp(int key);
-	//Å°°¡ °è¼Ó ´­·Á ÀÖ³Ä?
+	//í‚¤ê°€ ê³„ì† ëˆŒë ¤ ìˆëƒ?
 	bool isStayKeyDown(int key);
-	//Åä±ÛÅ°³Ä?
+	//í† ê¸€í‚¤ëƒ?
 	bool isToggleKey(int key);
 
 	keyManager() {}
