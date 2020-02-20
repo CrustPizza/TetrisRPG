@@ -9,7 +9,6 @@ HRESULT gameNode::init()
 	SetTimer(_hWnd, 1, 10, NULL);		//타이머 초기화
 	KEYMANAGER->init();			//키매니져 초기화
 	IMAGEMANAGER->init();			//이미지매니져 초기화
-	PLAYERDATA->init();			//플레이어데이터 초기화
 	TXTDATA->init();			//TXT데이터 초기화
 	INIDATA->init();			//INI데이터 초기화
 	SCENEMANAGER->init();			//씬매니져 초기화
@@ -30,10 +29,6 @@ void gameNode::release()
 	//이미지매니져 싱글톤 해제
 	IMAGEMANAGER->release();
 	IMAGEMANAGER->releaseSingleton();
-	
-	//플레이어데이터 싱글톤 해제
-	PLAYERDATA->release();
-	PLAYERDATA->releaseSingleton();
 	
 	//TXT데이터 싱글톤 해제
 	TXTDATA->release();
