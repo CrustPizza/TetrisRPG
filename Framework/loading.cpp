@@ -1,15 +1,12 @@
 #include "stdafx.h"
 #include "loading.h"
 
-//=============================================================
-//	## loadItem ## (·Îµå¾ÆÀÌÅÛ)
-//=============================================================
 HRESULT loadItem::init(string keyName, int width, int height)
 {
-	//·ÎµùÁ¾·ù ÃÊ±âÈ­
+	//ë¡œë”©ì¢…ë¥˜ ì´ˆê¸°í™”
 	_kind = LOAD_KIND_IMAGE_0;
 
-	//ÀÌ¹ÌÁö ±¸Á¶Ã¼ ÃÊ±âÈ­
+	//ì´ë¯¸ì§€ êµ¬ì¡°ì²´ ì´ˆê¸°í™”
 	_imageResource.keyName = keyName;
 	_imageResource.widht = width;
 	_imageResource.height = height;
@@ -19,10 +16,10 @@ HRESULT loadItem::init(string keyName, int width, int height)
 
 HRESULT loadItem::init(string keyName, const char * fileName, int width, int height, bool isTrans, COLORREF transColor)
 {
-	//·ÎµùÁ¾·ù ÃÊ±âÈ­
+	//ë¡œë”©ì¢…ë¥˜ ì´ˆê¸°í™”
 	_kind = LOAD_KIND_IMAGE_1;
 
-	//ÀÌ¹ÌÁö ±¸Á¶Ã¼ ÃÊ±âÈ­
+	//ì´ë¯¸ì§€ êµ¬ì¡°ì²´ ì´ˆê¸°í™”
 	_imageResource.keyName = keyName;
 	_imageResource.fileName = fileName;
 	_imageResource.widht = width;
@@ -35,10 +32,10 @@ HRESULT loadItem::init(string keyName, const char * fileName, int width, int hei
 
 HRESULT loadItem::init(string keyName, const char * fileName, float x, float y, int width, int height, bool isTrans, COLORREF transColor)
 {
-	//·ÎµùÁ¾·ù ÃÊ±âÈ­
+	//ë¡œë”©ì¢…ë¥˜ ì´ˆê¸°í™”
 	_kind = LOAD_KIND_IMAGE_2;
 
-	//ÀÌ¹ÌÁö ±¸Á¶Ã¼ ÃÊ±âÈ­
+	//ì´ë¯¸ì§€ êµ¬ì¡°ì²´ ì´ˆê¸°í™”
 	_imageResource.keyName = keyName;
 	_imageResource.fileName = fileName;
 	_imageResource.x = x;
@@ -53,10 +50,10 @@ HRESULT loadItem::init(string keyName, const char * fileName, float x, float y, 
 
 HRESULT loadItem::init(string keyName, const char * fileName, int width, int height, int frameX, int frameY, bool isTrans, COLORREF transColor)
 {
-	//·ÎµùÁ¾·ù ÃÊ±âÈ­
+	//ë¡œë”©ì¢…ë¥˜ ì´ˆê¸°í™”
 	_kind = LOAD_KIND_FRAMEIMAGE_0;
 
-	//ÀÌ¹ÌÁö ±¸Á¶Ã¼ ÃÊ±âÈ­
+	//ì´ë¯¸ì§€ êµ¬ì¡°ì²´ ì´ˆê¸°í™”
 	_imageResource.keyName = keyName;
 	_imageResource.fileName = fileName;
 	_imageResource.widht = width;
@@ -71,10 +68,10 @@ HRESULT loadItem::init(string keyName, const char * fileName, int width, int hei
 
 HRESULT loadItem::init(string keyName, const char * fileName, float x, float y, int width, int height, int frameX, int frameY, bool isTrans, COLORREF transColor)
 {
-	//·ÎµùÁ¾·ù ÃÊ±âÈ­
+	//ë¡œë”©ì¢…ë¥˜ ì´ˆê¸°í™”
 	_kind = LOAD_KIND_FRAMEIMAGE_1;
 
-	//ÀÌ¹ÌÁö ±¸Á¶Ã¼ ÃÊ±âÈ­
+	//ì´ë¯¸ì§€ êµ¬ì¡°ì²´ ì´ˆê¸°í™”
 	_imageResource.keyName = keyName;
 	_imageResource.fileName = fileName;
 	_imageResource.x = x;
@@ -91,10 +88,10 @@ HRESULT loadItem::init(string keyName, const char * fileName, float x, float y, 
 
 HRESULT loadItem::init(string keyName, const char* fileName, bool bgm, bool loop)
 {
-	//·ÎµùÁ¾·ù ÃÊ±âÈ­
+	//ë¡œë”©ì¢…ë¥˜ ì´ˆê¸°í™”
 	_kind = LOAD_KIND_SOUND;
 	
-	//ÀÌ¹ÌÁö ±¸Á¶Ã¼ ÃÊ±âÈ­
+	//ì´ë¯¸ì§€ êµ¬ì¡°ì²´ ì´ˆê¸°í™”
 	_soundResource.keyName = keyName;
 	_soundResource.fileName = fileName;
 	_soundResource.bgm = bgm;
@@ -103,27 +100,24 @@ HRESULT loadItem::init(string keyName, const char* fileName, bool bgm, bool loop
 	return S_OK;
 }
 
-//=============================================================
-//	## loading ## (·ÎµùÅ¬·¡½º)
-//=============================================================
 HRESULT loading::init()
 {
-	//·ÎµùÈ­¸é UI
+	//ë¡œë”©í™”ë©´ UI
 	_background = IMAGEMANAGER->addImage("BackGround", "Img/Loading/bg.bmp", WINSIZEX, WINSIZEY);
 	_logo = IMAGEMANAGER->addImage("Logo", "Img/Loading/logoSize500.bmp", (WINSIZEX - 500) / 2, 100, 500, 316, true, RGB(255, 0, 255));
 	_start = IMAGEMANAGER->addFrameImage("Start", "Img/Loading/start.bmp", (WINSIZEX - 504) / 2, WINSIZEY / 2 + 100, 504, 328, 1, 2, true, RGB(255, 0, 255));
 	
-	// ·çÇÁ, Å¸ÀÌ¸Ó µî º¯¼ö ÃÊ±âÈ­
+	// ë£¨í”„, íƒ€ì´ë¨¸ ë“± ë³€ìˆ˜ ì´ˆê¸°í™”
 	_loopX = 0;
 	_loopY = 0;
 	_startTimer = GetTickCount64();
 	_done = false;
 
-	//·Îµù¹Ù Å¬·¡½º ÃÊ±âÈ­
+	//ë¡œë”©ë°” í´ëž˜ìŠ¤ ì´ˆê¸°í™”
 	_loadingBar = new progressBar;
 	_loadingBar->init("LoadingFront", "Img/Loading/loadingFront", (WINSIZEX - 320) / 2, WINSIZEY - 96, 320, 32, "LoadingBack", "Img/Loading/loadingBack", (WINSIZEX - 330) / 2, WINSIZEY - 100, 330, 40);
 	_loadingBar->setGauge(0, 0);
-	//ÇöÀç °ÔÀÌÁö
+	//í˜„ìž¬ ê²Œì´ì§€
 	_currentGauge = 0;
 
 	return S_OK;
@@ -131,18 +125,18 @@ HRESULT loading::init()
 
 void loading::release()
 {
-	//·Îµù¹Ù Å¬·¡½º ÇØÁ¦
+	//ë¡œë”©ë°” í´ëž˜ìŠ¤ í•´ì œ
 	_loadingBar->release();
 	SAFE_DELETE(_loadingBar);
 }
 
 void loading::update()
 {
-	// ·Îµù
+	// ë¡œë”©
 	_done = loadingDone();
 	_loadingBar->update();
 
-	// ÀÛ¾÷ÀÌ ¿Ï·áµÇ¸é Start ÀÌ¹ÌÁöÀÇ ÇÁ·¹ÀÓÀ» Á¶ÀýÇÑ´Ù
+	// ìž‘ì—…ì´ ì™„ë£Œë˜ë©´ Start ì´ë¯¸ì§€ì˜ í”„ë ˆìž„ì„ ì¡°ì ˆí•œë‹¤
 	if (_done)
 	{
 		if (GetTickCount64() - _startTimer >= 500)
@@ -152,24 +146,25 @@ void loading::update()
 		}
 	}
 
-	// ·çÇÁ Á¶Àý
+	// ë£¨í”„ ì¡°ì ˆ
 	_loopX++;
 	_loopY--;
 }
 
 void loading::render()
 {
-	// UI ·»´õ
+	// UI ë Œë”
 	_background->loopAlphaRender(getMemDC(), &RectMake(0, 0, WINSIZEX, WINSIZEY), _loopX, _loopY, 100);
 	_logo->render(getMemDC(), _logo->getX(), _logo->getY());
 
-	// ·Îµù¹Ù¸¦ º¸¿©ÁÖ´Ù°¡ ·ÎµùÀÌ ³¡³ª¸é StartÀÌ¹ÌÁö¸¦ ¶ç¿î´Ù
+	// ë¡œë”©ë°”ë¥¼ ë³´ì—¬ì£¼ë‹¤ê°€ ë¡œë”©ì´ ëë‚˜ë©´ Startì´ë¯¸ì§€ë¥¼ ë„ìš´ë‹¤
 	if (_done)
 		_start->frameRender(getMemDC(), _start->getX(), _start->getY());
 	else
 		_loadingBar->render();
 }
 
+// ì´ë¯¸ì§€ ì •ë³´ì— ë”°ë¼ ì˜¤ë²„ë¡œë”©ìœ¼ë¡œ ë°ì´í„° ì €ìž¥
 void loading::loadImage(string keyName, int width, int height)
 {
 	loadItem* item = new loadItem;
@@ -214,7 +209,7 @@ void loading::loadSound(string keyName, const char* fileName, bool bgm, bool loo
 
 bool loading::loadingDone()
 {
-	//·Îµù¿Ï·áµÊ
+	// ë¡œë”©ì™„ë£Œë˜ë©´ Trueê°’ ë°˜í™˜
 	if (_currentGauge >= _vLoadItem.size())
 	{
 		return true;
@@ -224,6 +219,7 @@ bool loading::loadingDone()
 
 	tagImageResource img;
 
+	// ë°ì´í„° íƒ€ìž…ì— ë”°ë¼ ì´ë¯¸ì§€ ë° ì‚¬ìš´ë“œë¥¼ ë¡œë“œí•œë‹¤.
 	switch (item->getLoadingKind())
 	{
 	case LOAD_KIND_IMAGE_0:
@@ -246,16 +242,15 @@ bool loading::loadingDone()
 		img = item->getImageResource();
 		IMAGEMANAGER->addFrameImage(img.keyName, img.fileName, img.x, img.y, img.widht, img.height, img.frameX, img.frameY, img.trans, img.transColor);
 		break;
-	//°ð »ç¿îµå ¹è¿ì°í ³­ÈÄ ¾Ë¾Æ¼­...
 	case LOAD_KIND_SOUND:
 		SOUNDMANAGER->addSound(item->getSoundResource().keyName, item->getSoundResource().fileName, item->getSoundResource().bgm, item->getSoundResource().loop);
 		break;
 	}
 
-	//ÇöÀç °ÔÀÌÁö Áõ°¡
+	// í˜„ìž¬ ê²Œì´ì§€ ì¦ê°€
 	_currentGauge++;
 
-	//·Îµù¹Ù ÀÌ¹ÌÁö º¯°æ
+	// ë¡œë”©ë°” ì´ë¯¸ì§€ ë³€ê²½
 	_loadingBar->setGauge(_currentGauge * 10 / _vLoadItem.size(), 10);
 
 	return false;
