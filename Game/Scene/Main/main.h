@@ -19,76 +19,76 @@ enum tagMenu
 class main : public gameNode
 {
 private:
-	// ÇÃ·¹ÀÌ¾î
+	// í”Œë ˆì´ì–´
 	player*			_player;
 
-	// ÀÎº¥Åä¸®
+	// ì¸ë²¤í† ë¦¬
 	inventory*		_inventory;
 	bool			_inventoryOpen;
 
-	// ¹è°æ UI
+	// ë°°ê²½ UI
 	image*			_bg;
 	int				_loopY;
 
-	// º¸µå
+	// ë³´ë“œ
 	image*			_tetrisBoard;
 	image*			_fieldGlass;
 	image*			_room;
 
-	// Ä³¸¯ÅÍÃ¢
+	// ìºë¦­í„°ì°½
 	tagButton		_character;
 
-	// ÀüÅõ
+	// ì „íˆ¬
 	tagButton		_battleButton;
-	vector<RECT>	_stageButton;
+	vector<RECT>		_stageButton;
 	bool			_battleOpen;
 	image*			_stage;
 	image*			_stageBoard;
 	image*			_screenOut;
-	bool            _screenChange;
+	bool         		_screenChange;
 
-	// »óÁ¡
+	// ìƒì 
 	tagButton		_shopButton;
 	shop*			_shop;
 	bool			_shopOpen;
 	bool			_notEnoughGold;
-	int				_goldTimer;
+	int			_goldTimer;
 
-	// ¿É¼Ç
+	// ì˜µì…˜
 	tagButton		_option;
 	image*			_popUp;
 	bool			_popOn;
-	int				_popX;
-	int				_popY;
-	int				_popSpeed;
+	int			_popX;
+	int			_popY;
+	int			_popSpeed;
 	tagButton		_bgmSound;
 	tagButton		_effectSound;
 	tagButton		_keypad;
 
-	// Å°
+	// í‚¤
 	image*			_keyBoard;
 	image*			_dirFront;
 	image*			_dirBack;
 	bool			_keyOn;
-	int				_keyChange;
-	int				_keyX;
-	int				_keyY;
-	int				_keySpeed;
-	int				_keySave;
+	int			_keyChange;
+	int			_keyX;
+	int			_keyY;
+	int			_keySpeed;
+	int			_keySave;
 	RECT			_keyChangeRc[FUNCTION_KEY_AMOUNT];
 
-	// Á¾·á
+	// ì¢…ë£Œ
 	option*			_optionClass;
 	tagButton		_exit;
 	image*			_ask;
 	bool			_askOn;
-	int				_askX;
-	int				_askY;
-	int				_askSpeed;
+	int			_askX;
+	int			_askY;
+	int			_askSpeed;
 	tagButton		_okButton;
 	tagButton		_closeButton;
 
-	// ÆùÆ®
+	// í°íŠ¸
 	HFONT			_bigFont;
 	HFONT			_smallFont;
 	HFONT			_oldFont;
@@ -99,7 +99,7 @@ public:
 	void update();
 	void render();
 
-	// ¸Ş´º µîÀå¸ğ¼Ç ¼³Á¤ÇÏ´Â ÇÔ¼ö
+	// ë©”ë‰´ ë“±ì¥ëª¨ì…˜ ì„¤ì •í•˜ëŠ” í•¨ìˆ˜
 	void moveBoard(tagMenu menu);
 
 	main() {}
