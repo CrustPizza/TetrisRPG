@@ -8,31 +8,31 @@
 class player : public gameNode
 {
 private:
-	// ¾ÆÀÌÅÛ Á¤º¸
+	// ì•„ì´í…œ ì •ë³´
 	Item*		_item;
 
-	// Ä³¸¯ÅÍ ÀÌ¹ÌÁö
+	// ìºë¦­í„° ì´ë¯¸ì§€
 	image*		_img;
-	int			_count;
+	int		_count;
 	bool		_frameTurn;
 	ULONGLONG	_timer;
 	image*		_damagedImg;
 	BYTE		_damagedAlpha;
 
-	// Ã¼·Â¹Ù
-	progressBar* _hpBar;
+	// ì²´ë ¥ë°”
+	progressBar*	_hpBar;
 
-	// ¼ÒÁö±Ý
-	unsigned int _gold;
+	// ì†Œì§€ê¸ˆ
+	unsigned int	_gold;
 
-	// ½ºÅ×ÀÌÅÍ½º
-	int			_hp;
-	int			_maxHp;
-	int			_atk;
-	int			_def;
+	// ìŠ¤í…Œì´í„°ìŠ¤
+	int		_hp;
+	int		_maxHp;
+	int		_atk;
+	int		_def;
 	bool		_damaged;
 
-	// Àåºñ
+	// ìž¥ë¹„
 	tagItemData	_weapon;
 	tagItemData	_helmet;
 	tagItemData	_armor;
@@ -41,8 +41,8 @@ private:
 	tagItemData	_belt;
 	tagItemData	_shoes;
 
-	// ¿É¼Ç
-	option* _option;
+	// ì˜µì…˜
+	option*		_option;
 
 public:
 	HRESULT init();
@@ -50,35 +50,35 @@ public:
 	void update();
 	void render();
 
-	// Ã¼·Â¹Ù ÃÊ±âÈ­
+	// ì²´ë ¥ë°” ì´ˆê¸°í™”
 	void hpBarInit(int x, int y);
 
-	// ÀÌ¹ÌÁö ¹Þ±â
+	// ì´ë¯¸ì§€ ë°›ê¸°
 	image* getImage() { return _img; }
 
-	// ÇÃ·¹ÀÌ¾î ÀÌµ¿
+	// í”Œë ˆì´ì–´ ì´ë™
 	void playerMove(tagDirection dir);
 
-	// ÇÃ·¹ÀÌ¾î ÀÏ¹Ý
+	// í”Œë ˆì´ì–´ ì¼ë°˜
 	void playerIdle();
 
-	// ÇÃ·¹ÀÌ¾î È¸ÇÇ
+	// í”Œë ˆì´ì–´ íšŒí”¼
 	bool playerEvasion();
 
-	// ÇÃ·¹ÀÌ¾î °ø°Ý
+	// í”Œë ˆì´ì–´ ê³µê²©
 	bool playerAttack();
 
-	// ¾ÆÀÌÅÛ ÀåÂø ¹× ÇØÁ¦
+	// ì•„ì´í…œ ìž¥ì°© ë° í•´ì œ
 	tagItemData equipItem(tagType type, string name);
 	void equitOffItem(tagType type);
 
-	// Ã¼·Â¹Ù ·»´õ
+	// ì²´ë ¥ë°” ë Œë”
 	void hpBarRender();
 
-	// Å¸ÀÌ¸Ó
+	// íƒ€ì´ë¨¸
 	void setTimer(ULONGLONG timer) { _timer = timer; }
 
-	// ½ºÅ×ÀÌÅÍ½º ÁÖ°í ¹Þ±â
+	// ìŠ¤í…Œì´í„°ìŠ¤ ì£¼ê³  ë°›ê¸°
 	int getHp() { return _hp; }
 	int getMaxHp() { return _maxHp + _belt.value; }
 	int getAtk() { return _atk + _weapon.value + _necklace.value; }
@@ -86,11 +86,11 @@ public:
 	void setHp(int hp) { _hp = hp; if (_hp > getMaxHp()) _hp = getMaxHp(); }
 	void setDamaged(bool damaged) { _damaged = damaged; }
 
-	// ¼ÒÁö±Ý ÁÖ°í ¹Þ±â
+	// ì†Œì§€ê¸ˆ ì£¼ê³  ë°›ê¸°
 	int getGold() { return _gold; }
 	void setGold(int gold) { _gold = gold; }
 
-	// Àåºñ ¹Þ±â
+	// ìž¥ë¹„ ë°›ê¸°
 	tagItemData getWeapon() { return _weapon; }
 	tagItemData getHelmet() { return _helmet; }
 	tagItemData getArmor() { return _armor; }
@@ -99,7 +99,7 @@ public:
 	tagItemData getBelt() { return _belt; }
 	tagItemData getShoes() { return _shoes; }
 
-	// ÀúÀå & ºÒ·¯¿À±â
+	// ì €ìž¥ & ë¶ˆëŸ¬ì˜¤ê¸°
 	void save();
 	void saveEquip(tagItemData item);
 	void load();
