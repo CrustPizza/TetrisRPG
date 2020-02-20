@@ -3,7 +3,7 @@
 
 HRESULT player::init()
 {
-	// �÷��̾� ���� ���
+	// 플레이어 정보 등록
 	_img = IMAGEMANAGER->findImage("Player");
 	_damagedImg = IMAGEMANAGER->findImage("PlayerDamaged");
 	_damagedAlpha = 0;
@@ -11,7 +11,7 @@ HRESULT player::init()
 	_count = 0;
 	_frameTurn = true;
 
-	// �������ͽ� �ʱ�ȭ
+	// 스테이터스 초기화
 	_hp = 100;
 	_maxHp = 100;
 	_atk = 10;
@@ -19,10 +19,10 @@ HRESULT player::init()
 	_damaged = false;
 	_hpBar = nullptr;
 
-	// ������
+	// 소지금
 	_gold = 10000;
 
-	// ��� �ʱ�ȭ
+	// 장비 초기화
 	_weapon = { WEAPON, "Empty", 0 };
 	_helmet = { HELMET, "Empty", 0 };
 	_armor = { ARMOR, "Empty", 0 };
@@ -31,11 +31,11 @@ HRESULT player::init()
 	_belt = { BELT, "Empty", 0 };
 	_shoes = { SHOES, "Empty", 0 };
 
-	// ������
+	// 아이템
 	_item = new Item;
 	_item->init();
 
-	// �ɼ�
+	// 옵션
 	_option = new option;
 	_option->init();
 
@@ -59,13 +59,16 @@ void player::release()
 
 void player::update()
 {
+	// 피격시
 	if (_damaged)
 	{
+		// 피격 이미지 알파값을 조절
 		static int count = 0;
 		count++;
 
 		_damagedAlpha += 15;
 
+		// 일정 카운트가 되면 종료
 		if (count == 68)
 		{
 			_damaged = false;
@@ -77,16 +80,17 @@ void player::update()
 
 void player::render()
 {
-	// �÷��̾� ĳ���� ����
+	// 플레이어 캐릭터 렌더
 	_img->frameRender(getMemDC(), _img->getX(), _img->getY());
 
+	// 피격시 출력
 	if (_damaged)
 		_damagedImg->alphaFrameRender(getMemDC(), _img->getX(), _img->getY(), _img->getFrameX(), _img->getFrameY(), _damagedAlpha);
 }
 
 void player::hpBarInit(int x, int y)
 {
-	// ü�¹�
+	// 체력바
 	_hpBar = new progressBar;
 	_hpBar->init("PlayerHp", "Img/UI/hpFront", x + 9, y + 3, 182, 14, "PlayerHpBack", "Img/UI/hpBack", x, y, 200, 20);
 	_hpBar->setGauge(_hp, getMaxHp());
@@ -94,7 +98,7 @@ void player::hpBarInit(int x, int y)
 
 void player::playerMove(tagDirection dir)
 {
-	// ���⿡ ���� �÷��̾� �̵�
+	// 방향에 따른 플레이어 이동
 	switch (dir)
 	{
 	case LEFT:
@@ -134,7 +138,7 @@ void player::playerMove(tagDirection dir)
 
 void player::playerIdle()
 {
-	// �÷��̾� ������ ����
+	// 플레이어 프레임 조절
 	_count++;
 
 	if (_count % 15 == 0)
@@ -155,6 +159,7 @@ void player::playerIdle()
 
 bool player::playerEvasion()
 {
+	// 회피 이미지 설정
 	if (GetTickCount64() - _timer >= 160)
 	{
 		_img->setFrameX(_img->getFrameX() + 1);
@@ -175,6 +180,7 @@ bool player::playerEvasion()
 
 bool player::playerAttack()
 {
+	// 공격 이미지 설정
 	if (GetTickCount64() - _timer >= 40)
 	{
 		_img->setFrameX(_img->getFrameX() + 1);
@@ -194,7 +200,7 @@ bool player::playerAttack()
 
 tagItemData player::equipItem(tagType type, string name)
 {
-	// ������ ������ ����
+	// 종류별 아이템 장착
 	tagItemData buf;
 
 	switch (type)
@@ -236,12 +242,14 @@ tagItemData player::equipItem(tagType type, string name)
 
 void player::equitOffItem(tagType type)
 {
+	// 장착 아이템 변수 초기화시킬 버퍼
 	tagItemData buf;
 
 	buf.name = "Empty";
 	buf.value = {};
 	buf.cost = 0;
 
+	// 타입에 맞게 초기화
 	switch (type)
 	{
 	case WEAPON:
@@ -279,13 +287,15 @@ void player::equitOffItem(tagType type)
 
 void player::hpBarRender()
 {
+	// Hp바
 	_hpBar->setGauge(_hp, getMaxHp());
-
 	_hpBar->render();
 }
 
 void player::save()
 {
+	// 캐릭터의 스테이터스를 INI형식의 데이터로 저장시킨다.
+	
 	char cBuf[100];
 	ZeroMemory(cBuf, 100);
 	itoa(_maxHp, cBuf, 10);
@@ -306,6 +316,7 @@ void player::save()
 	itoa(_gold, cBuf4, 10);
 	INIDATA->addData("Status", "Gold", cBuf4);
 
+	// 장착 아이템도 INI데이터로 저장
 	saveEquip(_weapon);
 	saveEquip(_helmet);
 	saveEquip(_armor);
@@ -319,24 +330,30 @@ void player::save()
 
 void player::saveEquip(tagItemData item)
 {
+	// 버퍼 초기화
 	char cBuf[100];
+	char cBuf2[100];
 	char cBuf3[100];
-	char cBuf4[100];
 	ZeroMemory(cBuf, 100);
+	ZeroMemory(cBuf2, 100);
 	ZeroMemory(cBuf3, 100);
-	ZeroMemory(cBuf4, 100);
+	
+	// 아이템 정보들 버퍼에 저장
 	itoa(item.type, cBuf, 10);
-	itoa(item.cost, cBuf3, 10);
-	itoa(item.value, cBuf4, 10);
+	itoa(item.cost, cBuf2, 10);
+	itoa(item.value, cBuf3, 10);
+	
+	// INI데이터로 아이템 정보 저장
 	INIDATA->addData(cBuf, "Name", item.name.c_str());
-	INIDATA->addData(cBuf, "Cost", cBuf3);
-	INIDATA->addData(cBuf, "Value", cBuf4);
+	INIDATA->addData(cBuf, "Cost", cBuf2);
+	INIDATA->addData(cBuf, "Value", cBuf3);
 
 	INIDATA->saveINI("PlayerData");
 }
 
 void player::load()
 {
+	// 장착할 아이템 불러오기
 	loadEquip(&_weapon);
 	loadEquip(&_helmet);
 	loadEquip(&_armor);
@@ -345,6 +362,7 @@ void player::load()
 	loadEquip(&_belt);
 	loadEquip(&_shoes);
 
+	// 각 스테이터스 불러와서 입력
 	_maxHp = INIDATA->loadDataInteger("PlayerData", "Status", "MaxHp");
 	_hp = getMaxHp();
 	_atk = INIDATA->loadDataInteger("PlayerData", "Status", "Atk");
@@ -354,12 +372,17 @@ void player::load()
 
 void player::loadEquip(tagItemData* item)
 {
+	// 버퍼 초기화
 	char cBuf[100];
-	ZeroMemory(cBuf, 100);
-	itoa(item->type, cBuf, 10);
 	char cBuf2[100] = {};
+	ZeroMemory(cBuf, 100);
 	ZeroMemory(cBuf2, 100);
+	
+	// 타입에 맞는 아이템 읽어오기
+	itoa(item->type, cBuf, 10);
 	wsprintf(cBuf2, "%s", INIDATA->loadDataString("PlayerData", cBuf, "Name"));
+	
+	// 버퍼에 저장된 아이템 입력
 	item->name = cBuf2;
 	item->cost = INIDATA->loadDataInteger("PlayerData", cBuf, "Cost");
 	item->value = INIDATA->loadDataInteger("PlayerData", cBuf, "Value");
