@@ -3,7 +3,7 @@
 
 HRESULT main::init()
 {
-	// UI ÀÌ¹ÌÁö µî·Ï
+	// UI ì´ë¯¸ì§€ ë“±ë¡
 	_bg = IMAGEMANAGER->findImage("MenuBackGround");
 	_tetrisBoard = IMAGEMANAGER->findImage("TetrisBoard");
 	_fieldGlass = IMAGEMANAGER->findImage("FieldGlass");
@@ -30,17 +30,17 @@ HRESULT main::init()
 
 	_screenOut = IMAGEMANAGER->findImage("ScreenOut");
 
-	// ÇÃ·¹ÀÌ¾î
+	// í”Œë ˆì´ì–´
 	_player = new player;
 	_player->init();
 	_player->load();
 
-	// ÀÎº¥Åä¸®
+	// ì¸ë²¤í† ë¦¬
 	_inventory = new inventory;
 	_inventory->init(_tetrisBoard->getX(), _tetrisBoard->getY(), _tetrisBoard->getWidth(), _tetrisBoard->getHeight());
 	_inventoryOpen = true;
 
-	// ÀüÅõ
+	// ì „íˆ¬
 	_battleButton.img = IMAGEMANAGER->findImage("Battle");
 	_stage = IMAGEMANAGER->findImage("Stage");
 	_stageBoard = IMAGEMANAGER->findImage("StageBoard");
@@ -51,14 +51,14 @@ HRESULT main::init()
 		_stageButton.push_back(RectMake(_tetrisBoard->getX() + 60, _tetrisBoard->getY() + 20 * (i + 1) + _stageBoard->getHeight() * i, _stageBoard->getWidth(), _stageBoard->getHeight()));
 	}
 
-	// »óÁ¡
+	// ìƒì 
 	_shop = new shop;
 	_shop->init(_tetrisBoard->getX(), _tetrisBoard->getY(), _tetrisBoard->getWidth(), _tetrisBoard->getHeight(), _inventory);
 	_shopOpen = false;
 	_notEnoughGold = false;
 	_goldTimer = GetTickCount64();
 
-	// ¹öÆ° »ç¿îµå È°¼ºÈ­
+	// ë²„íŠ¼ ì‚¬ìš´ë“œ í™œì„±í™”
 	_character.sound = true;
 	_shopButton.sound = true;
 	_option.sound = true;
@@ -70,32 +70,32 @@ HRESULT main::init()
 	_okButton.sound = true;
 	_closeButton.sound = true;
 
-	// ·çÇÁ
+	// ë£¨í”„
 	_loopY = 0;
 
-	// ¿É¼ÇÃ¢ ÃÊ±âÈ­
+	// ì˜µì…˜ì°½ ì´ˆê¸°í™”
 	_popOn = false;
 	_popX = (WINSIZEX - _popUp->getWidth()) / 2;
 	_popY = WINSIZEY;
 	_popSpeed = 400;
 
-	// Á¾·áÃ¢ ÃÊ±âÈ­
+	// ì¢…ë£Œì°½ ì´ˆê¸°í™”
 	_askOn = false;
 	_askX = (WINSIZEX - _ask->getWidth()) / 2;
 	_askY = WINSIZEY;
 	_askSpeed = 400;
 
-	// Å°ÀÔ·Â ÃÊ±âÈ­
+	// í‚¤ì…ë ¥ ì´ˆê¸°í™”
 	_keyOn = false;
 	_keyX = (WINSIZEX - _keyBoard->getWidth()) / 2;
 	_keyY = WINSIZEY;
 	_keySpeed = 400;
 	_keyChange = 0;
 
-	// È­¸éÀüÈ¯
+	// í™”ë©´ì „í™˜
 	_screenChange = false;
 
-	// ¹è°æÀ½
+	// ë°°ê²½ìŒ
 	if (!SOUNDMANAGER->isPlaySound("MainBgm"))
 		SOUNDMANAGER->play("MainBgm");
 
@@ -104,14 +104,14 @@ HRESULT main::init()
 
 	SOUNDMANAGER->stop("BattleBgm");
 
-	// ¿É¼Ç
+	// ì˜µì…˜
 	_optionClass = new option;
 	_optionClass->init();
 
-	// ÆùÆ®
+	// í°íŠ¸
 	SetBkMode(getMemDC(), TRANSPARENT);
-	_bigFont = CreateFont(60, 0, 0, 0, 500, 0, 0, 0, ANSI_CHARSET, 0, 0, 0, VARIABLE_PITCH | FF_ROMAN, TEXT("¹èÂîÃ¼"));
-	_smallFont = CreateFont(30, 0, 0, 0, 500, 0, 0, 0, ANSI_CHARSET, 0, 0, 0, VARIABLE_PITCH | FF_ROMAN, TEXT("¹èÂîÃ¼"));
+	_bigFont = CreateFont(60, 0, 0, 0, 500, 0, 0, 0, ANSI_CHARSET, 0, 0, 0, VARIABLE_PITCH | FF_ROMAN, TEXT("ë°°ì°Œì²´"));
+	_smallFont = CreateFont(30, 0, 0, 0, 500, 0, 0, 0, ANSI_CHARSET, 0, 0, 0, VARIABLE_PITCH | FF_ROMAN, TEXT("ë°°ì°Œì²´"));
 
 	return S_OK;
 }
@@ -139,7 +139,7 @@ void main::release()
 
 void main::update()
 {
-	// ¾À ÀüÈ¯ÇÏ±â À§ÇØ ÀÌ¹ÌÁö¸¦ Ãâ·ÂÇÏ°í ÀÛ¾÷ÀÌ ³¡³ª¸é ÀüÅõ¾ÀÀ» ºÒ·¯¿Â´Ù
+	// ì”¬ ì „í™˜í•˜ê¸° ìœ„í•´ ì´ë¯¸ì§€ë¥¼ ì¶œë ¥í•˜ê³  ì‘ì—…ì´ ëë‚˜ë©´ ì „íˆ¬ì”¬ì„ ë¶ˆëŸ¬ì˜¨ë‹¤
 	if (_screenChange)
 	{
 		_screenOut->setY(_screenOut->getY() + 50);
@@ -154,19 +154,19 @@ void main::update()
 	}
 	else if (_screenOut->getY() > WINSIZEY)
 	{
-		// °¢ Å¬·¡½º ¾÷µ¥ÀÌÆ®
+		// ê° í´ë˜ìŠ¤ ì—…ë°ì´íŠ¸
 		_player->update();
 		_player->playerIdle();
 		_shop->update();
 
-		// ¸¶¿ì½º Ãæµ¹½Ã ÇÁ·¹ÀÓ ¹Ù²Ù±â
+		// ë§ˆìš°ìŠ¤ ì¶©ëŒì‹œ í”„ë ˆì„ ë°”ê¾¸ê¸°
 		_optionClass->crushButton(&_character, 1, 0);
 		_optionClass->crushButton(&_battleButton, 1, 0);
 		_optionClass->crushButton(&_shopButton, 1, 0);
 		_optionClass->crushButton(&_option, 1, 0);
 		_optionClass->crushButton(&_exit, 1, 0);
 
-		// ÇÃ·¹ÀÌ¾î ÀÌµ¿
+		// í”Œë ˆì´ì–´ ì´ë™
 		if (_player->getImage()->getX() > _room->getX())
 			_player->playerMove(LEFT);
 		if (_player->getImage()->getX() + _player->getImage()->getFrameWidth() < _room->getX() + _room->getWidth() - 2)
@@ -176,14 +176,14 @@ void main::update()
 		if (_player->getImage()->getY() + _player->getImage()->getFrameHeight() < _room->getY() + _room->getHeight() - 2)
 			_player->playerMove(DOWN);
 
-		// Å°°ª ±³Ã¼
+		// í‚¤ê°’ êµì²´
 		if (_keyChange)
 		{
 			if (_optionClass->keyChange(_keyChange))
 				_keyChange = 0;
 		}
 
-		// Å° º¯°æ Ã¢À» ´İÀ»¶§ Å°°ªÀÌ ¾ø´Â º¯¼ö°¡ ÀÖ´Ù¸é ÃÊ±âÈ­ ½ÃÅ°°í ¾ø´Ù¸é Å°°ªÀ» ÀúÀåÇÑ´Ù.
+		// í‚¤ ë³€ê²½ ì°½ì„ ë‹«ì„ë•Œ í‚¤ê°’ì´ ì—†ëŠ” ë³€ìˆ˜ê°€ ìˆë‹¤ë©´ ì´ˆê¸°í™” ì‹œí‚¤ê³  ì—†ë‹¤ë©´ í‚¤ê°’ì„ ì €ì¥í•œë‹¤.
 		if (!_keyOn)
 		{
 			if (_optionClass->keyCheck(false, 7))
@@ -192,6 +192,7 @@ void main::update()
 				_optionClass->release();
 		}
 
+		// ESC ë²„íŠ¼ì„ ëˆŒë €ì„ ê²½ìš° ì°½ì´ ì—´ë ¤ìˆë‹¤ë©´ ë‹«ê³  ì•„ë‹ ê²½ìš° 
 		if (KEYMANAGER->isOnceKeyDown(VK_ESCAPE))
 		{
 			if (!_popOn && !_keyOn && !_askOn && (_askSpeed == 400 || _askSpeed <= -10))
@@ -203,17 +204,17 @@ void main::update()
 				_keyOn = false;
 			}
 
-			// Å¬¸¯ È¿°úÀ½
+			// í´ë¦­ íš¨ê³¼ìŒ
 			SOUNDMANAGER->play("Click", SOUNDMANAGER->getEffectVolume());
 		}
 
-		// ÁÂÅ¬¸¯
+		// ì¢Œí´ë¦­
 		if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
 		{
-			// Ä³¸¯ÅÍÃ¢ ¹öÆ° ´­·¶À»½Ã
+			// ìºë¦­í„°ì°½ ë²„íŠ¼ ëˆŒë €ì„ì‹œ
 			if (PtInRect(&_character.img->boudingBoxWithFrame(), _ptMouse) && (_askSpeed == 400 || _askSpeed <= -10) && (_popSpeed == 400 || _popSpeed <= -10))
 			{
-				// Ä³¸¯ÅÍ Ã¢À» ¿¬´Ù, ±âÅ¸ ¸Ş´º´Â ´İ¾ÆÁØ´Ù
+				// ìºë¦­í„° ì°½ì„ ì—°ë‹¤, ê¸°íƒ€ ë©”ë‰´ëŠ” ë‹«ì•„ì¤€ë‹¤
 				_inventoryOpen = true;
 				_battleOpen = false;
 				_popOn = false;
@@ -222,10 +223,10 @@ void main::update()
 				_shopOpen = false;
 			}
 
-			// ÀüÅõ ¹öÆ° ´­·¶À»½Ã
+			// ì „íˆ¬ ë²„íŠ¼ ëˆŒë €ì„ì‹œ
 			if (PtInRect(&_battleButton.img->boudingBoxWithFrame(), _ptMouse) && (_askSpeed == 400 || _askSpeed <= -10) && (_popSpeed == 400 || _popSpeed <= -10))
 			{
-				// ÀüÅõ Ã¢À» ¿¬´Ù, ±âÅ¸ ¸Ş´º´Â ´İ¾ÆÁØ´Ù
+				// ì „íˆ¬ ì°½ì„ ì—°ë‹¤, ê¸°íƒ€ ë©”ë‰´ëŠ” ë‹«ì•„ì¤€ë‹¤
 				_battleOpen = true;
 				_inventoryOpen = false;
 				_popOn = false;
@@ -234,10 +235,10 @@ void main::update()
 				_shopOpen = false;
 			}
 
-			// »óÁ¡ ¹öÆ° ´­·¶À»½Ã
+			// ìƒì  ë²„íŠ¼ ëˆŒë €ì„ì‹œ
 			if (PtInRect(&_shopButton.img->boudingBoxWithFrame(), _ptMouse) && (_askSpeed == 400 || _askSpeed <= -10) && (_popSpeed == 400 || _popSpeed <= -10))
 			{
-				// »óÁ¡ Ã¢À» ¿¬´Ù, ±âÅ¸ ¸Ş´º´Â ´İ¾ÆÁØ´Ù
+				// ìƒì  ì°½ì„ ì—°ë‹¤, ê¸°íƒ€ ë©”ë‰´ëŠ” ë‹«ì•„ì¤€ë‹¤
 				_shopOpen = true;
 				_battleOpen = false;
 				_inventoryOpen = false;
@@ -246,28 +247,28 @@ void main::update()
 				_keyOn = false;
 			}
 
-			// ¿É¼Ç ¹öÆ°À» ´­·¶À»½Ã
+			// ì˜µì…˜ ë²„íŠ¼ì„ ëˆŒë €ì„ì‹œ
 			if (PtInRect(&_option.img->boudingBoxWithFrame(), _ptMouse) && (_popSpeed == 400 || _popSpeed <= -10))
 			{
-				// ¿­·ÁÀÖ´Ù¸é ´İ°í ´İÇôÀÖ´Ù¸é ¿¬´Ù, ¿É¼Ç ¸Ş´º´Â ´İ¾ÆÁØ´Ù
+				// ì—´ë ¤ìˆë‹¤ë©´ ë‹«ê³  ë‹«í˜€ìˆë‹¤ë©´ ì—°ë‹¤, ì˜µì…˜ ë©”ë‰´ëŠ” ë‹«ì•„ì¤€ë‹¤
 				_popOn = !_popOn;
 				_askOn = false;
 				_keyOn = false;
 			}
 
-			// Á¾·á ¹öÆ°À» ´­·¶À»½Ã
+			// ì¢…ë£Œ ë²„íŠ¼ì„ ëˆŒë €ì„ì‹œ
 			if (PtInRect(&_exit.img->boudingBoxWithFrame(), _ptMouse) && (_askSpeed == 400 || _askSpeed <= -10))
 			{
-				// ¿­·ÁÀÖ´Ù¸é ´İ°í ´İÇôÀÖ´Ù¸é ¿¬´Ù, Á¾·á ¸Ş´º´Â ´İ¾ÆÁØ´Ù
+				// ì—´ë ¤ìˆë‹¤ë©´ ë‹«ê³  ë‹«í˜€ìˆë‹¤ë©´ ì—°ë‹¤, ì¢…ë£Œ ë©”ë‰´ëŠ” ë‹«ì•„ì¤€ë‹¤
 				_askOn = !_askOn;
 				_popOn = false;
 				_keyOn = false;
 			}
 
-			// ¿É¼ÇÃ¢ÀÌ ¶°ÀÖÀ»¶§
+			// ì˜µì…˜ì°½ì´ ë– ìˆì„ë•Œ
 			if (_popOn)
 			{
-				// ¹è°æÀ½ ¹öÆ°°ú Ãæµ¹Çß´Ù¸é ¹è°æÀ½ On/Off¸¦ Á¶ÀÛÇÑ´Ù
+				// ë°°ê²½ìŒ ë²„íŠ¼ê³¼ ì¶©ëŒí–ˆë‹¤ë©´ ë°°ê²½ìŒ On/Offë¥¼ ì¡°ì‘í•œë‹¤
 				if (PtInRect(&_bgmSound.img->boudingBoxWithFrame(), _ptMouse))
 				{
 					if (SOUNDMANAGER->isPauseSound("MainBgm"))
@@ -282,7 +283,7 @@ void main::update()
 					}
 				}
 
-				// È¿°úÀ½ ¹öÆ°°ú Ãæµ¹Çß´Ù¸é È¿°úÀ½ On/Off¸¦ Á¶ÀÛÇÑ´Ù
+				// íš¨ê³¼ìŒ ë²„íŠ¼ê³¼ ì¶©ëŒí–ˆë‹¤ë©´ íš¨ê³¼ìŒ On/Offë¥¼ ì¡°ì‘í•œë‹¤
 				if (PtInRect(&_effectSound.img->boudingBoxWithFrame(), _ptMouse))
 				{
 					if (SOUNDMANAGER->getEffectVolume())
@@ -297,39 +298,39 @@ void main::update()
 					}
 				}
 
-				// Å° º¯°æ
+				// í‚¤ ë³€ê²½
 				if (PtInRect(&_keypad.img->boudingBoxWithFrame(), _ptMouse))
 				{
 					_popOn = false;
 					_keyOn = true;
 				}
 
-				// ´İ±â ¹öÆ°
+				// ë‹«ê¸° ë²„íŠ¼
 				if (PtInRect(&_closeButton.img->boudingBoxWithFrame(), _ptMouse))
 					_popOn = false;
 			}
 
-			// Á¾·á½Ã ´Ù½Ã ÇÑ¹ø È®ÀÎÇÏ¿© Á¾·áÇÒ °ÍÀÎÁö ¹°¾îº»´Ù
+			// ì¢…ë£Œì‹œ ë‹¤ì‹œ í•œë²ˆ í™•ì¸í•˜ì—¬ ì¢…ë£Œí•  ê²ƒì¸ì§€ ë¬¼ì–´ë³¸ë‹¤
 			else if (_askOn)
 			{
-				// È®ÀÎÀ» ´­·¶À» °æ¿ì Á¾·á
+				// í™•ì¸ì„ ëˆŒë €ì„ ê²½ìš° ì¢…ë£Œ
 				if (PtInRect(&_okButton.img->boudingBoxWithFrame(), _ptMouse))
 					PostMessage(_hWnd, WM_DESTROY, 0, 0);
 
-				// Ãë¼Ò¸¦ ´©¸¦°æ¿ì Ã¢ ´İÀ½
+				// ì·¨ì†Œë¥¼ ëˆ„ë¥¼ê²½ìš° ì°½ ë‹«ìŒ
 				if (PtInRect(&_closeButton.img->boudingBoxWithFrame(), _ptMouse))
 					_askOn = false;
 			}
 			else if (_keyOn)
 			{
-				// Ãë¼Ò¸¦ ´©¸¦°æ¿ì Ã¢ ´İÀ½
+				// ì·¨ì†Œë¥¼ ëˆ„ë¥¼ê²½ìš° ì°½ ë‹«ìŒ
 				if (PtInRect(&_closeButton.img->boudingBoxWithFrame(), _ptMouse))
 				{
 					_keyOn = false;
 					_popOn = true;
 				}
 
-				// º¯°æÇÒ Å°°ªÀ» ¼±ÅÃ
+				// ë³€ê²½í•  í‚¤ê°’ì„ ì„ íƒ
 				for (int i = 0; i < FUNCTION_KEY_AMOUNT; i++)
 				{
 					if (PtInRect(&_keyChangeRc[i], _ptMouse))
@@ -342,36 +343,36 @@ void main::update()
 			}
 			else
 			{
-				// ÀÎº¥Åä¸®¿¡¼­ ¾ÆÀÌÅÛÀ» °í¸¦½Ã
+				// ì¸ë²¤í† ë¦¬ì—ì„œ ì•„ì´í…œì„ ê³ ë¥¼ì‹œ
 				if (_inventoryOpen)
 				{
-					// ¹°¾àÀÇ °æ¿ì ¸ŞÀÎ¸Ş´º¿¡¼­ »ç¿ëÇÏÁö ¸øÇÏ¹Ç·Î Á¦¿ÜÇÑ´Ù.
+					// ë¬¼ì•½ì˜ ê²½ìš° ë©”ì¸ë©”ë‰´ì—ì„œ ì‚¬ìš©í•˜ì§€ ëª»í•˜ë¯€ë¡œ ì œì™¸í•œë‹¤.
 					if (_inventory->selectItem(_ptMouse))
 					{
 						if (_inventory->getSelect().value.type != POTION)
 						{
 							_inventory->useItem(_ptMouse);
 
-							// ÀÌ¹Ì ¼±ÅÃÇÑ »óÅÂÀÏ °æ¿ì selectItem¿¡¼­ true¸¦ ¹İÈ¯ÇÏ¿© if¹® ¾ÈÀ¸·Î µé¾î¿À°í ¾ÆÀÌÅÛÀ» ÀåÂøÇÑ´Ù.
+							// ì´ë¯¸ ì„ íƒí•œ ìƒíƒœì¼ ê²½ìš° selectItemì—ì„œ trueë¥¼ ë°˜í™˜í•˜ì—¬ ifë¬¸ ì•ˆìœ¼ë¡œ ë“¤ì–´ì˜¤ê³  ì•„ì´í…œì„ ì¥ì°©í•œë‹¤.
 							tagItemData buf = _player->equipItem(_inventory->getSelect().value.type, _inventory->getSelect().name);
 
-							// ÇÃ·¹ÀÌ¾î°¡ ¾ÆÀÌÅÛÀ» ÀåÂøÁßÀÎ °æ¿ì ¾ÆÀÌÅÛÀ» ±³Ã¼ÈÄ ÀåÂøÁßÀÌ´ø ¾ÆÀÌÅÛÀº ÀÎº¥Åä¸®·Î µÇµ¹¸°´Ù
+							// í”Œë ˆì´ì–´ê°€ ì•„ì´í…œì„ ì¥ì°©ì¤‘ì¸ ê²½ìš° ì•„ì´í…œì„ êµì²´í›„ ì¥ì°©ì¤‘ì´ë˜ ì•„ì´í…œì€ ì¸ë²¤í† ë¦¬ë¡œ ë˜ëŒë¦°ë‹¤
 							if (buf.name != "Empty")
 								_inventory->setItem(buf.name, buf.type);
 						}
 					}
 
-					// ÀÎº¥Åä¸®¿¡¼­ Àåºñ ¹şÀ»½Ã
+					// ì¸ë²¤í† ë¦¬ì—ì„œ ì¥ë¹„ ë²—ì„ì‹œ
 					if (_inventory->equipOff(_ptMouse, _player))
 					{
 						_player->equitOffItem(_inventory->getSelect().value.type);
 					}
 				}
 
-				// »óÁ¡ ¿­·ÈÀ»¶§
+				// ìƒì  ì—´ë ¸ì„ë•Œ
 				if (_shopOpen)
 				{
-					// ÀÎº¥Åä¸®ÀÇ ¾ÆÀÌÅÛÀ» ¼±ÅÃÇÏ°í ÀÌ¹Ì ¼±ÅÃÇÑ »óÅÂ¶ó¸é ¾ÆÀÌÅÛÀ» ÆÇ¸ÅÇÑ´Ù
+					// ì¸ë²¤í† ë¦¬ì˜ ì•„ì´í…œì„ ì„ íƒí•˜ê³  ì´ë¯¸ ì„ íƒí•œ ìƒíƒœë¼ë©´ ì•„ì´í…œì„ íŒë§¤í•œë‹¤
 					if (_inventory->selectItem(_ptMouse) && _inventory->useItem(_ptMouse))
 					{
 						_player->setGold(_player->getGold() + _inventory->getSelect().value.cost / 2);
@@ -380,7 +381,7 @@ void main::update()
 					RECT rc = _shop->selectList(_ptMouse).rc;
 					tagItemData dataBuf = _shop->selectList(_ptMouse).data;
 
-					// »óÁ¡ »óÇ°À» ¼±ÅÃÇÑ »óÅÂ¶ó¸é ¼ÒÁö±İÀ» È®ÀÎÇÏ°í ¾ÆÀÌÅÛÀ» ±¸¸ÅÃ³¸®ÇÑ´Ù
+					// ìƒì  ìƒí’ˆì„ ì„ íƒí•œ ìƒíƒœë¼ë©´ ì†Œì§€ê¸ˆì„ í™•ì¸í•˜ê³  ì•„ì´í…œì„ êµ¬ë§¤ì²˜ë¦¬í•œë‹¤
 					if (rc.left != 0)
 					{
 						if (rc.left == _inventory->getSelect().rc.left && rc.top == _inventory->getSelect().rc.top)
@@ -410,10 +411,10 @@ void main::update()
 					}
 				}
 
-				// ÀüÅõÃ¢ ¿­·ÈÀ»¶§
+				// ì „íˆ¬ì°½ ì—´ë ¸ì„ë•Œ
 				if (_battleOpen)
 				{
-					// ½ºÅ×ÀÌÁö¸¦ ¼±ÅÃÇÏ¸é ¾ÀÀüÈ¯À¸·Î ³Ñ¾î°£´Ù.
+					// ìŠ¤í…Œì´ì§€ë¥¼ ì„ íƒí•˜ë©´ ì”¬ì „í™˜ìœ¼ë¡œ ë„˜ì–´ê°„ë‹¤.
 					for (int i = 0; i < _stageButton.size(); i++)
 					{
 						if (PtInRect(&_stageButton[i], _ptMouse))
@@ -427,11 +428,11 @@ void main::update()
 				}
 			}
 
-			// Å¬¸¯ È¿°úÀ½
+			// í´ë¦­ íš¨ê³¼ìŒ
 			SOUNDMANAGER->play("Click", SOUNDMANAGER->getEffectVolume());
 		}
 
-		// ¿É¼Ç ¹× Á¾·áÃ¢ÀÇ µîÀå ¹× ÅğÀå ¸ğ¼Ç
+		// ì˜µì…˜ ë° ì¢…ë£Œì°½ì˜ ë“±ì¥ ë° í‡´ì¥ ëª¨ì…˜
 		moveBoard(OPTION);
 		moveBoard(KEYPAD);
 		moveBoard(QUIT);
@@ -439,39 +440,39 @@ void main::update()
 	else
 		_screenOut->setY(_screenOut->getY() + 50);
 
-	// ¹è°æ ·çÇÁ
+	// ë°°ê²½ ë£¨í”„
 	_loopY--;
 }
 
 void main::render()
 {
-	// UI ·»´õ
-	// ¹è°æ
+	// UI ë Œë”
+	// ë°°ê²½
 	_bg->loopRender(getMemDC(), &RectMake(0, 0, WINSIZEX, WINSIZEY), 0, _loopY);
 
-	// Ä³¸¯ÅÍÃ¢
+	// ìºë¦­í„°ì°½
 	_room->render(getMemDC(), _room->getX(), _room->getY());
 	_fieldGlass->alphaRender(getMemDC(), _fieldGlass->getX(), _fieldGlass->getY(), 150);
 	_player->render();
 
-	// Å×Æ®¸®½ºÃ¢
+	// í…ŒíŠ¸ë¦¬ìŠ¤ì°½
 	_tetrisBoard->alphaRender(getMemDC(), _tetrisBoard->getX(), _tetrisBoard->getY(), 150);
 
-	// ÀÎº¥Åä¸®
+	// ì¸ë²¤í† ë¦¬
 	if (_inventoryOpen)
 	{
 		_inventory->printEquipment(_player);
 		_inventory->render(_player);
 	}
 
-	// »óÁ¡
+	// ìƒì 
 	if (_shopOpen)
 	{
 		_shop->render();
 		_inventory->render(_player);
 	}
 
-	// ÀüÅõ
+	// ì „íˆ¬
 	if (_battleOpen)
 	{
 		for (int i = 0; i < STAGE_MAX; i++)
@@ -482,14 +483,14 @@ void main::render()
 		}
 	}
 
-	// ¸Ş´º
+	// ë©”ë‰´
 	_character.img->frameRender(getMemDC(), _character.img->getX(), _character.img->getY());
 	_battleButton.img->frameRender(getMemDC(), _battleButton.img->getX(), _battleButton.img->getY());
 	_shopButton.img->frameRender(getMemDC(), _shopButton.img->getX(), _shopButton.img->getY());
 	_option.img->frameRender(getMemDC(), _option.img->getX(), _option.img->getY());
 	_exit.img->frameRender(getMemDC(), _exit.img->getX(), _exit.img->getY());
 	
-	// ¿É¼Ç UI
+	// ì˜µì…˜ UI
 	if (_popY < WINSIZEY)
 	{
 		_popUp->render(getMemDC(), _popX, _popY);
@@ -498,31 +499,31 @@ void main::render()
 		_keypad.img->frameRender(getMemDC(), _keypad.img->getX(), _keypad.img->getY());
 	}
 	
-	// Á¾·á UI
+	// ì¢…ë£Œ UI
 	if (_askY < WINSIZEY)
 	{
 		_ask->render(getMemDC(), _askX, _askY);
 		_okButton.img->frameRender(getMemDC(), _okButton.img->getX(), _okButton.img->getY());
 	}
 
-	// Å° º¯°æ
+	// í‚¤ ë³€ê²½
 	if (_keyY < WINSIZEY)
 	{
-		// ÆùÆ® º¯°æ
+		// í°íŠ¸ ë³€ê²½
 		_oldFont = (HFONT)SelectObject(getMemDC(), _bigFont);
 		_keyBoard->render(getMemDC(), _keyX, _keyY);
 		
 		SetTextColor(getMemDC(), RGB(0, 0, 0));
-		TextOut(getMemDC(), _keyX + 50, _keyY + KEY_Y, "¹æÇâÅ°", strlen("¹æÇâÅ°"));
-		TextOut(getMemDC(), _keyX + 50, _keyY + KEY_Y + 250, "±â´ÉÅ°", strlen("±â´ÉÅ°"));
+		TextOut(getMemDC(), _keyX + 50, _keyY + KEY_Y, "ë°©í–¥í‚¤", strlen("ë°©í–¥í‚¤"));
+		TextOut(getMemDC(), _keyX + 50, _keyY + KEY_Y + 250, "ê¸°ëŠ¥í‚¤", strlen("ê¸°ëŠ¥í‚¤"));
 
 		SetTextColor(getMemDC(), RGB(255, 255, 255));
-		TextOut(getMemDC(), _keyX + 48, _keyY + KEY_Y - 2, "¹æÇâÅ°", strlen("¹æÇâÅ°"));
-		TextOut(getMemDC(), _keyX + 48, _keyY + KEY_Y + 248, "±â´ÉÅ°", strlen("±â´ÉÅ°"));
+		TextOut(getMemDC(), _keyX + 48, _keyY + KEY_Y - 2, "ë°©í–¥í‚¤", strlen("ë°©í–¥í‚¤"));
+		TextOut(getMemDC(), _keyX + 48, _keyY + KEY_Y + 248, "ê¸°ëŠ¥í‚¤", strlen("ê¸°ëŠ¥í‚¤"));
 
 		SelectObject(getMemDC(), _oldFont);
 
-		// Å°¸¦ º¯°æÇÒ Ã¢À» ¶ç¿î´Ù
+		// í‚¤ë¥¼ ë³€ê²½í•  ì°½ì„ ë„ìš´ë‹¤
 		for (int i = 0; i < FUNCTION_KEY_AMOUNT; i++)
 			_dirFront->alphaRender(getMemDC(), _keyX + 38, _keyChangeRc[i].top, 150);
 
@@ -532,56 +533,56 @@ void main::render()
 		_oldFont = (HFONT)SelectObject(getMemDC(), _smallFont);
 
 		SetTextColor(getMemDC(), RGB(0, 0, 0));
-		TextOut(getMemDC(), _keyX + 55, _keyY + KEY_Y + 66, "À§ÂÊ", strlen("À§ÂÊ"));
+		TextOut(getMemDC(), _keyX + 55, _keyY + KEY_Y + 66, "ìœ„ìª½", strlen("ìœ„ìª½"));
 		_optionClass->keyRender(_keyX + _dirFront->getWidth() + 45 + _dirBack->getWidth() / 2 - 1, _keyY + KEY_Y + 66, _optionClass->getUp());
-		TextOut(getMemDC(), _keyX + 55, _keyY + KEY_Y + 111, "¾Æ·¡ÂÊ", strlen("¾Æ·¡ÂÊ"));
+		TextOut(getMemDC(), _keyX + 55, _keyY + KEY_Y + 111, "ì•„ë˜ìª½", strlen("ì•„ë˜ìª½"));
 		_optionClass->keyRender(_keyX + _dirFront->getWidth() + 45 + _dirBack->getWidth() / 2 - 1, _keyY + KEY_Y + 111, _optionClass->getDown());
-		TextOut(getMemDC(), _keyX + 55, _keyY + KEY_Y + 156, "¿ŞÂÊ", strlen("¿ŞÂÊ"));
+		TextOut(getMemDC(), _keyX + 55, _keyY + KEY_Y + 156, "ì™¼ìª½", strlen("ì™¼ìª½"));
 		_optionClass->keyRender(_keyX + _dirFront->getWidth() + 45 + _dirBack->getWidth() / 2 - 1, _keyY + KEY_Y + 156, _optionClass->getLeft());
-		TextOut(getMemDC(), _keyX + 55, _keyY + KEY_Y + 201, "¿À¸¥ÂÊ", strlen("¿À¸¥ÂÊ"));
+		TextOut(getMemDC(), _keyX + 55, _keyY + KEY_Y + 201, "ì˜¤ë¥¸ìª½", strlen("ì˜¤ë¥¸ìª½"));
 		_optionClass->keyRender(_keyX + _dirFront->getWidth() + 45 + _dirBack->getWidth() / 2 - 1, _keyY + KEY_Y + 201, _optionClass->getRight());
-		TextOut(getMemDC(), _keyX + 55, _keyY + KEY_Y + 316, "È¦µå", strlen("È¦µå"));
+		TextOut(getMemDC(), _keyX + 55, _keyY + KEY_Y + 316, "í™€ë“œ", strlen("í™€ë“œ"));
 		_optionClass->keyRender(_keyX + _dirFront->getWidth() + 45 + _dirBack->getWidth() / 2 - 1, _keyY + KEY_Y + 316, _optionClass->getHold());
-		TextOut(getMemDC(), _keyX + 55, _keyY + KEY_Y + 361, "µå¶ø", strlen("µå¶ø"));
+		TextOut(getMemDC(), _keyX + 55, _keyY + KEY_Y + 361, "ë“œë", strlen("ë“œë"));
 		_optionClass->keyRender(_keyX + _dirFront->getWidth() + 45 + _dirBack->getWidth() / 2 - 1, _keyY + KEY_Y + 361, _optionClass->getDrop());
-		TextOut(getMemDC(), _keyX + 55, _keyY + KEY_Y + 406, "½ºÅ³½½·Ô1", strlen("½ºÅ³½½·Ô1"));
+		TextOut(getMemDC(), _keyX + 55, _keyY + KEY_Y + 406, "ìŠ¤í‚¬ìŠ¬ë¡¯1", strlen("ìŠ¤í‚¬ìŠ¬ë¡¯1"));
 		_optionClass->keyRender(_keyX + _dirFront->getWidth() + 45 + _dirBack->getWidth() / 2 - 1, _keyY + KEY_Y + 406, _optionClass->getSkillSlot1());
-		TextOut(getMemDC(), _keyX + 55, _keyY + KEY_Y + 451, "½ºÅ³½½·Ô2", strlen("½ºÅ³½½·Ô2"));
+		TextOut(getMemDC(), _keyX + 55, _keyY + KEY_Y + 451, "ìŠ¤í‚¬ìŠ¬ë¡¯2", strlen("ìŠ¤í‚¬ìŠ¬ë¡¯2"));
 		_optionClass->keyRender(_keyX + _dirFront->getWidth() + 45 + _dirBack->getWidth() / 2 - 1, _keyY + KEY_Y + 451, _optionClass->getSkillSlot2());
-		TextOut(getMemDC(), _keyX + 55, _keyY + KEY_Y + 499, "¾ÆÀÌÅÛ½½·Ô1", strlen("¾ÆÀÌÅÛ½½·Ô1"));
+		TextOut(getMemDC(), _keyX + 55, _keyY + KEY_Y + 499, "ì•„ì´í…œìŠ¬ë¡¯1", strlen("ì•„ì´í…œìŠ¬ë¡¯1"));
 		_optionClass->keyRender(_keyX + _dirFront->getWidth() + 45 + _dirBack->getWidth() / 2 - 1, _keyY + KEY_Y + 499, _optionClass->getItemSlot1());
-		TextOut(getMemDC(), _keyX + 55, _keyY + KEY_Y + 544, "¾ÆÀÌÅÛ½½·Ô2", strlen("¾ÆÀÌÅÛ½½·Ô2"));
+		TextOut(getMemDC(), _keyX + 55, _keyY + KEY_Y + 544, "ì•„ì´í…œìŠ¬ë¡¯2", strlen("ì•„ì´í…œìŠ¬ë¡¯2"));
 		_optionClass->keyRender(_keyX + _dirFront->getWidth() + 45 + _dirBack->getWidth() / 2 - 1, _keyY + KEY_Y + 544, _optionClass->getItemSlot2());
 
 		SetTextColor(getMemDC(), RGB(255, 255, 255));
-		TextOut(getMemDC(), _keyX + 53, _keyY + KEY_Y + 65, "À§ÂÊ", strlen("À§ÂÊ"));
+		TextOut(getMemDC(), _keyX + 53, _keyY + KEY_Y + 65, "ìœ„ìª½", strlen("ìœ„ìª½"));
 		_optionClass->keyRender(_keyX + _dirFront->getWidth() + 45 + _dirBack->getWidth() / 2 + 1, _keyY + KEY_Y + 65, _optionClass->getUp());
-		TextOut(getMemDC(), _keyX + 53, _keyY + KEY_Y + 110, "¾Æ·¡ÂÊ", strlen("¾Æ·¡ÂÊ"));
+		TextOut(getMemDC(), _keyX + 53, _keyY + KEY_Y + 110, "ì•„ë˜ìª½", strlen("ì•„ë˜ìª½"));
 		_optionClass->keyRender(_keyX + _dirFront->getWidth() + 45 + _dirBack->getWidth() / 2 + 1, _keyY + KEY_Y + 110, _optionClass->getDown());
-		TextOut(getMemDC(), _keyX + 53, _keyY + KEY_Y + 155, "¿ŞÂÊ", strlen("¿ŞÂÊ"));
+		TextOut(getMemDC(), _keyX + 53, _keyY + KEY_Y + 155, "ì™¼ìª½", strlen("ì™¼ìª½"));
 		_optionClass->keyRender(_keyX + _dirFront->getWidth() + 45 + _dirBack->getWidth() / 2 + 1, _keyY + KEY_Y + 155, _optionClass->getLeft());
-		TextOut(getMemDC(), _keyX + 53, _keyY + KEY_Y + 200, "¿À¸¥ÂÊ", strlen("¿À¸¥ÂÊ"));
+		TextOut(getMemDC(), _keyX + 53, _keyY + KEY_Y + 200, "ì˜¤ë¥¸ìª½", strlen("ì˜¤ë¥¸ìª½"));
 		_optionClass->keyRender(_keyX + _dirFront->getWidth() + 45 + _dirBack->getWidth() / 2 + 1, _keyY + KEY_Y + 200, _optionClass->getRight());
-		TextOut(getMemDC(), _keyX + 53, _keyY + KEY_Y + 315, "È¦µå", strlen("È¦µå"));
+		TextOut(getMemDC(), _keyX + 53, _keyY + KEY_Y + 315, "í™€ë“œ", strlen("í™€ë“œ"));
 		_optionClass->keyRender(_keyX + _dirFront->getWidth() + 45 + _dirBack->getWidth() / 2 + 1, _keyY + KEY_Y + 315, _optionClass->getHold());
-		TextOut(getMemDC(), _keyX + 53, _keyY + KEY_Y + 360, "µå¶ø", strlen("µå¶ø"));
+		TextOut(getMemDC(), _keyX + 53, _keyY + KEY_Y + 360, "ë“œë", strlen("ë“œë"));
 		_optionClass->keyRender(_keyX + _dirFront->getWidth() + 45 + _dirBack->getWidth() / 2 + 1, _keyY + KEY_Y + 360, _optionClass->getDrop());
-		TextOut(getMemDC(), _keyX + 55, _keyY + KEY_Y + 405, "½ºÅ³½½·Ô1", strlen("½ºÅ³½½·Ô1"));
+		TextOut(getMemDC(), _keyX + 55, _keyY + KEY_Y + 405, "ìŠ¤í‚¬ìŠ¬ë¡¯1", strlen("ìŠ¤í‚¬ìŠ¬ë¡¯1"));
 		_optionClass->keyRender(_keyX + _dirFront->getWidth() + 45 + _dirBack->getWidth() / 2 - 1, _keyY + KEY_Y + 405, _optionClass->getSkillSlot1());
-		TextOut(getMemDC(), _keyX + 55, _keyY + KEY_Y + 450, "½ºÅ³½½·Ô2", strlen("½ºÅ³½½·Ô2"));
+		TextOut(getMemDC(), _keyX + 55, _keyY + KEY_Y + 450, "ìŠ¤í‚¬ìŠ¬ë¡¯2", strlen("ìŠ¤í‚¬ìŠ¬ë¡¯2"));
 		_optionClass->keyRender(_keyX + _dirFront->getWidth() + 45 + _dirBack->getWidth() / 2 - 1, _keyY + KEY_Y + 450, _optionClass->getSkillSlot2());
-		TextOut(getMemDC(), _keyX + 55, _keyY + KEY_Y + 495, "¾ÆÀÌÅÛ½½·Ô1", strlen("¾ÆÀÌÅÛ½½·Ô1"));
+		TextOut(getMemDC(), _keyX + 55, _keyY + KEY_Y + 495, "ì•„ì´í…œìŠ¬ë¡¯1", strlen("ì•„ì´í…œìŠ¬ë¡¯1"));
 		_optionClass->keyRender(_keyX + _dirFront->getWidth() + 45 + _dirBack->getWidth() / 2 - 1, _keyY + KEY_Y + 495, _optionClass->getItemSlot1());
-		TextOut(getMemDC(), _keyX + 55, _keyY + KEY_Y + 540, "¾ÆÀÌÅÛ½½·Ô2", strlen("¾ÆÀÌÅÛ½½·Ô2"));
+		TextOut(getMemDC(), _keyX + 55, _keyY + KEY_Y + 540, "ì•„ì´í…œìŠ¬ë¡¯2", strlen("ì•„ì´í…œìŠ¬ë¡¯2"));
 		_optionClass->keyRender(_keyX + _dirFront->getWidth() + 45 + _dirBack->getWidth() / 2 - 1, _keyY + KEY_Y + 540, _optionClass->getItemSlot2());
 
 		SelectObject(getMemDC(), _oldFont);
 	}
 
-	// ´İ±â ¹öÆ°
+	// ë‹«ê¸° ë²„íŠ¼
 	_closeButton.img->frameRender(getMemDC(), _closeButton.img->getX(), _closeButton.img->getY());
 
-	// °ñµå°¡ ºÎÁ·ÇÑ °æ¿ì
+	// ê³¨ë“œê°€ ë¶€ì¡±í•œ ê²½ìš°
 	if (_notEnoughGold)
 	{
 		if (GetTickCount64() - _goldTimer >= 500)
@@ -589,9 +590,9 @@ void main::render()
 
 		_oldFont = (HFONT)SelectObject(getMemDC(), _bigFont);
 		SetTextColor(getMemDC(), RGB(0, 0, 0));
-		TextOut(getMemDC(), WINSIZEX / 2 - 10 * strlen("°ñµå°¡ ºÎÁ·ÇÕ´Ï´Ù."), WINSIZEY / 2, "°ñµå°¡ ºÎÁ·ÇÕ´Ï´Ù.", strlen("°ñµå°¡ ºÎÁ·ÇÕ´Ï´Ù."));
+		TextOut(getMemDC(), WINSIZEX / 2 - 10 * strlen("ê³¨ë“œê°€ ë¶€ì¡±í•©ë‹ˆë‹¤."), WINSIZEY / 2, "ê³¨ë“œê°€ ë¶€ì¡±í•©ë‹ˆë‹¤.", strlen("ê³¨ë“œê°€ ë¶€ì¡±í•©ë‹ˆë‹¤."));
 		SetTextColor(getMemDC(), RGB(255, 0, 0));
-		TextOut(getMemDC(), WINSIZEX / 2 - 10 * strlen("°ñµå°¡ ºÎÁ·ÇÕ´Ï´Ù.") - 2, WINSIZEY / 2 - 2, "°ñµå°¡ ºÎÁ·ÇÕ´Ï´Ù.", strlen("°ñµå°¡ ºÎÁ·ÇÕ´Ï´Ù."));
+		TextOut(getMemDC(), WINSIZEX / 2 - 10 * strlen("ê³¨ë“œê°€ ë¶€ì¡±í•©ë‹ˆë‹¤.") - 2, WINSIZEY / 2 - 2, "ê³¨ë“œê°€ ë¶€ì¡±í•©ë‹ˆë‹¤.", strlen("ê³¨ë“œê°€ ë¶€ì¡±í•©ë‹ˆë‹¤."));
 
 		SelectObject(getMemDC(), _oldFont);
 	}
@@ -608,7 +609,7 @@ void main::moveBoard(tagMenu menu)
 	int other = 0;
 	bool on = false;
 
-	// ¶ç¿ö¾ßÇÒ ¸Ş´ºÀÇ Á¤º¸¸¦ ÀÔ·Â ¹Ş´Â´Ù
+	// ë„ì›Œì•¼í•  ë©”ë‰´ì˜ ì •ë³´ë¥¼ ì…ë ¥ ë°›ëŠ”ë‹¤
 	switch (menu)
 	{
 	case OPTION:
@@ -634,10 +635,10 @@ void main::moveBoard(tagMenu menu)
 		break;
 	}
 
-	// Ã¢ÀÌ Ãâ·Â »óÅÂÀÌ°í ´Ù¸¥ Ã¢ÀÌ È­¸é ¹Û¿¡ ÀÖ´Ù¸é
+	// ì°½ì´ ì¶œë ¥ ìƒíƒœì´ê³  ë‹¤ë¥¸ ì°½ì´ í™”ë©´ ë°–ì— ìˆë‹¤ë©´
 	if (on && other == WINSIZEY)
 	{
-		// ½ºÇÇµå°¡ Á¡Á¡ ´À·ÁÁö°ÔÇÏ°í 1º¸´Ù ÀÛ¾ÆÁö¸é ¸¶ÀÌ³Ê½º·Î ¹İµ¿À¸·Î µ¹¾Æ¿À´Â ´À³¦À» ÁØ´Ù.
+		// ìŠ¤í”¼ë“œê°€ ì ì  ëŠë ¤ì§€ê²Œí•˜ê³  1ë³´ë‹¤ ì‘ì•„ì§€ë©´ ë§ˆì´ë„ˆìŠ¤ë¡œ ë°˜ë™ìœ¼ë¡œ ëŒì•„ì˜¤ëŠ” ëŠë‚Œì„ ì¤€ë‹¤.
 		if (speed >= 1)
 		{
 			y -= speed;
@@ -658,7 +659,7 @@ void main::moveBoard(tagMenu menu)
 	}
 	else
 	{
-		// ¾Æ·¡·Î ¶³¾îÁö°Ô²û ¸ğ¼ÇÀ» ÁØ´Ù
+		// ì•„ë˜ë¡œ ë–¨ì–´ì§€ê²Œë” ëª¨ì…˜ì„ ì¤€ë‹¤
 		if (speed < 1)
 		{
 			y += speed;
@@ -679,7 +680,7 @@ void main::moveBoard(tagMenu menu)
 		}
 	}
 
-	// ¸Ş´ºÀÇ Á¤º¸¸¦ ¹İÈ¯ÇÑ´Ù.
+	// ë©”ë‰´ì˜ ì •ë³´ë¥¼ ë°˜í™˜í•œë‹¤.
 	switch (menu)
 	{
 	case OPTION:
@@ -687,21 +688,21 @@ void main::moveBoard(tagMenu menu)
 		_popX = x;
 		_popY = y;
 
-		// BackGround SoundÀÇ À§Ä¡
+		// BackGround Soundì˜ ìœ„ì¹˜
 		_bgmSound.img->setX(_popX + 50);
 		_bgmSound.img->setY(_popY + 100);
 
-		// Effect SoundÀÇ À§Ä¡
+		// Effect Soundì˜ ìœ„ì¹˜
 		_effectSound.img->setX(_bgmSound.img->getX() + _bgmSound.img->getFrameWidth() + 10);
 		_effectSound.img->setY(_popY + 100);
 
-		// KeypadÀÇ À§Ä¡
+		// Keypadì˜ ìœ„ì¹˜
 		_keypad.img->setX(_effectSound.img->getX() + _effectSound.img->getFrameWidth() + 10);
 		_keypad.img->setY(_popY + 100);
 
 		if (other == WINSIZEY)
 		{
-			// closeButtonÀÇ À§Ä¡
+			// closeButtonì˜ ìœ„ì¹˜
 			_closeButton.img->setX(_popX + _popUp->getWidth() - _closeButton.img->getFrameWidth() * 0.75);
 			_closeButton.img->setY(_popY - _closeButton.img->getFrameHeight() / 4);
 		}
@@ -716,7 +717,7 @@ void main::moveBoard(tagMenu menu)
 
 		if (other == WINSIZEY)
 		{
-			// closeButtonÀÇ À§Ä¡
+			// closeButtonì˜ ìœ„ì¹˜
 			_closeButton.img->setX(_keyX + _keyBoard->getWidth() - _closeButton.img->getFrameWidth() * 0.75);
 			_closeButton.img->setY(_keyY - _closeButton.img->getFrameHeight() / 4);
 		}
@@ -728,11 +729,11 @@ void main::moveBoard(tagMenu menu)
 
 		if (other == WINSIZEY)
 		{
-			// ok¹öÆ°ÀÇ À§Ä¡
+			// okë²„íŠ¼ì˜ ìœ„ì¹˜
 			_okButton.img->setX(_askX + 60);
 			_okButton.img->setY(_askY + _ask->getHeight() - 100);
 
-			// closeButtonÀÇ À§Ä¡
+			// closeButtonì˜ ìœ„ì¹˜
 			_closeButton.img->setX(_askX + _ask->getWidth() - 120 - _closeButton.img->getFrameWidth() / 2);
 			_closeButton.img->setY(_askY + _ask->getHeight() - 100);
 		}
