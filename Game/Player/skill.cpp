@@ -3,6 +3,7 @@
 
 HRESULT skill::init()
 {
+	// 스킬 세팅
 	setSkill(&skill1, SLOW);
 	setSkill(&skill2, LONG_BLOCK);
 
@@ -13,18 +14,12 @@ void skill::release()
 {
 }
 
-void skill::update()
-{
-}
-
-void skill::render()
-{
-}
-
 void skill::skillActivate(tagSkill* skill, tagStone* enemy, bool* tetris)
 {
+	// 스킬이 발동중일때 효과 적용시키는 함수
 	if (skill->activate)
 	{
+		// 이름에 따라 다른 효과 주기
 		switch (skill->name)
 		{
 		case SLOW:
@@ -52,12 +47,8 @@ void skill::skillActivate(tagSkill* skill, tagStone* enemy, bool* tetris)
 
 void skill::skillRender(tagSkill skill, int x, int y)
 {
+	// 스킬 아이콘 출력
 	skill.img->render(getMemDC(), x, y);
-
-	if (!skill.activate)
-	{
-
-	}
 }
 
 void skill::setSkill(tagSkill* skill, tagSkillName name)
