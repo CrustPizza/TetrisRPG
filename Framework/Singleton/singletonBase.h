@@ -4,36 +4,36 @@ template <class T>
 class singletonBase
 {
 protected:
-	//½Ì±ÛÅæ °´Ã¼ ¼±¾ğ
+	// ì‹±ê¸€í†¤ ê°ì²´ ì„ ì–¸
 	static T* singleton;
 
 	singletonBase() {}
 	~singletonBase() {}
 public:
-	//½Ì±ÛÅæ °´Ã¼ °¡Á®¿À±â
+	// ì‹±ê¸€í†¤ ê°ì²´ ê°€ì ¸ì˜¤ê¸°
 	static T* getSingleton();
-	//½Ì±ÛÅæ °´Ã¼ ÇØÁ¦ÇÏ±â
+	// ì‹±ê¸€í†¤ ê°ì²´ í•´ì œí•˜ê¸°
 	void releaseSingleton();
 };
 
-//½Ì±ÛÅæ ÃÊ±âÈ­
+// ì´ˆê¸°í™”
 template<class T>
 T* singletonBase<T>::singleton = 0;
 
-//½Ì±ÛÅæ °´Ã¼ °¡Á®¿À±â
+// ì‹±ê¸€í†¤ ê°ì²´ ê°€ì ¸ì˜¤ê¸°
 template<class T>
 inline T * singletonBase<T>::getSingleton()
 {
-	//½Ì±ÛÅæÀÌ ¾øÀ¸¸é »õ·Î »ı¼º
+	// ì‹±ê¸€í†¤ì´ ì—†ìœ¼ë©´ ìƒˆë¡œ ìƒì„±
 	if (!singleton) singleton = new T;
-	return singleton;
+		return singleton;
 }
 
-//½Ì±ÛÅæ °´Ã¼ ÇØÁ¦ÇÏ±â
+// ì‹±ê¸€í†¤ ê°ì²´ í•´ì œí•˜ê¸°
 template<class T>
 inline void singletonBase<T>::releaseSingleton()
 {
-	//½Ì±ÛÅæÀÌ ÀÖ´Ù¸é ¸Ş¸ğ¸®¿¡¼­ ÇØÁ¦
+	// ì‹±ê¸€í†¤ì´ ìˆë‹¤ë©´ ë©”ëª¨ë¦¬ì—ì„œ í•´ì œ
 	if (singleton)
 	{
 		delete singleton;
