@@ -1,14 +1,11 @@
 #pragma once
 #include "singletonBase.h"
-/*FMOD »ç¿ëÇÏ±â À§ÇØ ¶óÀÌºê·¯¸® Ãß°¡*/
+/*FMOD ì‚¬ìš©í•˜ê¸° ìœ„í•´ ë¼ì´ë¸ŒëŸ¬ë¦¬ ì¶”ê°€*/
 #include "SOUND/inc/fmod.hpp"
 #pragma comment (lib, "SOUND/lib/fmodex_vc.lib")
 using namespace FMOD;
-//=============================================================
-//	## soundManager ## (»ç¿îµå ¸Å´ÏÁ®)
-//=============================================================
 
-//»ç¿ëÇÒ »ç¿îµå¹öÆÛ (»ç¿îµå°¹¼ö°¡ 30°³°¡ ³Ñ¾î°¡¸é Å©±â¸¦ ´õ ´Ã·ÁÁà¾ß ÇÑ´Ù)
+// ì‚¬ìš©í•  ì‚¬ìš´ë“œ ë²„í¼ìˆ˜
 #define SOUNDBUFFER 100
 
 class soundManager : public singletonBase<soundManager>
@@ -18,36 +15,35 @@ private:
 	typedef map<string, Sound**>::iterator arrSoundIter;
 
 private:
-	System* _system;		//½Ã½ºÅÛ Å¬·¡½º
-	Sound** _sound;			//»ç¿îµå Å¬·¡½º
-	Channel** _channel;		//Ã¤³Î Å¬·¡½º
+	System*		_system;		// ì‹œìŠ¤í…œ í´ë˜ìŠ¤
+	Sound** 	_sound;			// ì‚¬ìš´ë“œ í´ë˜ìŠ¤
+	Channel**	_channel;		// ì±„ë„ í´ë˜ìŠ¤
 
-	arrSound _mTotalSound;	//¸Ê¿¡ ´ã¾ÆµÑ »ç¿îµåµé
+	arrSound	_mTotalSound;	// ì‚¬ìš´ë“œ ë‹´ì„ ë§µ
 
-	float _effectVolume;
+	float		_effectVolume;	// íš¨ê³¼ìŒ ë³¼ë¥¨
 
 public:
 	HRESULT init(void);
 	void release(void);
 	void update(void);
 
-	//»ç¿îµå Ãß°¡(Å°°ª, ÆÄÀÏÀÌ¸§, BGM?, ·çÇÁ½ÃÅ³°Å³Ä?)
+	// ì‚¬ìš´ë“œ ì¶”ê°€
 	void addSound(string keyName, string soundName, bool bgm = false, bool loop = false);
-
-	//»ç¿îµå Àç»ı
+	// ì‚¬ìš´ë“œ ì¬ìƒ
 	void play(string keyName, float volume = 1.0f); //0.0f(Min) ~ 1.0f(Max)
-	//»ç¿îµå Á¤Áö
+	// ì‚¬ìš´ë“œ ì •ì§€
 	void stop(string keyName);
-	//»ç¿îµå ÀÏ½ÃÁ¤Áö
+	// ì‚¬ìš´ë“œ ì¼ì‹œì •ì§€
 	void pause(string keyName);
-	//»ç¿îµå ´Ù½ÃÀç»ı
+	// ì‚¬ìš´ë“œ ë‹¤ì‹œì¬ìƒ
 	void resume(string keyName);
-
-	//ÇÃ·¹ÀÌ ÁßÀÌ³Ä?
+	// í”Œë ˆì´ì¤‘ì¸ê°€
 	bool isPlaySound(string keyName);
-	//ÀÏ½ÃÁ¤Áö ÁßÀÌ³Ä?
+	// ì¼ì‹œì •ì§€ì¤‘ì¸ê°€
 	bool isPauseSound(string keyName);
 
+	// ë³¼ë¥¨ ê²Ÿ ì…‹
 	void setEffectVolume(float volume) { _effectVolume = volume; }
 	float getEffectVolume() { return _effectVolume; }
 
