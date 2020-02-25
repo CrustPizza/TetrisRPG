@@ -3,7 +3,7 @@
 
 HRESULT tetris::init()
 {
-	// ºí·° ÀÌ¹ÌÁö µî·Ï
+	// ë¸”ëŸ­ ì´ë¯¸ì§€ ë“±ë¡
 	_blue = IMAGEMANAGER->findImage("BlueBlock");
 	_red = IMAGEMANAGER->findImage("RedBlock");
 	_grey = IMAGEMANAGER->findImage("GreyBlock");
@@ -19,7 +19,7 @@ HRESULT tetris::init()
 	_poison = IMAGEMANAGER->findImage("Poison");
 	_recovery = IMAGEMANAGER->findImage("Recovery");
 
-	// ¹è¿­ ÃÊ±âÈ­
+	// ë°°ì—´ ì´ˆê¸°í™”
 	for (int i = 0; i < HEIGHT; i++)
 	{
 		for (int j = 0; j < WIDTH; j++)
@@ -35,7 +35,7 @@ HRESULT tetris::init()
 		}
 	}
 
-	// ºí·° ÃÊ±âÈ­
+	// ë¸”ëŸ­ ì´ˆê¸°í™”
 	vector<bool> buf;
 
 	buf.push_back(0);
@@ -64,7 +64,7 @@ HRESULT tetris::init()
 
 	buf.~vector();
 
-	// ÃÊ±â°ª ¼³Á¤
+	// ì´ˆê¸°ê°’ ì„¤ì •
 	_idx = (WIDTH - 4) / 2;
 	_idy = HEIGHT - 4;
 	_ghostY = _idy;
@@ -75,29 +75,29 @@ HRESULT tetris::init()
 
 	while (moveBlock(DEFAULT));
 
-	// ÀÌµ¿ Å¸ÀÌ¸Ó
+	// ì´ë™ íƒ€ì´ë¨¸
 	_timer = GetTickCount64();
 	_downTimer = GetTickCount64();
 	_stayCount = STAY_DELAY;
 
-	// ¹öÇÁ Å¸ÀÌ¸Ó
+	// ë²„í”„ íƒ€ì´ë¨¸
 	_atkBuffTimer = GetTickCount64() - 10000;
 	_atkDebuffTimer = GetTickCount64() - 10000;
 	_poisonTimer = GetTickCount64() - 10000;
 	_recoveryTimer = GetTickCount64() - 10000;
 
-	// °ÔÀÓ Á¾·á
+	// ê²Œì„ ì¢…ë£Œ
 	_gameover = false;
 	_overLine = 1;
 	_overTimer = GetTickCount64();
 	_resetCount = 4;
 	_numberScale = 3.0f;
 
-	// ÄŞº¸
+	// ì½¤ë³´
 	_combo.img = IMAGEMANAGER->findImage("Combo");
 	_combo.count = 0;
 
-	// ¿É¼Ç
+	// ì˜µì…˜
 	if (_option == nullptr)
 	{
 		_option = new option;
@@ -116,10 +116,10 @@ void tetris::release()
 
 void tetris::update()
 {
-	// °ÔÀÓ ¿À¹ö
+	// ê²Œì„ ì˜¤ë²„
 	if (_gameover)
 	{
-		// Á¶Á¾ ºí·°ÀÌ ÀÖÀ» °æ¿ì º¸µå¿¡ Ãß°¡ÇÏ°í ºñ¿öÁØ´Ù.
+		// ì¡°ì¢… ë¸”ëŸ­ì´ ìˆì„ ê²½ìš° ë³´ë“œì— ì¶”ê°€í•˜ê³  ë¹„ìš°ê¸°
 		if (!_controlBlock.block.empty())
 		{
 			for (int i = 0; i < 4; i++)
@@ -137,17 +137,18 @@ void tetris::update()
 			_controlBlock.block.clear();
 		}
 		
-		// º¸µå¿¡ ÀÖ´Â ºí·°µéÀÇ »öÀ» È¸»öÀ¸·Î ±³Ã¼
+		// ë³´ë“œì— ìˆëŠ” ë¸”ëŸ­ë“¤ì˜ ìƒ‰ì„ íšŒìƒ‰ìœ¼ë¡œ êµì²´
 		for (int j = 1; j < WIDTH - 1; j++)
 		{
 			_board[_overLine][j].color = 7;
 		}
 
-		// ÇÑÁÙ¾¿ ±³Ã¼ÇÏ±âÀ§ÇØ º¯¼ö ¼³Á¤
+		// í•œì¤„ì”© êµì²´
 		if (_overLine < 20)
 			_overLine++;
 		else if (GetTickCount64() - _overTimer >= 1000)
 		{
+			// êµì²´ê°€ ëë‚˜ë©´ ë‹¤ì‹œ ì‹œì‘í•˜ê¸°ìœ„í•´ ì¹´ìš´íŠ¸ë‹¤ìš´ ì‹œì‘
 			_resetCount--;
 			_overTimer = GetTickCount64();
 
@@ -158,15 +159,18 @@ void tetris::update()
 		}
 		else
 		{
+			// ìˆ«ìì˜ í¬ê¸° ì¡°ì ˆí•´ì„œ ì¹´ìš´íŠ¸ ë‹¤ìš´ì— ì´í™íŠ¸ íš¨ê³¼ ì£¼ê¸°
 			if (_numberScale > 1.0f)
 				_numberScale -= 0.1f;
 		}
 
+		// ì¹´ìš´íŠ¸ ë‹¤ìš´ì´ ëë‚˜ë©´ ì´ˆê¸°í™”
 		if (_resetCount == -1)
-			init();
+			this->init();
 	}
 	else
 	{
+		// Holdí‚¤ ëˆ„ë¥¼ê²½ìš°
 		if (KEYMANAGER->isOnceKeyDown(_option->getHold()))
 			holdBlock();
 
@@ -360,55 +364,55 @@ void tetris::makeBlock()
 	switch (_nextBlock.color)
 	{
 	case 0:
-		// ¤±¤±¤±¤± ºí·°
+		// ã…ã…ã…ã… ë¸”ëŸ­
 		_nextBlock.block[3] = { 0, 0, 0, 0 };
 		_nextBlock.block[2] = { 1, 1, 1, 1 };
 		_nextBlock.block[1] = { 0, 0, 0, 0 };
 		_nextBlock.block[0] = { 0, 0, 0, 0 };
 		break;
 	case 1:
-		//    ¤±
-		// ¤±¤±¤± ºí·°
+		//    ã…
+		// ã…ã…ã… ë¸”ëŸ­
 		_nextBlock.block[3] = { 0, 0, 0, 0 };
 		_nextBlock.block[2] = { 0, 0, 1, 0 };
 		_nextBlock.block[1] = { 1, 1, 1, 0 };
 		_nextBlock.block[0] = { 0, 0, 0, 0 };
 		break;
 	case 2:
-		// ¤±
-		// ¤±¤±¤± ºí·°
+		// ã…
+		// ã…ã…ã… ë¸”ëŸ­
 		_nextBlock.block[3] = { 0, 0, 0, 0 };
 		_nextBlock.block[2] = { 1, 0, 0, 0 };
 		_nextBlock.block[1] = { 1, 1, 1, 0 };
 		_nextBlock.block[0] = { 0, 0, 0, 0 };
 		break;
 	case 3:
-		//   ¤±
-		// ¤±¤±¤± ºí·°
+		//   ã…
+		// ã…ã…ã… ë¸”ëŸ­
 		_nextBlock.block[3] = { 0, 0, 0, 0 };
 		_nextBlock.block[2] = { 0, 1, 0, 0 };
 		_nextBlock.block[1] = { 1, 1, 1, 0 };
 		_nextBlock.block[0] = { 0, 0, 0, 0 };
 		break;
 	case 4:
-		// ¤±¤±
-		//   ¤±¤± ºí·°
+		// ã…ã…
+		//   ã…ã… ë¸”ëŸ­
 		_nextBlock.block[3] = { 0, 0, 0, 0 };
 		_nextBlock.block[2] = { 1, 1, 0, 0 };
 		_nextBlock.block[1] = { 0, 1, 1, 0 };
 		_nextBlock.block[0] = { 0, 0, 0, 0 };
 		break;
 	case 5:
-		//   ¤±¤±
-		// ¤±¤± ºí·°
+		//   ã…ã…
+		// ã…ã… ë¸”ëŸ­
 		_nextBlock.block[3] = { 0, 0, 0, 0 };
 		_nextBlock.block[2] = { 0, 1, 1, 0 };
 		_nextBlock.block[1] = { 1, 1, 0, 0 };
 		_nextBlock.block[0] = { 0, 0, 0, 0 };
 		break;
 	case 6:
-		// ¤±¤±
-		// ¤±¤± ºí·°
+		// ã…ã…
+		// ã…ã… ë¸”ëŸ­
 		_nextBlock.block[3] = { 0, 0, 0, 0 };
 		_nextBlock.block[2] = { 0, 1, 1, 0 };
 		_nextBlock.block[1] = { 0, 1, 1, 0 };
