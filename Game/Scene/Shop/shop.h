@@ -5,6 +5,7 @@
 
 #define LIST_SIZE 25
 
+// ìƒì  í’ˆëª© êµ¬ì¡°ì²´
 struct tagList
 {
 	RECT rc;
@@ -14,14 +15,14 @@ struct tagList
 class shop : public gameNode
 {
 private:
-	// ÇÊ¿ä Å¬·¡½º Æ÷ÀÎÅÍ0
+	// í•„ìš” í´ë˜ìŠ¤ í¬ì¸í„°
 	Item*		_item;
 	inventory*	_inven;
 
-	// »óÁ¡ ¸®½ºÆ® Ãâ·ÂÇÒ º¸µåÀÇ »çÀÌÁî
+	// ìƒì  ë¦¬ìŠ¤íŠ¸ ì¶œë ¥í•  ë³´ë“œì˜ ì‚¬ì´ì¦ˆ
 	RECT		_boardSize;
 
-	// »óÇ° ¸®½ºÆ®
+	// ìƒí’ˆ ë¦¬ìŠ¤íŠ¸
 	tagList		_listRc[LIST_SIZE];
 
 	// UI
@@ -38,16 +39,16 @@ public:
 	void update();
 	void render();
 
-	// ¾ÆÀÌÅÛ Á¤º¸¸¦ ¸®½ºÆ®¿¡ ÀÔ·ÂÇØÁÜ
+	// ì•„ì´í…œ ì •ë³´ë¥¼ ë¦¬ìŠ¤íŠ¸ì— ì…ë ¥í•´ì¤Œ
 	void itemList(tagType type);
 
-	// »óÇ° ¸®½ºÆ® ¼±ÅÃ È®ÀÎ
+	// ìƒí’ˆ ë¦¬ìŠ¤íŠ¸ ì„ íƒ í™•ì¸
 	tagList selectList(POINT pt);
 
-	// »óÇ° ±¸¸Å
+	// ìƒí’ˆ êµ¬ë§¤
 	void setBuySelect(bool buySelect) { _buySelect = buySelect; }
 
-	// ¼ıÀÚ Ãâ·Â
+	// ìˆ«ì ì¶œë ¥
 	void printNumber(int num, int x, int y);
 
 	shop() {}
