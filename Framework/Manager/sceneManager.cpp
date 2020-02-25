@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "sceneManager.h"
-#include "gameNode.h" //ÀÌ³ğ Ãß°¡ÇØÁà¾ß ÇÔ
+#include "gameNode.h"
 
 HRESULT sceneManager::init()
 {
@@ -9,14 +9,14 @@ HRESULT sceneManager::init()
 
 void sceneManager::release()
 {
-	//Á¤¼®ÀûÀÎ ¹æ¹ı
-	miSceneList iter = _mSceneList.begin();
-	for (;iter != _mSceneList.end();)
+	// ë§µì— ë‹´ê¸´ ì”¬ ë©”ëª¨ë¦¬ í•´ì œ
+	for (miSceneList iter = _mSceneList.begin(); iter != _mSceneList.end();)
 	{
 		if (iter->second != NULL)
 		{
 			if (iter->second == _currentScene) iter->second->release();
-			SAFE_DELETE(iter->second);
+				SAFE_DELETE(iter->second);
+			
 			iter = _mSceneList.erase(iter);
 		}
 		else
@@ -25,37 +25,27 @@ void sceneManager::release()
 		}
 	}
 	_mSceneList.clear();
-
-	//C++ °í±Ş¹®¹ı
-	//for(auto scene in _mSceneList) Áö±İÀº »ç¿ëºÒ°¡
-	//for (auto scene : _mSceneList)
-	//{
-	//	scene.second->release();
-	//	SAFE_DELETE(scene.second);
-	//}
-
 }
 
 void sceneManager::update()
 {
-	//ÇöÀç¾ÀÀÌ Á¸ÀçÇÏ¸é ÇØ´çÇÏ´Â ÇöÀç¾ÀÀ» ¾÷µ¥ÀÌÆ®ÇØ¶ó
+	// í˜„ì¬ì”¬ì´ ì¡´ì¬í•˜ë©´ í•´ë‹¹í•˜ëŠ” í˜„ì¬ì”¬ì„ ì—…ë°ì´íŠ¸
 	if (_currentScene) _currentScene->update();
 }
 
 void sceneManager::render()
 {
-	//ÇöÀç¾ÀÀÌ Á¸ÀçÇÏ¸é ÇØ´çÇÏ´Â ÇöÀç¾ÀÀ» ·»´õÇØ¶ó
+	//í˜„ì¬ì”¬ì´ ì¡´ì¬í•˜ë©´ í•´ë‹¹í•˜ëŠ” í˜„ì¬ì”¬ì„ ë Œë”í•´ë¼
 	if (_currentScene) _currentScene->render();
 }
 
 gameNode * sceneManager::addScene(string sceneName, gameNode * scene)
 {
-	//¾ÀÀÌ ¾øÀ¸¸é ±×³É ³Î ¸®ÅÏ
+	// ì”¬ì´ ì—†ìœ¼ë©´ Nullê°’ ë°˜í™˜
 	if (!scene) return NULL;
 
-	//¾ÀÀÌ ÀÖÀ¸¸é ¸Ê¿¡ ´ã±â
+	// ì”¬ì´ ìˆìœ¼ë©´ ë§µì— ë‹´ê¸°
 	_mSceneList.insert(make_pair(sceneName, scene));
-	//_mSceneList.insert(pair<string, gameNode*>(sceneName, scene));
 	return scene;
 }
 
@@ -63,13 +53,13 @@ HRESULT sceneManager::loadScene(string sceneName)
 {
 	miSceneList find = _mSceneList.find(sceneName);
 
-	//¸øÃ£¾Ò´Ù¸é E_FAIL
+	// ëª»ì°¾ì•˜ë‹¤ë©´ E_FAIL
 	if (find == _mSceneList.end()) return E_FAIL;
 
-	//¹Ù²Ù·Á´Â ¾À°ú ÇöÀç¾ÀÀÌ °°´Ù¸é E_FAIL
+	// ë°”ê¾¸ë ¤ëŠ” ì”¬ê³¼ í˜„ì¬ì”¬ì´ ê°™ë‹¤ë©´ E_FAIL
 	if (find->second == _currentScene) return E_FAIL;
 
-	//¿©±â±îÁö ¿ÔÀ¸¸é ¹®Á¦°¡ ¾øÀ¸´Ï ¾ÀÀ» º¯°æÃ³¸®ÇÏÀÚ
+	// ì”¬ ë³€ê²½
 	if (SUCCEEDED(find->second->init()))
 	{
 		_currentScene = find->second;
