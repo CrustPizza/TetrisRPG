@@ -1,24 +1,22 @@
 #pragma once
 #include "gameNode.h"
-//=============================================================
-//	## progressBar ## (ÇÁ·Î±×·¡½º¹Ù == Ã¼·Â¹Ù)
-//=============================================================
+
 class progressBar : public gameNode
 {
 private:
-	image*	 _progressBarFront;	//Ã¼·Â¹Ù ¾Õ ÀÌ¹ÌÁö
-	image*	 _progressBarBack;	//Ã¼·Â¹Ù µÚ ÀÌ¹ÌÁö
+	image*	 _progressBarFront;	// ë°” ì• ì´ë¯¸ì§€
+	image*	 _progressBarBack;	// ë°” ë’¤ ì´ë¯¸ì§€
 
-	int		_currentProgress;
+	int	_currentProgress;
 
 public:
-	//Ã¼·Â¹Ù ÃÊ±âÈ­(¾ÕÀÌ¹ÌÁöÅ°, ¹éÀÌ¹ÌÁöÅ°, x, y, °¡·Î±æÀÌ, ¼¼·Î±æÀÌ)
+	// ë°” ì´ˆê¸°í™”(ì•ì´ë¯¸ì§€í‚¤, ë°±ì´ë¯¸ì§€í‚¤, x, y, ê°€ë¡œê¸¸ì´, ì„¸ë¡œê¸¸ì´)
 	HRESULT init(string frontKey, const char* frontImageKey, int frontX, int frontY, int frontWidth, int frontHeight, string backKey, const char* backImageKey, int backX, int backY, int backWidth, int backHeight);
 	void release();
 	void update();
 	void render();
 
-	//Ã¼·Â¹Ù °ÔÀÌÁö ¼¼ÆÃÇÏ±â
+	// ë°” ê²Œì´ì§€ ì„¸íŒ…í•˜ê¸°
 	void setGauge(float currentHp, float maxHp);
 
 	progressBar() {}
