@@ -23,8 +23,10 @@ void skill::skillActivate(tagSkill* skill, tagStone* enemy, bool* tetris)
 		switch (skill->name)
 		{
 		case SLOW:
+			// 에너미의 공격속도 지연시키기
 			enemy->atkTimer = skill->runTimer + (GetTickCount64() - skill->runTimer) / skill->value;
 
+			// 스킬 지속시간이 다 되었을 경우 비활성화
 			if (GetTickCount64() - skill->saveTimer >= skill->runTime)
 			{
 				skill->saveTimer = GetTickCount64();
@@ -32,8 +34,10 @@ void skill::skillActivate(tagSkill* skill, tagStone* enemy, bool* tetris)
 			}
 			break;
 		case LONG_BLOCK:
+			// Bool 변수 활성화
 			*tetris = true;
 
+			// 스킬 지속시간이 다 되었을 경우 비활성화
 			if (GetTickCount64() - skill->saveTimer >= skill->runTime)
 			{
 				*tetris = false;
@@ -53,6 +57,7 @@ void skill::skillRender(tagSkill skill, int x, int y)
 
 void skill::setSkill(tagSkill* skill, tagSkillName name)
 {
+	// 스킬 이름에 따라 데이터 
 	switch (name)
 	{
 	case SLOW:
