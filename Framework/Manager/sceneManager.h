@@ -1,25 +1,17 @@
 #pragma once
 #include "singletonBase.h"
-//=============================================================
-//	## sceneManager ## (¾À¸Å´ÏÁ®)
-//=============================================================
 
-//½Ì±ÛÅæÀ» »ó¼Ó¹ŞÀº ¾ÆÀÌµéÀº staticÀ¸·Î ¸¸µé¾î Áö±â¶§¹®¿¡
-//ÀÏ¹İÅ¬·¡½ºÀÎ °ÔÀÓ³ëµå¸¦ »ç¿ëÇÏ·Á°í ÇÏ¸é ÅÍÁø´Ù
-
-//°ÔÀÓ³ëµå Å¬·¡½º Àü¹æ¼±¾ğ
 class gameNode;
 
 class sceneManager : public singletonBase <sceneManager>
 {
 private:
-	typedef map<string, gameNode*> mSceneList;
+	// ì”¬ ë©”ëª¨ë¦¬ ì£¼ì†Œë¥¼ Mapì— ì €ì¥
+	map<string, gameNode*> _mSceneList;
 	typedef map<string, gameNode*>::iterator miSceneList;
 
-private:
-	//map<string, gameNode*> _mSceneList;
-	mSceneList _mSceneList;		//°¢°¢ÀÇ ¾À(È­¸é)µéÀ» ´ã¾ÆµÑ ¸Ê
-	gameNode* _currentScene;	//ÇöÀç¾À
+	// í˜„ì¬ ì”¬
+	gameNode* _currentScene;
 
 public:
 	HRESULT init();
@@ -27,11 +19,10 @@ public:
 	void update();
 	void render();
 
-	//¾ÀÃß°¡
+	// ì”¬ì¶”ê°€
 	gameNode* addScene(string sceneName, gameNode* scene);
-	//¾Àº¯°æ (ÇØ´ç¾À ·Îµå)
+	// ì”¬ë³€ê²½
 	HRESULT loadScene(string sceneName);
-
 
 	sceneManager() : _currentScene(NULL) {}
 	~sceneManager() {}
