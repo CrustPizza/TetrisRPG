@@ -48,7 +48,6 @@ using namespace dir;
 
 // 싱글톤
 #define KEYMANAGER keyManager::getSingleton()
-#define RND randomFunction::getSingleton()
 #define IMAGEMANAGER imageManager::getSingleton()
 #define TXTDATA	txtData::getSingleton()
 #define INIDATA iniData::getSingleton()
