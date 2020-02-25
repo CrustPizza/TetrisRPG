@@ -82,11 +82,10 @@ void soundManager::addSound(string keyName, string soundName, bool bgm, bool loo
 
 void soundManager::play(string keyName, float volume)
 {
-	// 
 	int count = 0;
 	arrSoundIter iter = _mTotalSound.begin();
 	
-	for (iter; iter != _mTotalSound.end(); ++iter, count++)
+	for (; iter != _mTotalSound.end(); ++iter, count++)
 	{
 		if (keyName == iter->first)
 		{
@@ -96,14 +95,14 @@ void soundManager::play(string keyName, float volume)
 			_channel[count]->setVolume(volume);
 		}
 	}
-
 }
 
 void soundManager::stop(string keyName)
 {
 	int count = 0;
 	arrSoundIter iter = _mTotalSound.begin();
-	for (iter; iter != _mTotalSound.end(); ++iter, count++)
+
+	for (; iter != _mTotalSound.end(); ++iter, count++)
 	{
 		if (keyName == iter->first)
 		{
@@ -117,7 +116,8 @@ void soundManager::pause(string keyName)
 {
 	int count = 0;
 	arrSoundIter iter = _mTotalSound.begin();
-	for (iter; iter != _mTotalSound.end(); ++iter, count++)
+
+	for (; iter != _mTotalSound.end(); ++iter, count++)
 	{
 		if (keyName == iter->first)
 		{
@@ -132,6 +132,7 @@ void soundManager::resume(string keyName)
 {
 	int count = 0;
 	arrSoundIter iter = _mTotalSound.begin();
+
 	for (iter; iter != _mTotalSound.end(); ++iter, count++)
 	{
 		if (keyName == iter->first)
@@ -148,11 +149,12 @@ bool soundManager::isPlaySound(string keyName)
 	bool isPlay;
 	int count = 0;
 	arrSoundIter iter = _mTotalSound.begin();
+
 	for (iter; iter != _mTotalSound.end(); ++iter, count++)
 	{
 		if (keyName == iter->first)
 		{
-			//사운드 플레이중이냐?
+			//사운드 플레이중인지 확인
 			_channel[count]->isPlaying(&isPlay);
 			break;
 		}
@@ -170,7 +172,7 @@ bool soundManager::isPauseSound(string keyName)
 	{
 		if (keyName == iter->first)
 		{
-			//사운드 플레이중이냐?
+			//사운드 일시정지중인지 확인
 			_channel[count]->getPaused(&isPause);
 			break;
 		}
