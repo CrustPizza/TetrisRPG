@@ -3,22 +3,22 @@
 
 HRESULT shop::init(int x, int y, int width, int height, inventory* inven)
 {
-	// ¾ÆÀÌÅÛ
+	// ì•„ì´í…œ
 	_item = new Item;
 	_item->init();
 
-	// ÀÎº¥Åä¸® Æ÷ÀÎÅÍ ¹Ş±â
+	// ì¸ë²¤í† ë¦¬ í¬ì¸í„° ë°›ê¸°
 	_inven = inven;
 
-	// UI µî·Ï
+	// UI ë“±ë¡
 	_buyCost = IMAGEMANAGER->findImage("Buy");
 	_sellCost = IMAGEMANAGER->findImage("Sell");
 	_gold = IMAGEMANAGER->findImage("Gold");
 
-	// ¸®½ºÆ® Ãâ·Â º¸µå »çÀÌÁî
+	// ë¦¬ìŠ¤íŠ¸ ì¶œë ¥ ë³´ë“œ ì‚¬ì´ì¦ˆ
 	_boardSize = RectMake(x, y, width, height);
 
-	// ¸®½ºÆ® ¸ñ·Ï ÃÊ±âÈ­
+	// ë¦¬ìŠ¤íŠ¸ ëª©ë¡ ì´ˆê¸°í™”
 	for (int i = 0; i < LIST_SIZE; i++)
 	{
 		_listRc[i].rc = RectMake(_boardSize.left + 25 + 55 * (i % 5), _boardSize.top + 55 * (i / 5) + 20, 50, 50);
@@ -26,7 +26,7 @@ HRESULT shop::init(int x, int y, int width, int height, inventory* inven)
 		_listRc[i].data.name = "Empty";
 	}
 
-	// º¯¼ö ÃÊ±âÈ­
+	// ë³€ìˆ˜ ì´ˆê¸°í™”
 	_buySelect = false;
 	_sellSelect = false;
 	_selectCost = 0;
@@ -42,23 +42,23 @@ void shop::release()
 
 void shop::update()
 {
-	// ÀÎº¥Åä¸®¿¡¼­ ¼±ÅÃÇÑ »óÇ°ÀÇ °¡°İÀ» ¹Ş¾Æ¿Â´Ù
+	// ì¸ë²¤í† ë¦¬ì—ì„œ ì„ íƒí•œ ìƒí’ˆì˜ ê°€ê²©ì„ ë°›ì•„ì˜¨ë‹¤
 	_selectCost = _inven->getSelect().value.cost;
 }
 
 void shop::render()
 {
-	// ¸®½ºÆ® µî·Ï
+	// ë¦¬ìŠ¤íŠ¸ ë“±ë¡
 	itemList(ARMOR);
 
-	// »óÇ° ¼±ÅÃ½Ã
+	// ìƒí’ˆ ì„ íƒì‹œ ì„ íƒí•œ ìƒí’ˆì˜ êµ¬ë§¤ê°€ ì¶œë ¥
 	if (_buySelect)
 	{
 		_buyCost->render(getMemDC(), _boardSize.left + 10, (_boardSize.bottom + _boardSize.top) / 2 - 35);
 		_gold->render(getMemDC(), _boardSize.left + 10 + _buyCost->getWidth(), (_boardSize.bottom + _boardSize.top) / 2 - 40);
 		printNumber(_selectCost, _boardSize.left + 10 + _buyCost->getWidth() + 40, (_boardSize.bottom + _boardSize.top) / 2 - 33);
 	}
-	// ÀÎº¥Åä¸® ¾ÆÀÌÅÛ ¼±ÅÃ½Ã
+	// ì¸ë²¤í† ë¦¬ ì•„ì´í…œ ì„ íƒì‹œ ì„ íƒí•œ ìƒí’ˆì˜ íŒë§¤ê°€ ì¶œë ¥
 	else if (_sellSelect)
 	{
 		_sellCost->render(getMemDC(), _boardSize.left + 10, (_boardSize.bottom + _boardSize.top) / 2 - 35);
@@ -69,9 +69,10 @@ void shop::render()
 
 void shop::itemList(tagType type)
 {
-	// Item Å¬·¡½º¿¡ µî·ÏµÈ ¾ÆÀÌÅÛÀ» ¸®½ºÆ®¿¡ µî·ÏÇÑ´Ù
+	// Item í´ë˜ìŠ¤ì— ë“±ë¡ëœ ì•„ì´í…œì„ ë¦¬ìŠ¤íŠ¸ì— ë“±ë¡í•œë‹¤
 	int count = 0;
 
+	// ë¬´ê¸°
 	for (map<string, tagItemData>::iterator iter = _item->getDataMap(WEAPON)->begin(); iter != _item->getDataMap(WEAPON)->end(); iter++)
 	{
 		IMAGEMANAGER->render(iter->second.name, getMemDC(), _listRc[count].rc.left, _listRc[count].rc.top);
@@ -79,6 +80,7 @@ void shop::itemList(tagType type)
 		count++;
 	}
 
+	// í—¬ë©§
 	for (map<string, tagItemData>::iterator iter = _item->getDataMap(HELMET)->begin(); iter != _item->getDataMap(HELMET)->end(); iter++)
 	{
 		IMAGEMANAGER->render(iter->second.name, getMemDC(), _listRc[count].rc.left, _listRc[count].rc.top);
@@ -86,6 +88,7 @@ void shop::itemList(tagType type)
 		count++;
 	}
 
+	// ê°‘ì˜·
 	for (map<string, tagItemData>::iterator iter = _item->getDataMap(ARMOR)->begin(); iter != _item->getDataMap(ARMOR)->end(); iter++)
 	{
 		IMAGEMANAGER->render(iter->second.name, getMemDC(), _listRc[count].rc.left, _listRc[count].rc.top);
@@ -93,6 +96,7 @@ void shop::itemList(tagType type)
 		count++;
 	}
 
+	// ëª©ê±¸ì´
 	for (map<string, tagItemData>::iterator iter = _item->getDataMap(NECKLACE)->begin(); iter != _item->getDataMap(NECKLACE)->end(); iter++)
 	{
 		IMAGEMANAGER->render(iter->second.name, getMemDC(), _listRc[count].rc.left, _listRc[count].rc.top);
@@ -100,6 +104,7 @@ void shop::itemList(tagType type)
 		count++;
 	}
 
+	// ë°©íŒ¨
 	for (map<string, tagItemData>::iterator iter = _item->getDataMap(SHIELD)->begin(); iter != _item->getDataMap(SHIELD)->end(); iter++)
 	{
 		IMAGEMANAGER->render(iter->second.name, getMemDC(), _listRc[count].rc.left, _listRc[count].rc.top);
@@ -107,6 +112,7 @@ void shop::itemList(tagType type)
 		count++;
 	}
 
+	// ë²¨íŠ¸
 	for (map<string, tagItemData>::iterator iter = _item->getDataMap(BELT)->begin(); iter != _item->getDataMap(BELT)->end(); iter++)
 	{
 		IMAGEMANAGER->render(iter->second.name, getMemDC(), _listRc[count].rc.left, _listRc[count].rc.top);
@@ -114,6 +120,7 @@ void shop::itemList(tagType type)
 		count++;
 	}
 
+	// ì‹ ë°œ
 	for (map<string, tagItemData>::iterator iter = _item->getDataMap(SHOES)->begin(); iter != _item->getDataMap(SHOES)->end(); iter++)
 	{
 		IMAGEMANAGER->render(iter->second.name, getMemDC(), _listRc[count].rc.left, _listRc[count].rc.top);
@@ -121,6 +128,7 @@ void shop::itemList(tagType type)
 		count++;
 	}
 
+	// ë¬¼ì•½
 	for (map<string, tagItemData>::iterator iter = _item->getDataMap(POTION)->begin(); iter != _item->getDataMap(POTION)->end(); iter++)
 	{
 		IMAGEMANAGER->render(iter->second.name, getMemDC(), _listRc[count].rc.left, _listRc[count].rc.top);
@@ -131,13 +139,17 @@ void shop::itemList(tagType type)
 
 tagList shop::selectList(POINT pt)
 {
-	// »óÇ° ¸®½ºÆ®¿¡¼­ ¾ÆÀÌÅÛÀ» ¼±ÅÃÇÒ °æ¿ì ±¸¸Å bool°ªÀ» true·Î ÇØÁØ´Ù.
+	// ìƒí’ˆ ë¦¬ìŠ¤íŠ¸ì—ì„œ ì•„ì´í…œì„ ì„ íƒí•  ê²½ìš° êµ¬ë§¤ boolê°’ì„ trueë¡œ í•´ì¤€ë‹¤.
 	for (int i = 0; i < LIST_SIZE; i++)
 	{
 		if (PtInRect(&_listRc[i].rc, pt))
 		{
+			// ë¦¬ìŠ¤íŠ¸ê°€ ë¹„ì–´ìˆì„ ê²½ìš° Break
 			if (_listRc[i].data.name == "Empty")
-				break;
+			{
+				_buySelect = false;
+				return {};
+			}
 			
 			_sellSelect = false;
 			_buySelect = true;
@@ -145,7 +157,7 @@ tagList shop::selectList(POINT pt)
 		}
 	}
 
-	// ÀÎº¥Åä¸®¿¡¼­ ¾ÆÀÌÅÛÀ» ¼±ÅÃÇßÀ» °æ¿ì ÆÇ¸Å bool°ªÀ» true·Î ÇØÁØ´Ù.
+	// ì¸ë²¤í† ë¦¬ì—ì„œ ì•„ì´í…œì„ ì„ íƒí–ˆì„ ê²½ìš° íŒë§¤ boolê°’ì„ trueë¡œ í•´ì¤€ë‹¤.
 	if (_inven->getSelect().rc.left != 0 && _inven->getSelect().select)
 		_sellSelect = true;
 	else
@@ -157,7 +169,7 @@ tagList shop::selectList(POINT pt)
 
 void shop::printNumber(int num, int x, int y)
 {
-	// ±¸¸Å ¹× ÆÇ¸Å°¡¸¦ Ãâ·ÂÇÑ´Ù
+	// êµ¬ë§¤ ë° íŒë§¤ê°€ë¥¼ ì¶œë ¥í•˜ëŠ” í•¨ìˆ˜
 	int digit = 1;
 
 	while (num / digit >= 10)
