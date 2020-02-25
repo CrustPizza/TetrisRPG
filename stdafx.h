@@ -37,12 +37,10 @@ namespace dir
 // 커스텀 헤더
 #include "commonMacroFunction.h"
 #include "keyManager.h"
-#include "randomFunction.h"
 #include "imageManager.h"
 #include "util.h"
 using namespace MY_UTIL;
 using namespace dir;
-#include "playerData.h"
 #include "txtData.h"
 #include "iniData.h"
 #include "sceneManager.h"
