@@ -3,17 +3,17 @@
 
 HRESULT soundManager::init(void)
 {
-	//FMOD ½Ã½ºÅÛÀ» »ı¼ºÇÑ´Ù
+	// FMOD ì‹œìŠ¤í…œì„ ìƒì„±
 	System_Create(&_system);
 
-	//»ç¿îµå, Ã¤³Î¼ö ¼³Á¤
+	// ì‚¬ìš´ë“œ, ì±„ë„ìˆ˜ ì„¤ì •
 	_system->init(SOUNDBUFFER, FMOD_INIT_NORMAL, 0);
 
-	//»ç¿îµå, Ã¤³Î Å¬·¡½º µ¿ÀûÇÒ´ç
+	// ì‚¬ìš´ë“œ, ì±„ë„ í´ë˜ìŠ¤ ë™ì í• ë‹¹
 	_sound = new Sound*[SOUNDBUFFER];
 	_channel = new Channel*[SOUNDBUFFER];
 
-	//¸Ş¸ğ¸® ÃÊ±âÈ­
+	// ë©”ëª¨ë¦¬ ì´ˆê¸°í™”
 	memset(_sound, 0, sizeof(Sound*) * SOUNDBUFFER);
 	memset(_channel, 0, sizeof(Channel*) * SOUNDBUFFER);
 
@@ -22,7 +22,7 @@ HRESULT soundManager::init(void)
 
 void soundManager::release(void)
 {
-	//»ç¿îµå ¹× Ã¤³Î »èÁ¦
+	// ì‚¬ìš´ë“œ ë° ì±„ë„ ì‚­ì œ
 	if (_sound != NULL || _channel != NULL)
 	{
 		for (int i = 0; i < SOUNDBUFFER; i++)
@@ -38,11 +38,11 @@ void soundManager::release(void)
 		}
 	}
 
-	//¸Ş¸ğ¸® Áö¿ì±â
+	// ë©”ëª¨ë¦¬ ì§€ìš°ê¸°
 	SAFE_DELETE_ARRAY(_sound);
 	SAFE_DELETE_ARRAY(_channel);
 
-	//½Ã½ºÅÛ ´İ±â
+	// ì‹œìŠ¤í…œ ë‹«ê¸°
 	if (_system != NULL)
 	{
 		_system->release();
@@ -52,52 +52,47 @@ void soundManager::release(void)
 
 void soundManager::update(void)
 {
-	//¸ŞÀÎ°ÔÀÓ¿¡¼­ »ç¿îµå¸Å´ÏÁ®¸¦ ¾÷µ¥ÀÌÆ® ÇØÁà¾ß ÇÑ´Ù
-	//»ç¿îµå °ü·Ã ÃÑ°ı´ã´çÀ» ÇÑ´Ù
-	//»ç¿îµå ½Ã½ºÅÛÀº º¼·ıÀÌ º¯°æµÇ°Å³ª, Àç»ıÀÌ ³¡³­ÈÄ »ç¿îµå¸¦ º¯°æÇÏ´Âµî
-	//»ç¿îµå Àü¹İÀûÀ¸·Î º¯°æÀÌ ÀÌ·ïÁú¶§ Áï°¢ÀûÀ¸·Î Ã³¸®ÇØÁØ´Ù
 	_system->update();
 }
 
 void soundManager::addSound(string keyName, string soundName, bool bgm, bool loop)
 {
-	if (loop)//ÀÏ¹İÀûÀ¸·Î BGM
+	// ë°˜ë³µ ì—¬ë¶€
+	if (loop)
 	{
+		// ìš©ëŸ‰ì´ í° BGMì˜ ê²½ìš° ë“±ë¡í•´ë†“ê³  ì‚¬ìš©í•˜ê³  ì•„ë‹Œ ê²½ìš°ì—ëŠ” ë§¤ë²ˆ ë¶ˆëŸ¬ì™€ì„œ ì“´ë‹¤
 		if (bgm)
 		{
-			//»ç¿îµå ÆÄÀÏÀ» ¹Ì¸® ¾÷·ÎµùÇØµÎ°í »ç¿ëÇÑ´Ù
-			//ÇÑ°³ÀÇ ÆÄÀÏ¸¸ Àç»ı°¡´É
 			_system->createStream(soundName.c_str(), FMOD_LOOP_NORMAL, 0, &_sound[_mTotalSound.size()]);
 		}
-		else//°ÅÀÇ »ç¿ë¾ÈÇÔ
+		else
 		{
-			//»ç¿îµå ÆÄÀÏÀ» ±×¶§±×¶§ ½Ç½Ã°£À¸·Î ·ÎµùÇÑ´Ù
-			//µû¶ó¼­ È¿°úÀ½ÀÇ ÆÄÀÏ Å©±â°¡ Å¬°æ¿ì ¹öÆÛ°¡ »ı±ä´Ù
-			//¿©·¯°³ÀÇ ÆÄÀÏ µ¿½ÃÀç»ı °¡´ÉÇÏ±â¶§¹®¿¡ È¿°úÀ½¿¡ ÀûÀıÇÏ´Ù
 			_system->createSound(soundName.c_str(), FMOD_LOOP_NORMAL, 0, &_sound[_mTotalSound.size()]);
 		}
 	}
-	else //ÀÏ¹İÀûÀ¸·Î È¿°úÀ½
+	else 
 	{
 		_system->createSound(soundName.c_str(), FMOD_DEFAULT, 0, &_sound[_mTotalSound.size()]);
 	}
 
-	//¸Ê¿¡ »ç¿îµå¸¦ Å°°ª°ú ÇÔ²² ´ã¾ÆµĞ´Ù
+	// ë§µì— ì •ë³´ ì €ì¥
 	_mTotalSound.insert(make_pair(keyName, &_sound[_mTotalSound.size()]));
 
 }
 
 void soundManager::play(string keyName, float volume)
 {
+	// 
 	int count = 0;
 	arrSoundIter iter = _mTotalSound.begin();
+	
 	for (iter; iter != _mTotalSound.end(); ++iter, count++)
 	{
 		if (keyName == iter->first)
 		{
-			//»ç¿îµå ÇÃ·¹ÀÌ
+			//ì‚¬ìš´ë“œ í”Œë ˆì´
 			_system->playSound(FMOD_CHANNEL_FREE, *iter->second, false, &_channel[count]);
-			//º¼·ı¼¼ÆÃ
+			//ë³¼ë¥¨ì„¸íŒ…
 			_channel[count]->setVolume(volume);
 		}
 	}
@@ -112,7 +107,7 @@ void soundManager::stop(string keyName)
 	{
 		if (keyName == iter->first)
 		{
-			//»ç¿îµå Á¤Áö
+			//ì‚¬ìš´ë“œ ì •ì§€
 			_channel[count]->stop();
 		}
 	}
@@ -126,7 +121,7 @@ void soundManager::pause(string keyName)
 	{
 		if (keyName == iter->first)
 		{
-			//»ç¿îµå ÀÏ½ÃÁ¤Áö
+			//ì‚¬ìš´ë“œ ì¼ì‹œì •ì§€
 			_channel[count]->setPaused(true);
 			break;
 		}
@@ -141,7 +136,7 @@ void soundManager::resume(string keyName)
 	{
 		if (keyName == iter->first)
 		{
-			//»ç¿îµå ´Ù½ÃÀç»ı
+			//ì‚¬ìš´ë“œ ë‹¤ì‹œì¬ìƒ
 			_channel[count]->setPaused(false);
 			break;
 		}
@@ -157,7 +152,7 @@ bool soundManager::isPlaySound(string keyName)
 	{
 		if (keyName == iter->first)
 		{
-			//»ç¿îµå ÇÃ·¹ÀÌÁßÀÌ³Ä?
+			//ì‚¬ìš´ë“œ í”Œë ˆì´ì¤‘ì´ëƒ?
 			_channel[count]->isPlaying(&isPlay);
 			break;
 		}
@@ -175,7 +170,7 @@ bool soundManager::isPauseSound(string keyName)
 	{
 		if (keyName == iter->first)
 		{
-			//»ç¿îµå ÇÃ·¹ÀÌÁßÀÌ³Ä?
+			//ì‚¬ìš´ë“œ í”Œë ˆì´ì¤‘ì´ëƒ?
 			_channel[count]->getPaused(&isPause);
 			break;
 		}
