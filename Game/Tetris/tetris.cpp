@@ -170,37 +170,46 @@ void tetris::update()
 	}
 	else
 	{
-		// Hold키 누를경우
+		// Hold키 누를 경우 현재 조종중인 블럭 홀드시키기
 		if (KEYMANAGER->isOnceKeyDown(_option->getHold()))
 			holdBlock();
 
+		// Up키 누를 경우 조종중인 블럭 회전
 		if (KEYMANAGER->isOnceKeyDown(_option->getUp()))
 			blockRotation();
 
+		// Left키 누를 경우 좌로 이동
 		if (KEYMANAGER->isStayKeyDown(_option->getLeft()))
 		{
+			// 반복 딜레이 조절
 			_stayCount /= 1.1f;
 
 			if (GetTickCount64() - _timer >= _stayCount)
 			{
+				// 이동 가능여부를 반환하여 이동 했을때만 사운드 재생
 				if (moveBlock(LEFT))
 					SOUNDMANAGER->play("BlockMove", SOUNDMANAGER->getEffectVolume());
 			}
 		}
 		
+		// Right키 누를 경우 우로 이동
 		if (KEYMANAGER->isStayKeyDown(_option->getRight()))
 		{
+			// 반복 딜레이 조절
 			_stayCount /= 1.1f;
 
 			if (GetTickCount64() - _timer >= _stayCount)
 			{
+				// 이동 가능여부를 반환하여 이동 했을때만 사운드 재생
 				if (moveBlock(RIGHT))
 					SOUNDMANAGER->play("BlockMove", SOUNDMANAGER->getEffectVolume());
 			}
 		}
 
+		// Down키 누를 경우 아래로 이동
 		if (KEYMANAGER->isStayKeyDown(_option->getDown()))
 		{
+			// 반복 딜레이 조절
 			_stayCount /= 1.1f;
 
 			if (GetTickCount64() - _timer >= _stayCount)
@@ -210,24 +219,14 @@ void tetris::update()
 			}
 		}
 
-		if (KEYMANAGER->isOnceKeyUp(_option->getLeft()))
+		// Left & Right & Down키 땠을 경우 가속 변수 초기화
+		if (KEYMANAGER->isOnceKeyUp(_option->getLeft()) || KEYMANAGER->isOnceKeyUp(_option->getRight()) || KEYMANAGER->isOnceKeyUp(_option->getDown()))
 		{
 			_stayCount = STAY_DELAY;
 			_timer -= STAY_DELAY;
 		}
 
-		if (KEYMANAGER->isOnceKeyUp(_option->getRight()))
-		{
-			_stayCount = STAY_DELAY;
-			_timer -= STAY_DELAY;
-		}
-
-		if (KEYMANAGER->isOnceKeyUp(_option->getDown()))
-		{
-			_stayCount = STAY_DELAY;
-			_timer -= STAY_DELAY;
-		}
-
+		// Drop키 누를 경우 충돌할 때까지 아래로 이동
 		if (KEYMANAGER->isOnceKeyDown(_option->getDrop()))
 		{
 			SOUNDMANAGER->play("BlockDrop", SOUNDMANAGER->getEffectVolume());
@@ -235,6 +234,7 @@ void tetris::update()
 			while (moveBlock(DOWN));
 		}
 
+		// 시간이 흐르면 아래로 이동
 		if (GetTickCount64() - _downTimer >= 500)
 			moveBlock(DOWN);
 	}
@@ -242,14 +242,17 @@ void tetris::update()
 
 void tetris::render()
 {
+	// 보드 그리기
 	for (int i = 0; i < 21; i++)
 	{
 		for (int j = 0; j < WIDTH; j++)
 		{
+			// 블럭이 존재할 경우 해당 블럭의 색상에 맞는 블럭 그리기
 			if (_board[i][j].block)
 			{
 				blockColor(_board[i][j].rc.left, _board[i][j].rc.top, _board[i][j].color);
 				
+				// 특수 블럭인 경우 해당 이미지 렌더
 				if (_board[i][j].special)
 					blockColor(_board[i][j].rc.left, _board[i][j].rc.top, _board[i][j].special);
 			}
@@ -258,11 +261,14 @@ void tetris::render()
 	
 	int line = 4;
 
+	// 조종블럭이 출력 제외 영역에 있을 경우를 위해 조절
 	if (_idy == 18)
 		line--;
 
+	// 게임오버
 	if (_gameover)
 	{
+		// 모든 블럭이 회색으로 바뀌면 카운트 다운 시작
 		if (_overLine == 20)
 		{
 			printNumber(_resetCount, (_board[0][0].rc.left + _board[0][WIDTH - 1].rc.right) / 2 - IMAGEMANAGER->findImage("BigNumber")->getFrameWidth() * _numberScale / 2, (_board[0][0].rc.bottom + _board[HEIGHT - 1][0].rc.top) / 2 - IMAGEMANAGER->findImage("BigNumber")->getFrameHeight() * _numberScale / 2, _numberScale);
@@ -270,6 +276,7 @@ void tetris::render()
 	}
 	else
 	{
+		// 조종블럭 그리기
 		for (int i = 0; i < line; i++)
 		{
 			for (int j = 0; j < 4; j++)
@@ -284,10 +291,13 @@ void tetris::render()
 			}
 		}
 
+		// 고스트 블럭 그리기
 		for (int i = 0; i < 4; i++)
 		{
 			for (int j = 0; j < 4; j++)
 			{
+				// 조종블럭에 ghostY값을 더해 드롭을 하게 되면 놓게되는 위치를 알려준다.
+				// ghostY값은 MoveBlock 함수에서 갱신함
 				if (_controlBlock.block[i][j])
 				{
 					blockColor(_board[i + _ghostY][j + _idx].rc.left, _board[i + _ghostY][j + _idx].rc.top, _controlBlock.color, 150);
