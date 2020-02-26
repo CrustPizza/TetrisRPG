@@ -9,7 +9,7 @@
 
 #define SPECIAL_BLOCK_PERCENT 10
 
-// Æ¯¼öºí·°
+// íŠ¹ìˆ˜ë¸”ëŸ­
 enum tagSpecial
 {
 	ATK_BUFF,
@@ -18,7 +18,7 @@ enum tagSpecial
 	RECOVERY
 };
 
-// Å×Æ®¸®½º º¸µå
+// í…ŒíŠ¸ë¦¬ìŠ¤ ë³´ë“œ
 struct tagBoard
 {
 	RECT rc;
@@ -28,6 +28,7 @@ struct tagBoard
 	int special;
 };
 
+// ë¸”ëŸ­ ì •ë³´
 struct tagBlock
 {
 	vector<vector<bool>> block;
@@ -37,6 +38,7 @@ struct tagBlock
 	POINT specialIndex;
 };
 
+// ì½¤ë³´
 struct tagCombo
 {
 	int count;
@@ -48,19 +50,19 @@ struct tagCombo
 class tetris : public gameNode
 {
 private:
-	// º¸µå 2Â÷¿ø ¹è¿­
+	// ë³´ë“œ 2ì°¨ì› ë°°ì—´
 	tagBoard	_board[HEIGHT][WIDTH];
 
-	// Á¶Á¾ÁßÀÎ ºí·°°ª
+	// ì¡°ì¢…ì¤‘ì¸ ë¸”ëŸ­ê°’
 	tagBlock	_controlBlock;
 	int			_idx;
 	int			_idy;
 	int			_ghostY;
 
-	// ÄŞº¸
+	// ì½¤ë³´
 	tagCombo	_combo;
 
-	// ºí·° ÀÌ¹ÌÁöµé
+	// ë¸”ëŸ­ ì´ë¯¸ì§€ë“¤
 	image*		_blue;
 	image*		_red;
 	image*		_grey;
@@ -75,23 +77,23 @@ private:
 	image*		_poison;
 	image*		_recovery;
 
-	// ´ÙÀ½ ºí·° ¹× °íÁ¤ ºí·°
+	// ë‹¤ìŒ ë¸”ëŸ­ ë° ê³ ì • ë¸”ëŸ­
 	tagBlock	_nextBlock;
 	tagBlock	_holdBlock;
 	bool		_hold;
 
-	// ¹öÇÁ Å¸ÀÌ¸Ó
+	// ë²„í”„ íƒ€ì´ë¨¸
 	ULONGLONG	_atkBuffTimer;
 	ULONGLONG	_atkDebuffTimer;
 	ULONGLONG	_poisonTimer;
 	ULONGLONG	_recoveryTimer;
 
-	// ºí·° ÀÌµ¿ Å¸ÀÌ¸Ó
+	// ë¸”ëŸ­ ì´ë™ íƒ€ì´ë¨¸
 	ULONGLONG	_timer;
 	ULONGLONG	_downTimer;
 	int			_stayCount;
 
-	// °ÔÀÓ ¿À¹ö
+	// ê²Œì„ ì˜¤ë²„
 	bool		_gameover;
 	int			_overLine;
 	bool		_blockDown;
@@ -99,10 +101,10 @@ private:
 	int			_resetCount;
 	float		_numberScale;
 
-	// ¿É¼Ç
+	// ì˜µì…˜
 	option* _option;
 
-	// ½ºÅ³
+	// ìŠ¤í‚¬
 	bool _skillOn;
 
 public:
@@ -111,57 +113,58 @@ public:
 	void update();
 	void render();
 
-	// ºí·° ¹Ş±â
+	// ë¸”ëŸ­ ë°›ê¸°
 	tagBlock getNextBlock() { return _nextBlock; }
 	tagBlock getHoldBlock() { return _holdBlock; }
 	tagCombo getCombo() { return _combo; }
 
-	// ¹öÇÁ À¯Áö ½Ã°£ ³Ö¾î¼­ ¹öÇÁ À¯Áö ½Ã°£ ÀÌ³»ÀÏ °æ¿ì true¹İÈ¯
+	// ë²„í”„ ìœ ì§€ ì‹œê°„ ë„£ì–´ì„œ ë²„í”„ ìœ ì§€ ì‹œê°„ ì´ë‚´ì¼ ê²½ìš° trueë°˜í™˜
 	bool getAtkBuff(int time);
 	bool getAtkDebuff(int time);
 	bool getPoison(int time);
 	bool getRecovery(int time);
 
-	// ¹öÇÁ ½Ã°£ È®ÀÎ
+	// ë²„í”„ ì‹œê°„ í™•ì¸
 	int getAtkBuffTime() { return GetTickCount64() - _atkBuffTimer; }
 	int getAtkDebuffTime() { return GetTickCount64() - _atkDebuffTimer; }
 	int getPoisonTime() { return GetTickCount64() - _poisonTimer; }
 	int getRecoveryTime() { return GetTickCount64() - _recoveryTimer; }
 
-	// ¹öÇÁ ÀÌ¹ÌÁö
+	// ë²„í”„ ì´ë¯¸ì§€
 	image* getAtkBuffImg() { return _atkBuff; }
 	image* getAtkDebuffImg() { return _atkDebuff; }
 	image* getPoisonImg() { return _poison; }
 	image* getRecoveryImg() { return _recovery; }
 
-	// ºí·° »ı¼º
+	// ë¸”ëŸ­ ìƒì„±
 	void makeBlock();
 
-	// ºí·° È¦µå
+	// ë¸”ëŸ­ í™€ë“œ
 	void holdBlock();
 
-	// ºí·°º° »ö»ó±×¸®±â
+	// ë¸”ëŸ­ë³„ ìƒ‰ìƒê·¸ë¦¬ê¸°
 	void blockColor(int x, int y, int color, BYTE alpha = 255);
 
-	// Ãæµ¹ È®ÀÎ
+	// ì¶©ëŒ í™•ì¸
 	bool checkCrush(tagDirection dir);
 
-	// ºí·° ÀÌµ¿
+	// ë¸”ëŸ­ ì´ë™
 	bool moveBlock(tagDirection dir);
 
-	// ºí·° È¸Àü
+	// ë¸”ëŸ­ íšŒì „
 	bool blockRotation();
 
-	// ÄŞº¸
+	// ì½¤ë³´
 	void comboRender(int x, int y);
 
+	// ìˆ«ì ì¶œë ¥
 	void printNumber(int num, int x, int y, float scale = 1.0f);
 
-	// ´ÙÀ½ ºí·°, È¦µå ºí·° Ãâ·Â
+	// ë‹¤ìŒ ë¸”ëŸ­, í™€ë“œ ë¸”ëŸ­ ì¶œë ¥
 	void nextBlockRender(int x, int y);
 	void holdBlockRender(int x, int y);
 
-	// ½ºÅ³On
+	// ìŠ¤í‚¬On
 	bool* getSkillOnPtr() { return &_skillOn; }
 
 	tetris() : _option(nullptr) {}
